@@ -1,18 +1,17 @@
 import pytest
 
 from gw2tp.analyze import RiskLevel, evaluate, liquidity_factor, preselect, rank, risk_level
-from gw2tp.config import Ranking, Risk
+from gw2tp.config import Risk
 from gw2tp.fees import DEFAULT_FEES
 
 from .conftest import make_price
 
 
 def test_liquidity_factor_scaling():
-    r = Ranking(liquidity_reference_quantity=100_000)
-    assert liquidity_factor(0, r) == 0.0
-    assert liquidity_factor(100_000, r) == pytest.approx(1.0)
-    assert liquidity_factor(10_000_000, r) == 1.0  # gedeckelt
-    assert 0 < liquidity_factor(500, r) < liquidity_factor(5_000, r) < 1
+    assert liquidity_factor(0, 100_000) == 0.0
+    assert liquidity_factor(100_000, 100_000) == pytest.approx(1.0)
+    assert liquidity_factor(10_000_000, 100_000) == 1.0  # gedeckelt
+    assert 0 < liquidity_factor(500, 100_000) < liquidity_factor(5_000, 100_000) < 1
 
 
 def test_score_is_profit_times_liquidity_times_stability(cfg):

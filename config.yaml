@@ -13,19 +13,25 @@ filters:
   min_profit_per_unit_copper: 1000      # ≥ 10 s pro Stück …
   min_profit_per_position_copper: 10000 # … oder ≥ 1 g pro Position
   min_buy_price_copper: 100 # Kaufpreis ≥ 1 s
-  # Phase 1: Orderbuch-Tiefe als Ersatz für das Tagesvolumen (Phase 2: echte Umsatzschätzung)
-  min_demand_quantity: 500
+  min_demand_quantity: 500  # Mindestmenge im aktuellen Orderbuch (Kauf- und Verkaufsseite)
   min_supply_quantity: 500
   excluded_flags: [AccountBound, SoulbindOnAcquire]
+  # Aus der Historie (Phase 2):
+  min_volume_multiple: 10   # geschätztes Tagesvolumen ≥ 10 × Stückzahl
+  min_daily_volume: 50
+  max_price_cv: 0.10        # Variationskoeffizient von Kauf- und Verkaufspreis über 7 Tage
+  max_negative_trend: 0.02  # Tagesmedian darf höchstens 2 %/Tag fallen
 
 sizing:
   max_budget_share: 0.10    # max. 10 % des Budgets pro Item
-  max_depth_share: 0.05     # max. 5 % der (geschätzten) Tagesmenge
+  max_volume_share: 0.05    # max. 5 % des geschätzten Tagesvolumens
+  max_depth_share: 0.05     # ohne Historie: max. 5 % der Orderbuch-Tiefe
   max_units: 250
   max_positions: 10
 
 ranking:
-  liquidity_reference_quantity: 100000
+  liquidity_reference_volume: 10000     # Tagesvolumen für Liquiditätsfaktor 1,0
+  liquidity_reference_quantity: 100000  # ohne Historie: Orderbuch-Tiefe für Faktor 1,0
   max_item_lookups: 400
 
 risk:                       # Ampel
@@ -33,6 +39,36 @@ risk:                       # Ampel
   green_min_depth: 5000
   red_below_roi: 0.12
   red_below_depth: 1000
+  green_max_cv: 0.04
+  red_min_cv: 0.07
+  red_below_trend: 0.01     # fällt der Median um mehr als 1 %/Tag → rot
+  green_min_volume_multiple: 40
+
+universe:                   # welche Items stündlich gespeichert werden
+  max_items: 800
+  min_quantity: 200         # beide Orderbuch-Seiten
+  min_buy_price_copper: 100
+  min_roi: 0.0              # aktueller Spread muss die Gebühren mindestens decken
+  whitelist_ids:            # immer speichern (IDs bei Bedarf in der API prüfen)
+    - 19721  # Glob of Ectoplasm
+    - 19976  # Mystic Coin
+    - 68063  # Amalgamated Gemstone
+    - 24277  # Pile of Crystalline Dust
+    - 24295  # Vial of Powerful Blood
+    - 24283  # Powerful Venom Sac
+    - 24300  # Elaborate Totem
+    - 24358  # Ancient Bone
+    - 24351  # Vicious Claw
+    - 24357  # Vicious Fang
+    - 24289  # Armored Scale
+
+history:
+  window_days: 7            # Fenster für Volumen, Volatilität und Trend
+  max_gap_hours: 3          # größere Lücken (verspätete Läufe) zählen nicht fürs Volumen
+  min_history_hours: 24     # weniger Abdeckung → Item hat noch keine Historie
+  min_trend_days: 3
+  min_samples_per_day: 4
+  retention_days: 14        # ältere Stunden-Snapshots → Tageswerte (daily/)
 
 api:
   timeout_s: 20

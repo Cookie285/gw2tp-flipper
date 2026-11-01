@@ -26,16 +26,22 @@ class Filters:
     min_profit_per_unit_copper: int = 1_000  # 10 Silber
     min_profit_per_position_copper: int = 10_000  # 1 Gold
     min_buy_price_copper: int = 100  # 1 Silber
-    # Phase 1: Orderbuch-Tiefe als Ersatz für das (noch unbekannte) Tagesvolumen.
+    # Mindestmengen im aktuellen Orderbuch (in jedem Modus).
     min_demand_quantity: int = 500
     min_supply_quantity: int = 500
     excluded_flags: tuple[str, ...] = ("AccountBound", "SoulbindOnAcquire")
+    # Ab Phase 2 (mit Historie):
+    min_volume_multiple: float = 10.0  # Tagesvolumen ≥ 10 × Stückzahl
+    min_daily_volume: int = 50
+    max_price_cv: float = 0.10  # Variationskoeffizient der Preise über 7 Tage
+    max_negative_trend: float = 0.02  # Tagesmedian darf max. 2 %/Tag fallen
 
 
 @dataclass(frozen=True, slots=True)
 class Sizing:
     max_budget_share: float = 0.10
-    max_depth_share: float = 0.05
+    max_depth_share: float = 0.05  # nur ohne Historie (Orderbuch-Modus)
+    max_volume_share: float = 0.05  # 5 % des geschätzten Tagesvolumens
     max_units: int = 250
     max_positions: int = 10
 
@@ -44,6 +50,8 @@ class Sizing:
 class Ranking:
     # Orderbuch-Tiefe, bei der der Liquiditätsfaktor 1,0 erreicht (log-skaliert).
     liquidity_reference_quantity: int = 100_000
+    # Tagesvolumen, bei dem der Liquiditätsfaktor 1,0 erreicht (Historien-Modus).
+    liquidity_reference_volume: int = 10_000
     # Wie viele der besten Kandidaten für Item-Details (Name, Flags) abgefragt werden.
     max_item_lookups: int = 400
 
@@ -54,6 +62,31 @@ class Risk:
     green_min_depth: int = 5_000
     red_below_roi: float = 0.12
     red_below_depth: int = 1_000
+    green_max_cv: float = 0.04
+    red_min_cv: float = 0.07
+    red_below_trend: float = 0.01  # fällt der Median > 1 %/Tag → rot
+    green_min_volume_multiple: float = 40.0
+
+
+@dataclass(frozen=True, slots=True)
+class Universe:
+    """Welche Items stündlich gespeichert werden."""
+
+    max_items: int = 800
+    min_quantity: int = 200  # Mindestmenge auf beiden Orderbuch-Seiten
+    min_buy_price_copper: int = 100
+    min_roi: float = 0.0  # aktueller Spread muss nach Gebühren mindestens kostendeckend sein
+    whitelist_ids: tuple[int, ...] = ()
+
+
+@dataclass(frozen=True, slots=True)
+class History:
+    window_days: int = 7
+    max_gap_hours: float = 3.0  # größere Lücken zählen nicht für die Volumenschätzung
+    min_history_hours: float = 24.0  # weniger → Item hat (noch) keine verwertbare Historie
+    min_trend_days: int = 3
+    min_samples_per_day: int = 4
+    retention_days: int = 14  # ältere Stunden-Snapshots → Tageswerte
 
 
 @dataclass(frozen=True, slots=True)
@@ -74,6 +107,8 @@ class Config:
     ranking: Ranking = field(default_factory=Ranking)
     risk: Risk = field(default_factory=Risk)
     api: Api = field(default_factory=Api)
+    universe: Universe = field(default_factory=Universe)
+    history: History = field(default_factory=History)
 
 
 _RATIOS = {
@@ -86,6 +121,12 @@ _RATIOS = {
     "max_failed_batch_share",
     "listing_fee",
     "exchange_fee",
+    "max_price_cv",
+    "max_negative_trend",
+    "max_volume_share",
+    "green_max_cv",
+    "red_min_cv",
+    "red_below_trend",
 }
 
 
@@ -103,7 +144,14 @@ def _build(cls: type, data: Any, section: str) -> Any:
     for name, value in data.items():
         default = getattr(defaults, name)
         key = f"{section}.{name}"
-        if isinstance(default, tuple):
+        if isinstance(default, tuple) and name.endswith("_ids"):
+            if not isinstance(value, list) or not all(
+                isinstance(v, int) and not isinstance(v, bool) and 0 < v <= 10_000_000
+                for v in value
+            ):
+                raise ConfigError(f"{key}: Liste positiver Item-IDs erwartet")
+            value = tuple(dict.fromkeys(value))
+        elif isinstance(default, tuple):
             if not isinstance(value, list) or not all(isinstance(v, str) for v in value):
                 raise ConfigError(f"{key}: Liste von Texten erwartet")
             value = tuple(value)
@@ -134,7 +182,17 @@ def from_dict(data: Any) -> Config:
         data = {}
     if not isinstance(data, dict):
         raise ConfigError("Konfiguration muss ein Mapping sein")
-    allowed = {"budget_gold", "fees", "filters", "sizing", "ranking", "risk", "api"}
+    allowed = {
+        "budget_gold",
+        "fees",
+        "filters",
+        "sizing",
+        "ranking",
+        "risk",
+        "api",
+        "universe",
+        "history",
+    }
     unknown = set(data) - allowed
     if unknown:
         raise ConfigError(f"unbekannte Schlüssel {sorted(unknown)}")
@@ -155,6 +213,8 @@ def from_dict(data: Any) -> Config:
         ranking=_build(Ranking, data.get("ranking"), "ranking"),
         risk=_build(Risk, data.get("risk"), "risk"),
         api=_build(Api, data.get("api"), "api"),
+        universe=_build(Universe, data.get("universe"), "universe"),
+        history=_build(History, data.get("history"), "history"),
     )
     if cfg.filters.max_roi < cfg.filters.min_roi:
         raise ConfigError("filters.max_roi muss ≥ filters.min_roi sein")
@@ -164,6 +224,17 @@ def from_dict(data: Any) -> Config:
         raise ConfigError("ranking.liquidity_reference_quantity muss ≥ 1 sein")
     if cfg.api.max_retries > 10 or cfg.api.min_request_interval_s < 0.2:
         raise ConfigError("api: max_retries ≤ 10 und min_request_interval_s ≥ 0.2 erforderlich")
+    if not 1 <= cfg.universe.max_items <= 2_000:
+        raise ConfigError("universe.max_items muss zwischen 1 und 2000 liegen")
+    if len(cfg.universe.whitelist_ids) > 500:
+        raise ConfigError("universe.whitelist_ids: höchstens 500 Einträge")
+    h = cfg.history
+    if not 1 <= h.window_days <= 30 or h.retention_days < h.window_days:
+        raise ConfigError("history: 1 ≤ window_days ≤ 30 und retention_days ≥ window_days")
+    if h.max_gap_hours <= 0 or h.min_history_hours <= 0:
+        raise ConfigError("history: max_gap_hours und min_history_hours müssen > 0 sein")
+    if cfg.ranking.liquidity_reference_volume < 1:
+        raise ConfigError("ranking.liquidity_reference_volume muss ≥ 1 sein")
     return cfg
 
 

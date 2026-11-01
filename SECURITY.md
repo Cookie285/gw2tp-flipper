@@ -26,11 +26,17 @@ Unterstützt wird jeweils nur der aktuelle Stand von `main`.
 - Kein `pull_request_target`. Fork-PRs laufen ohne Schreibrechte und ohne Secrets.
 - Keine Interpolation von Eingaben in `run:`-Skripte, nur Übergabe über Umgebungsvariablen.
 - Jeder Job hat `timeout-minutes`. Schreibende Läufe teilen sich eine `concurrency`-Gruppe.
-- Der Job mit Schreibrecht führt keinen Projektcode aus. Er prüft das Artifact und committet es.
+- Daten erzeugen und Daten schreiben sind getrennte Jobs. Der Job mit Schreibrecht führt keinen
+  Python-Code und keine Abhängigkeiten aus, nur `.github/scripts/publish-data.sh` aus `main`.
+  Das Skript lässt nur erwartete Dateinamen zu (Allowlist), verbietet Symlinks, begrenzt die
+  Größe, prüft gzip und JSON und löscht Snapshots nur, wenn deren Tageswerte vorliegen.
+- `shellcheck` und Tests prüfen das Publish-Skript in der CI.
 - `zizmor` prüft die Workflows in der CI.
 
 **Daten**
-- Marktdaten landen nur im Branch `data`, nie in `main`. Kein Force-Push.
+- Marktdaten landen nur im Branch `data`, nie in `main`. Kein Force-Push. Alte Snapshots werden
+  über normale Commits verdichtet.
+- Gelesene Snapshots werden validiert (Schema, Typen, Größenlimit gegen gzip-Bomben, keine Symlinks).
 
 **Abhängigkeiten**
 - Feste Versionen mit Hashes (`pip-compile --generate-hashes`), Installation mit

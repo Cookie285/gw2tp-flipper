@@ -4,7 +4,14 @@ from datetime import UTC, datetime
 import pytest
 
 from gw2tp.analyze import finalize, preselect
-from gw2tp.report import RunStats, escape_markdown, format_coins, to_json, to_markdown
+from gw2tp.report import (
+    RunStats,
+    _trend,
+    escape_markdown,
+    format_coins,
+    to_json,
+    to_markdown,
+)
 
 from .conftest import make_item, make_price
 
@@ -96,3 +103,11 @@ def test_json_output(cfg):
     assert p["buy_price"] == 10_001
     assert p["quantity"] * p["buy_price"] == p["invest"]
     assert p["risk"] in {"green", "yellow", "red"}
+
+
+@pytest.mark.parametrize(
+    ("value", "text"),
+    [(None, "–"), (-0.0001, "→ +0.0 %/Tag"), (0.015, "↗ +1.5 %/Tag"), (-0.03, "↘ -3.0 %/Tag")],
+)
+def test_trend_format(value, text):
+    assert _trend(value) == text

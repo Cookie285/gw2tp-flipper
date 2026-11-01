@@ -13,6 +13,8 @@ from .analyze import Position, RiskLevel
 from .fees import COPPER_PER_GOLD, COPPER_PER_SILVER
 
 SCHEMA_VERSION = 1
+MODE_HISTORY = "snapshots"
+MODE_ORDERBOOK = "orderbook_depth"
 RISK_ICON = {RiskLevel.GREEN: "🟢", RiskLevel.YELLOW: "🟡", RiskLevel.RED: "🔴"}
 RISK_LABEL = {RiskLevel.GREEN: "gering", RiskLevel.YELLOW: "mittel", RiskLevel.RED: "erhöht"}
 # Zeichen mit Markdown-/HTML-Bedeutung, die in Item-Namen escaped werden.
@@ -26,6 +28,10 @@ class RunStats:
     items_rejected: int
     candidates: int
     failed_batches: int
+    mode: str = MODE_ORDERBOOK
+    snapshots: int = 0
+    history_items: int = 0
+    universe_size: int = 0
 
 
 def format_coins(copper: int) -> str:
@@ -53,26 +59,58 @@ def _pct(value: float) -> str:
     return f"{value * 100:.1f} %"
 
 
+def _trend(value: float | None) -> str:
+    if value is None:
+        return "–"
+    arrow = "↗" if value > 0.002 else "↘" if value < -0.002 else "→"
+    pct = round(value * 100, 1) + 0.0  # + 0.0 macht aus −0,0 eine 0,0
+    return f"{arrow} {pct:+.1f} %/Tag"
+
+
+_BANNER = {
+    MODE_HISTORY: (
+        "> Volumen, Volatilität und Trend stammen aus den stündlichen Snapshots der letzten "
+        "{days} Tage ({snapshots} Snapshots, {items} Items mit Historie). Das Volumen ist eine "
+        "Schätzung aus Mengenänderungen. Preise vor dem Kauf im Spiel kontrollieren. "
+        "Es wird nichts automatisch gekauft."
+    ),
+    MODE_ORDERBOOK: (
+        "> **Noch keine ausreichende Historie:** Das Volumen wird aus der aktuellen "
+        "Orderbuch-Tiefe geschätzt, nicht aus echten Umsätzen. Volatilität und Trend werden "
+        "noch nicht geprüft. Preise vor dem Kauf im Spiel kontrollieren. "
+        "Es wird nichts automatisch gekauft."
+    ),
+}
+
+
 def to_markdown(
-    positions: Sequence[Position], *, generated_at: datetime, budget_copper: int, stats: RunStats
+    positions: Sequence[Position],
+    *,
+    generated_at: datetime,
+    budget_copper: int,
+    stats: RunStats,
+    window_days: int = 7,
 ) -> str:
+    history = stats.mode == MODE_HISTORY
     lines = [
         f"# Einkaufsliste – {generated_at:%Y-%m-%d}",
         "",
         f"Erstellt: {generated_at:%Y-%m-%d %H:%M} UTC · Budget: {format_coins(budget_copper)}",
         "",
-        "> **Phase 1 (MVP):** Das Volumen wird aus der aktuellen Orderbuch-Tiefe geschätzt, "
-        "nicht aus echten Umsätzen. Volatilität und Trend werden noch nicht geprüft. "
-        "Preise vor dem Kauf im Spiel kontrollieren. Es wird nichts automatisch gekauft.",
+        _BANNER[stats.mode].format(
+            days=window_days, snapshots=stats.snapshots, items=stats.history_items
+        ),
         "",
     ]
     if not positions:
         lines += ["Heute erfüllt kein Item alle Filter.", ""]
     else:
+        extra_head = " Vol./Tag | Trend |" if history else ""
+        extra_align = "---:|---:|" if history else ""
         lines += [
             "| # | Risiko | Item | Chatcode | Kaufgebot | Stück | Verkaufspreis "
-            "| Netto/Stück | ROI | Einsatz | Erw. Gewinn |",
-            "|---:|:---:|---|---|---:|---:|---:|---:|---:|---:|---:|",
+            "| Netto/Stück | ROI | Einsatz | Erw. Gewinn |" + extra_head,
+            "|---:|:---:|---|---|---:|---:|---:|---:|---:|---:|---:|" + extra_align,
         ]
         for i, p in enumerate(positions, 1):
             c = p.candidate
@@ -82,7 +120,7 @@ def to_markdown(
                 f"| {i} | {RISK_ICON[p.risk]} {RISK_LABEL[p.risk]} | {name} | {chat} "
                 f"| {format_coins(c.buy_price)} | {p.quantity} | {format_coins(c.sell_price)} "
                 f"| {format_coins(c.profit_per_unit)} | {_pct(c.roi)} | {format_coins(p.invest)} "
-                f"| {format_coins(p.expected_profit)} |"
+                f"| {format_coins(p.expected_profit)} |" + (_history_cells(p) if history else "")
             )
         total_invest = sum(p.invest for p in positions)
         total_profit = sum(p.expected_profit for p in positions)
@@ -95,6 +133,9 @@ def to_markdown(
     lines += [
         "<details><summary>Lauf-Statistik</summary>",
         "",
+        f"- Modus: {'Historie' if history else 'Orderbuch (Rückfall)'}",
+        f"- Universum (stündlich gespeichert): {stats.universe_size} Items",
+        f"- Snapshots im Fenster: {stats.snapshots}, Items mit Historie: {stats.history_items}",
         f"- Preise geladen: {stats.prices_total} (verworfen: {stats.prices_rejected})",
         f"- Kandidaten nach Markt- und Gewinnfiltern: {stats.candidates}",
         f"- Item-Datensätze verworfen: {stats.items_rejected}",
@@ -106,14 +147,26 @@ def to_markdown(
     return "\n".join(lines)
 
 
+def _history_cells(p: Position) -> str:
+    if p.stats is None:
+        return " – | – |"
+    return f" {p.stats.daily_volume} | {_trend(p.stats.trend)} |"
+
+
 def to_json_data(
-    positions: Sequence[Position], *, generated_at: datetime, budget_copper: int, stats: RunStats
+    positions: Sequence[Position],
+    *,
+    generated_at: datetime,
+    budget_copper: int,
+    stats: RunStats,
+    window_days: int = 7,
 ) -> dict[str, Any]:
     return {
         "schema_version": SCHEMA_VERSION,
         "generated_at": generated_at.strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "phase": 1,
-        "volume_source": "orderbook_depth",
+        "phase": 2,
+        "volume_source": stats.mode,
+        "window_days": window_days,
         "budget_copper": budget_copper,
         "stats": {
             "prices_total": stats.prices_total,
@@ -121,6 +174,9 @@ def to_json_data(
             "items_rejected": stats.items_rejected,
             "candidates": stats.candidates,
             "failed_batches": stats.failed_batches,
+            "snapshots": stats.snapshots,
+            "history_items": stats.history_items,
+            "universe_size": stats.universe_size,
         },
         "positions": [
             {
@@ -137,6 +193,11 @@ def to_json_data(
                 "roi": round(p.candidate.roi, 4),
                 "invest": p.invest,
                 "expected_profit": p.expected_profit,
+                "daily_volume": p.stats.daily_volume if p.stats else None,
+                "price_cv": round(p.stats.price_cv, 4)
+                if p.stats and p.stats.price_cv is not None
+                else None,
+                "trend": round(p.stats.trend, 4) if p.stats and p.stats.trend is not None else None,
                 "demand": p.candidate.demand,
                 "supply": p.candidate.supply,
                 "liquidity_factor": round(p.liquidity_factor, 4),

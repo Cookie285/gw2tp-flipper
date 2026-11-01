@@ -40,5 +40,8 @@ jobs:
       - name: Tests
         run: python -m pytest
 
+      - name: Shell-Skripte prüfen (shellcheck)
+        run: shellcheck .github/scripts/*.sh
+
       - name: Workflow-Sicherheitsaudit (zizmor)
         run: zizmor --offline --persona=pedantic .github/workflows
