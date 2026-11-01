@@ -39,8 +39,10 @@ Berechtigungen „account“ und „tradingpost“**.
 - **Datenschutz:**
   - Der Key bleibt im Browser: „nur für diese Sitzung“ (sessionStorage, Standard) oder
     „auf diesem Gerät merken“ (localStorage). „Key löschen“ entfernt ihn aus beiden.
-  - Er wird nur im Header `Authorization: Bearer …` an `api.guildwars2.com` gesendet,
-    nie in einer URL, nie an andere Hosts. Abfragen nach Preisen und Items laufen ohne Key.
+  - Er wird nur an die sechs Konto-Endpunkte von `api.guildwars2.com` gesendet, und zwar als
+    Parameter `access_token`. Die GW2-API unterstützt keinen CORS-Preflight, ein
+    `Authorization`-Header funktioniert im Browser daher nicht (siehe SECURITY.md).
+    Abfragen nach Preisen und Items laufen ohne Key.
   - Persönliche Daten werden nur im Arbeitsspeicher des Tabs gehalten und nie gespeichert.
 
 ## Stand: Phase 2 (Historie)

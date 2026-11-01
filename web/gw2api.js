@@ -1,15 +1,31 @@
 // Minimaler Client für die offizielle GW2-API im Browser.
 //
-// Sicherheitsregeln:
-// * Ziel ist ausschließlich https://api.guildwars2.com (Pfad-Allowlist, keine Redirects).
-// * Der API-Key wird nur als Header "Authorization: Bearer …" gesendet, niemals in der URL.
-//   Öffentliche Endpunkte (Preise, Items) werden grundsätzlich ohne Key abgefragt.
-// * Keine Cookies, kein Referrer, kein Cache; Fehlermeldungen enthalten weder Key noch URL.
+// Umgang mit dem API-Key (bewusste, abgesicherte Ausnahme von „Key nie in URLs“):
+// Das GW2-API-Backend unterstützt keine CORS-Preflight-Anfragen. Ein Authorization-Header löst im
+// Browser immer einen Preflight aus und scheitert daher. Die offizielle Doku sieht für Browser den
+// Parameter ?access_token= vor. Wir nutzen ihn unter diesen Grenzen:
+// * nur für die festen Konto-Endpunkte in AUTH_PATHS, nie für öffentliche Daten,
+// * nur an https://api.guildwars2.com (Pfad-Allowlist, keine Redirects, CSP connect-src),
+// * per fetch ohne Referrer, ohne Cookies, ohne Cache. Die URL erscheint nie in der Adresszeile
+//   oder Browser-Historie und wird nicht geloggt; Fehlermeldungen enthalten weder Key noch URL,
+// * nur „einfache“ Anfragen (GET mit Accept-Header), damit kein Preflight entsteht.
 
 export const API_ORIGIN = "https://api.guildwars2.com";
 export const MAX_IDS = 200;
+// Format eines GW2-API-Keys: 8-4-4-4-20-4-4-4-12 Hex-Zeichen.
+export const KEY_RE =
+  /^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{20}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$/;
+// Einzige Endpunkte, an die der Key gesendet wird.
+export const AUTH_PATHS = new Set([
+  "/v2/tokeninfo",
+  "/v2/commerce/delivery",
+  "/v2/commerce/transactions/current/buys",
+  "/v2/commerce/transactions/current/sells",
+  "/v2/commerce/transactions/history/buys",
+  "/v2/commerce/transactions/history/sells",
+]);
 const PATH_RE = /^\/v2(\/[a-z]+)+$/;
-const PARAM_RE = /^[a-z_]{1,20}$/;
+const PARAM_RE = /^(ids|page|page_size)$/;
 const MAX_BYTES = 5 * 1024 * 1024;
 const RETRY_STATUS = new Set([429, 500, 502, 503, 504]);
 
@@ -20,8 +36,8 @@ export class ApiError extends Error {
   }
 }
 
-/** URL für einen API-Pfad bauen. Parameter dürfen nur einfache Werte enthalten. */
-export function buildUrl(path, params = {}) {
+/** URL bauen. ``key`` nur für Konto-Endpunkte; sonst wird abgebrochen. */
+export function buildUrl(path, params = {}, key = null) {
   if (!PATH_RE.test(path)) throw new ApiError("Ungültiger API-Pfad");
   const url = new URL(API_ORIGIN + path);
   for (const [k, v] of Object.entries(params)) {
@@ -30,6 +46,11 @@ export function buildUrl(path, params = {}) {
     }
     url.searchParams.set(k, String(v));
   }
+  if (key !== null) {
+    if (!AUTH_PATHS.has(path)) throw new ApiError("Key nur für Konto-Endpunkte erlaubt");
+    if (typeof key !== "string" || !KEY_RE.test(key)) throw new ApiError("Ungültiger Key");
+    url.searchParams.set("access_token", key);
+  }
   if (url.origin !== API_ORIGIN) throw new ApiError("Unerlaubtes Ziel");
   return url.toString();
 }
@@ -37,7 +58,8 @@ export function buildUrl(path, params = {}) {
 const defaultSleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 /**
- * GET-Anfrage. ``key`` nur für Endpunkte, die ihn brauchen.
+ * GET-Anfrage. ``key`` nur für Endpunkte aus AUTH_PATHS.
+ * ``emptyOnStatus``: Statuscodes, die als leeres Ergebnis gelten (z. B. Seite außerhalb).
  * Rückgabe: ``{ data, pageTotal }``.
  */
 export async function request(path, options = {}) {
@@ -48,16 +70,9 @@ export async function request(path, options = {}) {
     sleep = defaultSleep,
     timeoutMs = 15000,
     retries = 2,
-    emptyOn404 = false,
+    emptyOnStatus = [],
   } = options;
-  const url = buildUrl(path, params);
-  const headers = { Accept: "application/json" };
-  if (key !== null) {
-    if (typeof key !== "string" || !key || url.includes(key)) {
-      throw new ApiError("Ungültiger Key");
-    }
-    headers.Authorization = `Bearer ${key}`;
-  }
+  const url = buildUrl(path, params, key);
 
   for (let attempt = 0; ; attempt++) {
     const controller = new AbortController();
@@ -66,7 +81,7 @@ export async function request(path, options = {}) {
     try {
       resp = await fetchImpl(url, {
         method: "GET",
-        headers,
+        headers: { Accept: "application/json" }, // CORS-safelisted → kein Preflight
         mode: "cors",
         credentials: "omit",
         referrerPolicy: "no-referrer",
@@ -87,10 +102,10 @@ export async function request(path, options = {}) {
     }
     clearTimeout(timer);
 
+    if (emptyOnStatus.includes(resp.status)) return { data: [], pageTotal: 0 };
     if (resp.status === 401 || resp.status === 403) {
       throw new ApiError("Der API-Key ist ungültig oder hat nicht die nötigen Rechte.", "auth");
     }
-    if (resp.status === 404 && emptyOn404) return { data: [], pageTotal: 0 };
     if (RETRY_STATUS.has(resp.status) && attempt < retries) {
       const after = Number.parseInt(resp.headers?.get?.("Retry-After") ?? "", 10);
       await sleep(Number.isFinite(after) && after >= 0 ? Math.min(after, 30) * 1000 : 1000 * 2 ** attempt);
@@ -111,7 +126,11 @@ export async function request(path, options = {}) {
   }
 }
 
-/** Alle Seiten eines paginierten Endpunkts (max. ``maxPages`` × 200 Einträge). */
+/**
+ * Alle Seiten eines paginierten Endpunkts (max. ``maxPages`` × 200 Einträge).
+ * Gibt die API ``X-Page-Total`` per CORS nicht frei, wird weitergeblättert, solange volle Seiten
+ * kommen; eine Seite außerhalb des Bereichs (400/404) beendet die Schleife.
+ */
 export async function requestAllPages(path, options = {}) {
   const { maxPages = 10, ...rest } = options;
   const all = [];
@@ -119,11 +138,12 @@ export async function requestAllPages(path, options = {}) {
     const { data, pageTotal } = await request(path, {
       ...rest,
       params: { page, page_size: MAX_IDS },
-      emptyOn404: page === 0,
+      emptyOnStatus: page === 0 ? [404] : [400, 404],
     });
     if (!Array.isArray(data)) throw new ApiError("Unerwartetes Antwortformat der GW2-API.");
     all.push(...data);
-    if (pageTotal === null || page + 1 >= pageTotal || data.length < MAX_IDS) break;
+    if (data.length < MAX_IDS) break;
+    if (pageTotal !== null && page + 1 >= pageTotal) break;
   }
   return all;
 }
@@ -138,7 +158,7 @@ export async function requestByIds(path, ids, options = {}) {
     const { data } = await request(path, {
       ...rest,
       params: { ids: chunk.join(",") },
-      emptyOn404: true,
+      emptyOnStatus: [404],
     });
     if (Array.isArray(data)) out.push(...data);
   }

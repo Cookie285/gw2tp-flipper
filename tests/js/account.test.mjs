@@ -112,26 +112,37 @@ function fakeFetch(handler) {
 
 const noSleep = async () => {};
 
-test("Key nur im Authorization-Header, nie in der URL", async () => {
+test("Key nur als access_token an Konto-Endpunkte, ohne Preflight-Header", async () => {
   const f = fakeFetch(() => ({ body: { name: "x", permissions: ["account", "tradingpost"] } }));
   await request("/v2/tokeninfo", { key: KEY, fetchImpl: f, sleep: noSleep });
   const { url, init } = f.calls[0];
-  assert.equal(url, "https://api.guildwars2.com/v2/tokeninfo");
-  assert.ok(!url.includes(KEY));
-  assert.ok(!url.includes("access_token"));
-  assert.equal(init.headers.Authorization, `Bearer ${KEY}`);
+  const u = new URL(url);
+  assert.equal(u.origin, "https://api.guildwars2.com");
+  assert.equal(u.pathname, "/v2/tokeninfo");
+  assert.equal(u.searchParams.get("access_token"), KEY);
+  // Nur CORS-safelisted Header → „einfache“ Anfrage ohne Preflight (die API kann keinen Preflight).
+  assert.deepEqual(Object.keys(init.headers), ["Accept"]);
   assert.equal(init.credentials, "omit");
   assert.equal(init.referrerPolicy, "no-referrer");
+  assert.equal(init.cache, "no-store");
   assert.equal(init.redirect, "error");
   assert.equal(init.method, "GET");
+});
+
+test("Key wird nie an öffentliche oder unbekannte Pfade gesendet", async () => {
+  const f = fakeFetch(() => ({ body: [] }));
+  for (const path of ["/v2/commerce/prices", "/v2/items", "/v2/account", "/v2/characters"]) {
+    await assert.rejects(request(path, { key: KEY, fetchImpl: f, sleep: noSleep }), /Konto-Endpunkte/);
+  }
+  assert.equal(f.calls.length, 0);
 });
 
 test("öffentliche Abfragen senden nie einen Key", async () => {
   const f = fakeFetch(() => ({ body: [{ id: 1 }] }));
   await requestByIds("/v2/commerce/prices", [1, 2, 2, 3], { key: KEY, fetchImpl: f, sleep: noSleep });
   for (const c of f.calls) {
-    assert.equal(c.init.headers.Authorization, undefined);
     assert.ok(!c.url.includes(KEY));
+    assert.ok(!c.url.includes("access_token"));
   }
   assert.equal(f.calls[0].url, "https://api.guildwars2.com/v2/commerce/prices?ids=1%2C2%2C3");
 });
@@ -147,7 +158,9 @@ test("nur api.guildwars2.com, nur erlaubte Pfade und Parameter", () => {
   for (const path of ["/v2/../v1", "//evil.example/v2", "/v2/items?x=1", "https://evil.example/v2", "/v2/Items"]) {
     assert.throws(() => buildUrl(path), ApiError, path);
   }
-  assert.throws(() => buildUrl("/v2/items", { access_token: KEY }), ApiError);
+  assert.throws(() => buildUrl("/v2/items", { access_token: KEY }), ApiError); // nur über key
+  assert.throws(() => buildUrl("/v2/items", {}, KEY), ApiError);
+  assert.throws(() => buildUrl("/v2/tokeninfo", {}, "abc&x=1"), ApiError);
   assert.throws(() => buildUrl("/v2/items", { "x&y": 1 }), ApiError);
   assert.equal(buildUrl("/v2/items", { ids: "1,2" }), "https://api.guildwars2.com/v2/items?ids=1%2C2");
 });
@@ -160,7 +173,17 @@ test("Paginierung über X-Page-Total", async () => {
   const all = await requestAllPages("/v2/commerce/transactions/history/buys", { key: KEY, fetchImpl: f, sleep: noSleep });
   assert.equal(all.length, 405);
   assert.equal(f.calls.length, 3);
-  assert.ok(f.calls.every((c) => !c.url.includes(KEY)));
+  assert.ok(f.calls.every((c) => new URL(c.url).pathname === "/v2/commerce/transactions/history/buys"));
+});
+
+test("Paginierung ohne lesbares X-Page-Total (CORS) endet bei Seite außerhalb", async () => {
+  const f = fakeFetch((url) => {
+    const page = Number(new URL(url).searchParams.get("page"));
+    return page < 2 ? { body: Array.from({ length: 200 }, () => ({})) } : { status: 400, body: { text: "page out of range" } };
+  });
+  const all = await requestAllPages("/v2/commerce/transactions/history/sells", { key: KEY, fetchImpl: f, sleep: noSleep });
+  assert.equal(all.length, 400);
+  assert.equal(f.calls.length, 3);
 });
 
 test("Paginierung ist begrenzt", async () => {
@@ -192,14 +215,18 @@ test("Fehlermeldungen enthalten weder Key noch URL", async () => {
     const f = fakeFetch(handler);
     await assert.rejects(
       request("/v2/tokeninfo", { key: KEY, fetchImpl: f, sleep: noSleep, retries: 0 }),
-      (err) => err instanceof ApiError && err.kind === kind && !err.message.includes(KEY) && !err.message.includes("http"),
+      (err) =>
+        err instanceof ApiError && err.kind === kind && !err.message.includes(KEY) &&
+        !err.message.includes("http") && !err.message.includes("access_token"),
     );
   }
 });
 
 test("ungültiger Key wird gar nicht erst gesendet", async () => {
   const f = fakeFetch(() => ({ body: [] }));
-  await assert.rejects(request("/v2/tokeninfo", { key: "", fetchImpl: f }), ApiError);
+  for (const bad of ["", "abc", `${KEY}&page=1`, KEY.toLowerCase()]) {
+    await assert.rejects(request("/v2/tokeninfo", { key: bad, fetchImpl: f }), ApiError);
+  }
   assert.equal(f.calls.length, 0);
 });
 

@@ -2,11 +2,10 @@
 // fällige Verkäufe und realisierter Gewinn (FIFO). Alle Beträge in Kupfer.
 
 import { netProceeds, totalFees } from "./fees.js";
+import { KEY_RE } from "./gw2api.js";
 import { CHAT_RE, ICON_RE, WORD_RE, cleanName } from "./plan.js";
 
-// Format eines GW2-API-Keys (z. B. 8-4-4-4-20-4-4-4-12 Hex-Zeichen).
-export const KEY_RE =
-  /^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{20}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$/;
+export { KEY_RE };
 export const RECOMMENDED_PERMISSIONS = ["account", "tradingpost"];
 const TIME_RE = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:\d{2})$/;
 const MAX_PRICE = 10_000_000_000;
