@@ -5,3 +5,4 @@
 pytest
 ruff
 zizmor
+shellcheck-py

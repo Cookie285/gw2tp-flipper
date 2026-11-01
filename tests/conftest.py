@@ -125,3 +125,38 @@ def make_client(fake_time):
 @pytest.fixture
 def cfg() -> Config:
     return Config()
+
+
+def make_stats(
+    bought: int = 10_000,
+    sold: int = 10_000,
+    cv: float | None = 0.02,
+    trend: float | None = 0.0,
+    coverage_hours: float = 168.0,
+):
+    from gw2tp.history import MarketStats
+
+    return MarketStats(
+        samples=168,
+        coverage_hours=coverage_hours,
+        daily_bought=bought,
+        daily_sold=sold,
+        price_cv=cv,
+        trend=trend,
+        trend_days=7 if trend is not None else 0,
+    )
+
+
+def hourly_snapshots(start, hours: int, price_fn):
+    """Snapshots im Stundentakt; ``price_fn(hour_index) -> list[Price]``."""
+    from datetime import timedelta
+
+    from gw2tp.history import Snapshot
+
+    return [
+        Snapshot(
+            taken_at=start + timedelta(hours=h),
+            prices={p.id: p for p in price_fn(h)},
+        )
+        for h in range(hours)
+    ]

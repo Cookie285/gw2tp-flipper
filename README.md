@@ -8,15 +8,28 @@ Nutzungsbedingungen.
 Alles läuft auf GitHub (Actions, später Pages). Details: [SPEC.md](SPEC.md),
 Sicherheit: [SECURITY.md](SECURITY.md).
 
-## Stand: Phase 1 (MVP)
+## Stand: Phase 2 (Historie)
 
-- `analyze.yml` läuft täglich um 04:23 UTC (oder manuell über „Run workflow“). Der Job lädt alle
-  aktuellen Preise, filtert und rankt sie und committet die Liste in den Branch **`data`**:
-  - `shopping-list.md`: aktuelle Liste
-  - `shopping-list.json`: dieselben Daten für das spätere Dashboard
-  - `lists/YYYY-MM-DD.md`: Archiv
-- Ohne Historie wird das Volumen in Phase 1 aus der **Orderbuch-Tiefe** geschätzt.
-  Volatilität und Trend kommen in Phase 2.
+| Workflow | Zeitplan | Ergebnis im Branch **`data`** |
+|---|---|---|
+| `snapshot.yml` | stündlich, Minute 17 | `snapshots/YYYY-MM-DD/HHMM.json.gz`: Preise und Mengen des Universums |
+| `analyze.yml` | täglich 04:23 UTC | `shopping-list.md`/`.json`, `lists/YYYY-MM-DD.md`, `universe.json`, `daily/` |
+
+Beide lassen sich auch manuell starten (Actions → Workflow → „Run workflow“).
+
+- **Universum:** Die ca. 800 Items mit der größten Orderbuch-Tiefe plus eine Whitelist
+  (Ekto, Mystische Münzen, T6-Materialien) aus `config.yaml`. `analyze` aktualisiert es täglich.
+- **Volumen:** Rückgänge der Angebots- und Nachfragemenge zwischen aufeinanderfolgenden Snapshots,
+  hochgerechnet auf einen Tag. Es zählt die kleinere Seite, denn ein Flip braucht beide.
+  Neue Orders verdecken Umsätze, Stornierungen täuschen welche vor. Es bleibt also eine Schätzung.
+- **Volatilität:** Variationskoeffizient von Kauf- und Verkaufspreis über 7 Tage (der größere zählt).
+- **Trend:** Steigung der Tagesmediane des Mittelpreises, relativ pro Tag (ab 3 Tagen Daten).
+- **Rückfall:** Solange kein Item 24 Stunden Historie hat, rechnet `analyze` wie in Phase 1 mit
+  der Orderbuch-Tiefe. Die Liste weist darauf hin.
+- **Verdichtung:** Stunden-Snapshots älter als 14 Tage werden zu Tageswerten (`daily/`)
+  zusammengefasst und per normalem Commit entfernt.
+- **Datengröße:** etwa 10 KB pro Snapshot, also rund 250 KB pro Tag in der Git-Historie
+  (ca. 90 MB pro Jahr). Der Arbeitsstand bleibt durch die Verdichtung klein.
 
 ### Rechenregeln (alles in Kupfer)
 
@@ -26,10 +39,13 @@ Sicherheit: [SECURITY.md](SECURITY.md).
 | Verkaufspreis | niedrigstes Angebot − 1c |
 | Netto/Stück | Verkauf − 5 % Einstellgebühr − 10 % Steuer − Kauf (jede Gebühr ≥ 1c) |
 | ROI | Netto ÷ Kaufpreis |
-| Stückzahl | min(10 % Budget ÷ Kaufpreis, 5 % der Orderbuch-Tiefe, 250) |
-| Score | erwarteter Gewinn × Liquiditätsfaktor × Stabilitätsfaktor (Phase 1: 1,0) |
+| Stückzahl | min(10 % Budget ÷ Kaufpreis, 5 % des Tagesvolumens, 250) |
+| Score | erwarteter Gewinn × Liquiditätsfaktor × Stabilitätsfaktor |
+| Stabilitätsfaktor | (1 − ½·CV/CV_max) × (1 − ½·Abwärtstrend/Trend_max), 0,9 bei unbekanntem Trend |
 
-Alle Schwellwerte stehen in [`config.yaml`](config.yaml).
+Filter: ROI ≥ 10 %, Netto ≥ 10 s/Stück oder ≥ 1 g/Position, Kaufpreis ≥ 1 s,
+Tagesvolumen ≥ 10 × Stückzahl, CV ≤ 10 %, Trend ≥ −2 %/Tag. Alle Schwellwerte stehen in
+[`config.yaml`](config.yaml).
 
 ## Lokal ausführen
 
@@ -37,7 +53,8 @@ Alle Schwellwerte stehen in [`config.yaml`](config.yaml).
 python3.12 -m venv .venv
 .venv/bin/pip install --require-hashes --only-binary=:all: --no-deps -r requirements-dev.txt
 .venv/bin/python -m pytest
-PYTHONPATH=src .venv/bin/python -m gw2tp analyze --config config.yaml --out out
+PYTHONPATH=src .venv/bin/python -m gw2tp snapshot --out out
+PYTHONPATH=src .venv/bin/python -m gw2tp analyze --data-dir <checkout-von-data> --out out
 ```
 
 ## Abhängigkeiten aktualisieren
@@ -51,6 +68,8 @@ Im Normalfall übernimmt Dependabot das.
 
 ## Hinweise
 
+- Actions-Minuten: In öffentlichen Repos sind die stündlichen Läufe kostenlos. In privaten Repos
+  verbrauchen sie ca. 1.500 Minuten pro Monat.
 - Geplante Workflows können sich verzögern. GitHub pausiert sie, wenn das Repo 60 Tage lang
   keine Aktivität hat.
 - Datenquelle ist ausschließlich die offizielle API, kein Scraping.
