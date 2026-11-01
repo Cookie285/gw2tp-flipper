@@ -1,8 +1,8 @@
 # Einkaufsliste – 2026-11-01
 
-Erstellt: 2026-11-01 10:19 UTC · Budget: 200g 0s 0c
+Erstellt: 2026-11-01 11:10 UTC · Budget: 200g 0s 0c
 
-> **Phase 1 (MVP):** Das Volumen wird aus der aktuellen Orderbuch-Tiefe geschätzt, nicht aus echten Umsätzen. Volatilität und Trend werden noch nicht geprüft. Preise vor dem Kauf im Spiel kontrollieren. Es wird nichts automatisch gekauft.
+> **Noch keine ausreichende Historie:** Das Volumen wird aus der aktuellen Orderbuch-Tiefe geschätzt, nicht aus echten Umsätzen. Volatilität und Trend werden noch nicht geprüft. Preise vor dem Kauf im Spiel kontrollieren. Es wird nichts automatisch gekauft.
 
 | # | Risiko | Item | Chatcode | Kaufgebot | Stück | Verkaufspreis | Netto/Stück | ROI | Einsatz | Erw. Gewinn |
 |---:|:---:|---|---|---:|---:|---:|---:|---:|---:|---:|
@@ -13,16 +13,19 @@ Erstellt: 2026-11-01 10:19 UTC · Budget: 200g 0s 0c
 | 5 | 🟢 gering | Giant Dusty Wintersday Gift | `[&AgGTlQAA]` | 10s 77c | 185 | 26s 95c | 12s 13c | 112.6 % | 19g 92s 45c | 22g 44s 5c |
 | 6 | 🟢 gering | Lunar New Year Firework | `[&AgERDAEA]` | 11s 77c | 169 | 28s 49c | 12s 45c | 105.8 % | 19g 89s 13c | 21g 4s 5c |
 | 7 | 🟡 mittel | Bowl of Candy Corn Ice Cream | `[&AgGklQAA]` | 7s 90c | 185 | 24s 16c | 12s 63c | 159.9 % | 14g 61s 50c | 23g 36s 55c |
-| 8 | 🟡 mittel | Cleric\'s Adventurer\'s Spectacles | `[&AgE1BAEA]` | 16s 21c | 123 | 40s 88c | 18s 54c | 114.4 % | 19g 93s 83c | 22g 80s 42c |
+| 8 | 🟡 mittel | Cleric\'s Adventurer\'s Spectacles | `[&AgE1BAEA]` | 16s 13c | 123 | 40s 88c | 18s 62c | 115.4 % | 19g 83s 99c | 22g 90s 26c |
 | 9 | 🟡 mittel | Medium Dusty Wintersday Gift | `[&AgGRlQAA]` | 37s 36c | 53 | 96s 86c | 44s 97c | 120.4 % | 19g 80s 8c | 23g 83s 41c |
-| 10 | 🟡 mittel | Superior Rune of Speed | `[&AgGQYAAA]` | 22s 17c | 90 | 54s 98c | 24s 56c | 110.8 % | 19g 95s 30c | 22g 10s 40c |
+| 10 | 🟡 mittel | Superior Rune of Speed | `[&AgGQYAAA]` | 22s 19c | 90 | 54s 96c | 24s 52c | 110.5 % | 19g 97s 10c | 22g 6s 80c |
 
-**Summe:** Einsatz 184g 61s 12c · erwarteter Gewinn 254g 8s 72c (nach 15 % Gebühren)
+**Summe:** Einsatz 184g 53s 8c · erwarteter Gewinn 254g 14s 96c (nach 15 % Gebühren)
 
 <details><summary>Lauf-Statistik</summary>
 
+- Modus: Orderbuch (Rückfall)
+- Universum (stündlich gespeichert): 810 Items
+- Snapshots im Fenster: 1, Items mit Historie: 0
 - Preise geladen: 27999 (verworfen: 0)
-- Kandidaten nach Markt- und Gewinnfiltern: 1489
+- Kandidaten im Pool (nach Markt- und Historienfiltern): 195
 - Item-Datensätze verworfen: 0
 - Fehlgeschlagene API-Blöcke: 0
 
