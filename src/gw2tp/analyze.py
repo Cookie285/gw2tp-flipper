@@ -106,15 +106,20 @@ def passes_profit_filter(profit_per_unit: int, quantity: int, f: Filters) -> boo
     )
 
 
-def passes_history_filters(stats: MarketStats, quantity: int, f: Filters) -> bool:
-    """Volumen ≥ Vielfaches der Stückzahl, geringe Volatilität, kein starker Abwärtstrend."""
+def passes_static_history_filters(stats: MarketStats, f: Filters) -> bool:
+    """Budgetunabhängige Historienfilter: Mindestvolumen, Volatilität, Trend."""
     if stats.daily_volume < f.min_daily_volume:
-        return False
-    if stats.daily_volume < f.min_volume_multiple * quantity:
         return False
     if stats.price_cv is None or stats.price_cv > f.max_price_cv:
         return False
     return stats.trend is None or stats.trend >= -f.max_negative_trend
+
+
+def passes_history_filters(stats: MarketStats, quantity: int, f: Filters) -> bool:
+    """Volumen ≥ Vielfaches der Stückzahl, geringe Volatilität, kein starker Abwärtstrend."""
+    if not passes_static_history_filters(stats, f):
+        return False
+    return stats.daily_volume >= f.min_volume_multiple * quantity
 
 
 def passes_item_filters(item: Item, f: Filters) -> bool:
@@ -188,18 +193,20 @@ def risk_level(
     return RiskLevel.YELLOW
 
 
-def build_position(c: Candidate, cfg: Config, stats: MarketStats | None = None) -> Position | None:
+def build_position(
+    c: Candidate, cfg: Config, stats: MarketStats | None = None, budget: int | None = None
+) -> Position | None:
+    """Position für ein Budget (Standard: ``cfg.budget_copper``) oder ``None``, wenn ein
+    mengenabhängiger Filter greift. Das Dashboard rechnet dies in ``web/plan.js`` nach."""
     volume = stats.daily_volume if stats is not None else None
-    qty = position_size(c, cfg.budget_copper, cfg.sizing, volume)
+    budget = cfg.budget_copper if budget is None else budget
+    qty = position_size(c, budget, cfg.sizing, volume)
     if not passes_profit_filter(c.profit_per_unit, qty, cfg.filters):
         return None
     if stats is not None and not passes_history_filters(stats, qty, cfg.filters):
         return None
     expected = c.profit_per_unit * qty
-    if stats is None:
-        liq = liquidity_factor(c.depth, cfg.ranking.liquidity_reference_quantity)
-    else:
-        liq = liquidity_factor(stats.daily_volume, cfg.ranking.liquidity_reference_volume)
+    liq = _liquidity(c, stats, cfg)
     stability = stability_factor(stats, cfg.filters)
     return Position(
         candidate=c,
@@ -211,6 +218,12 @@ def build_position(c: Candidate, cfg: Config, stats: MarketStats | None = None) 
         risk=risk_level(c, cfg.risk, stats, qty),
         stats=stats,
     )
+
+
+def _liquidity(c: Candidate, stats: MarketStats | None, cfg: Config) -> float:
+    if stats is None:
+        return liquidity_factor(c.depth, cfg.ranking.liquidity_reference_quantity)
+    return liquidity_factor(stats.daily_volume, cfg.ranking.liquidity_reference_volume)
 
 
 def rank(positions: Iterable[Position]) -> list[Position]:
@@ -251,6 +264,89 @@ def finalize(ranked: Iterable[Position], items: Mapping[int, Item], cfg: Config)
         if len(result) >= cfg.sizing.max_positions:
             break
     return result
+
+
+# --- Kandidaten-Pool für das Dashboard -----------------------------------------------------
+
+UNLIMITED_BUDGET = 10**15
+
+
+@dataclass(frozen=True, slots=True)
+class PoolEntry:
+    """Ein budgetunabhängig qualifizierter Kandidat. Das Dashboard berechnet daraus für das
+    eingegebene Budget Stückzahl, mengenabhängige Filter, Score und Ampel neu."""
+
+    candidate: Candidate
+    stats: MarketStats | None
+    liquidity_factor: float
+    stability_factor: float
+    item: Item | None = None
+
+
+def build_pool(
+    prices: Iterable[Price], cfg: Config, stats: Mapping[int, MarketStats] | None = None
+) -> list[PoolEntry]:
+    """Kandidaten, die alle budgetunabhängigen Filter bestehen, als Vereinigung zweier Ranglisten:
+
+    * großes Budget: Score bei unbegrenztem Budget (Menge nur durch Volumen und 250 begrenzt),
+    * kleines Budget: ROI × Liquidität × Stabilität (Menge durch das Budget begrenzt).
+
+    So enthält der Pool für jedes realistische Budget die besten Items."""
+    entries: list[PoolEntry] = []
+    for price in prices:
+        item_stats = None
+        if stats is not None:
+            item_stats = stats.get(price.id)
+            if item_stats is None or not passes_static_history_filters(item_stats, cfg.filters):
+                continue
+        c = evaluate(price, cfg.fees)
+        if c is None or c.profit_per_unit <= 0 or not passes_market_filters(c, cfg.filters):
+            continue
+        entries.append(
+            PoolEntry(
+                candidate=c,
+                stats=item_stats,
+                liquidity_factor=_liquidity(c, item_stats, cfg),
+                stability_factor=stability_factor(item_stats, cfg.filters),
+            )
+        )
+
+    def unconstrained(e: PoolEntry) -> float:
+        volume = e.stats.daily_volume if e.stats is not None else None
+        qty = position_size(e.candidate, UNLIMITED_BUDGET, cfg.sizing, volume)
+        return e.candidate.profit_per_unit * qty * e.liquidity_factor * e.stability_factor
+
+    def budget_bound(e: PoolEntry) -> float:
+        return e.candidate.roi * e.liquidity_factor * e.stability_factor
+
+    k = cfg.ranking.pool_size_per_regime
+    chosen: dict[int, PoolEntry] = {}
+    for key in (unconstrained, budget_bound):
+        for e in sorted(entries, key=lambda e: (-key(e), e.candidate.item_id))[:k]:
+            chosen.setdefault(e.candidate.item_id, e)
+    return sorted(chosen.values(), key=lambda e: e.candidate.item_id)
+
+
+def attach_items(
+    pool: Iterable[PoolEntry], items: Mapping[int, Item], f: Filters
+) -> list[PoolEntry]:
+    """Item-Details anhängen; Items ohne Details oder mit Gebunden-Flag entfernen."""
+    result = []
+    for e in pool:
+        item = items.get(e.candidate.item_id)
+        if item is not None and passes_item_filters(item, f):
+            result.append(replace(e, item=item))
+    return result
+
+
+def plan(pool: Iterable[PoolEntry], cfg: Config, budget: int | None = None) -> list[Position]:
+    """Einkaufsliste für ein Budget aus dem Pool (Gegenstück zu ``plan`` in web/plan.js)."""
+    positions = []
+    for e in pool:
+        pos = build_position(e.candidate, cfg, e.stats, budget)
+        if pos is not None:
+            positions.append(replace(pos, item=e.item))
+    return rank(positions)[: cfg.sizing.max_positions]
 
 
 # --- Universum ----------------------------------------------------------------------------

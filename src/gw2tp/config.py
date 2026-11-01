@@ -54,6 +54,8 @@ class Ranking:
     liquidity_reference_volume: int = 10_000
     # Wie viele der besten Kandidaten für Item-Details (Name, Flags) abgefragt werden.
     max_item_lookups: int = 400
+    # Pool für das Dashboard: so viele Items je Rangliste (großes / kleines Budget).
+    pool_size_per_regime: int = 100
 
 
 @dataclass(frozen=True, slots=True)
@@ -233,6 +235,8 @@ def from_dict(data: Any) -> Config:
         raise ConfigError("history: 1 ≤ window_days ≤ 30 und retention_days ≥ window_days")
     if h.max_gap_hours <= 0 or h.min_history_hours <= 0:
         raise ConfigError("history: max_gap_hours und min_history_hours müssen > 0 sein")
+    if not 1 <= cfg.ranking.pool_size_per_regime <= 500:
+        raise ConfigError("ranking.pool_size_per_regime muss zwischen 1 und 500 liegen")
     if cfg.ranking.liquidity_reference_volume < 1:
         raise ConfigError("ranking.liquidity_reference_volume muss ≥ 1 sein")
     return cfg

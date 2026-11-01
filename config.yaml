@@ -33,6 +33,7 @@ ranking:
   liquidity_reference_volume: 10000     # Tagesvolumen für Liquiditätsfaktor 1,0
   liquidity_reference_quantity: 100000  # ohne Historie: Orderbuch-Tiefe für Faktor 1,0
   max_item_lookups: 400
+  pool_size_per_regime: 100  # Dashboard-Pool: je 100 Items für großes und kleines Budget
 
 risk:                       # Ampel
   green_min_roi: 0.20

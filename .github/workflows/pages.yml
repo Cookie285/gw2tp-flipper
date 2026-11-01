@@ -1,0 +1,81 @@
+name: Pages
+
+# Baut das Dashboard aus web/ (main) und der aktuellen shopping-list.json (Branch data) und
+# veröffentlicht es auf GitHub Pages. Wird von analyze.yml nach jeder Analyse aufgerufen und
+# läuft zusätzlich, wenn sich web/ auf main ändert.
+on:
+  workflow_call:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "web/**"
+      - ".github/workflows/pages.yml"
+
+permissions: {}
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read # web/ und shopping-list.json lesen
+    concurrency:
+      group: pages-build
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          path: main
+          sparse-checkout: web
+
+      - name: Einkaufsliste lesen
+        continue-on-error: true
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: data
+          path: datadir
+          persist-credentials: false
+          sparse-checkout: /shopping-list.json
+          sparse-checkout-cone-mode: false
+
+      - name: Seite zusammenstellen (nur statische Dateien)
+        run: |
+          set -euo pipefail
+          mkdir site
+          # Nur reguläre Dateien mit erlaubten Endungen, keine Symlinks, keine Unterordner.
+          find main/web -maxdepth 1 -type f \
+            \( -name '*.html' -o -name '*.js' -o -name '*.css' -o -name '*.svg' \) \
+            -exec cp -- {} site/ \;
+          list=datadir/shopping-list.json
+          if [ -f "$list" ] && [ ! -L "$list" ] && [ "$(stat -c %s "$list")" -le 5242880 ] \
+            && python3 -I -c 'import json, sys; d = json.load(open(sys.argv[1])); sys.exit(d.get("schema_version") != 2)' "$list"; then
+            cp -- "$list" site/shopping-list.json
+          else
+            echo "::warning::Keine gültige shopping-list.json (Format v2) – Seite ohne Daten"
+          fi
+          ls -la site
+
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: site
+
+  deploy:
+    name: deploy
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      pages: write # Seite veröffentlichen
+      id-token: write # OIDC-Token für deploy-pages
+    concurrency:
+      group: pages-deploy
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

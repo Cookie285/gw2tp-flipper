@@ -50,5 +50,19 @@ Unterstützt wird jeweils nur der aktuelle Stand von `main`.
 
 **Ausgabe**
 - Item-Namen werden von Steuerzeichen bereinigt und für Markdown escaped.
-- Das Dashboard (ab Phase 3) rendert API-Daten nur per `textContent` und nutzt eine strikte
-  Content-Security-Policy ohne `unsafe-inline` und `unsafe-eval`.
+
+**Dashboard (GitHub Pages)**
+- Statisch, keine externen Skripte, Stylesheets oder Schriften, kein CDN, kein Build-Schritt.
+- Content-Security-Policy als `<meta>`-Tag: `default-src 'self'`, `script-src 'self'`,
+  `style-src 'self'`, `img-src 'self' https://render.guildwars2.com`,
+  `connect-src 'self' https://api.guildwars2.com`, `object-src 'none'`, `base-uri 'none'`,
+  `form-action 'none'` sowie `require-trusted-types-for 'script'`. Kein `unsafe-inline`,
+  kein `unsafe-eval`, keine Inline-Skripte oder -Styles.
+- API-Daten werden nur per `textContent` bzw. als Attribut bereits validierter URLs gesetzt,
+  nie per `innerHTML`. Trusted Types erzwingen das zusätzlich im Browser.
+- `shopping-list.json` wird im Browser erneut validiert (Typen, Wertebereiche, Icon-Host,
+  Chatcode-Format). Ungültige Einträge werden verworfen.
+- Ein Test (`tests/test_web_security.py`) prüft die CSP und verbietet gefährliche DOM-Senken,
+  fremde Hosts sowie Inline-Code.
+- Pages-Deploy: Der Build-Job liest nur (`contents: read`). Nur der Deploy-Job erhält
+  `pages: write` und `id-token: write`.

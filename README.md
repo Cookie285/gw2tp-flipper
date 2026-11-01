@@ -8,6 +8,20 @@ Nutzungsbedingungen.
 Alles läuft auf GitHub (Actions, später Pages). Details: [SPEC.md](SPEC.md),
 Sicherheit: [SECURITY.md](SECURITY.md).
 
+## Dashboard (Phase 3)
+
+**https://cookie285.github.io/gw2tp-flipper/**
+
+- Zeigt die Einkaufsliste mit Icon, Name, Kaufgebot, Stückzahl, Verkaufspreis, erwartetem Gewinn,
+  Volumen, Trend und Risiko-Ampel. „Kopieren“ legt den Chatcode in die Zwischenablage.
+- **Budget eingeben:** Das Dashboard rechnet Stückzahl, Filter, Score und Ampel im Browser für
+  dein Budget neu. Grundlage ist ein Pool von bis zu 200 vorgeprüften Kandidaten aus
+  `shopping-list.json`. Python (`analyze.plan`) und JavaScript (`web/plan.js`) rechnen
+  nachweislich gleich, ein Paritätstest in der CI prüft das. Das Budget wird nur lokal im
+  Browser gespeichert.
+- Statische Seite ohne Build-Schritt, ohne Bibliotheken, ohne CDN. Veröffentlicht durch
+  `pages.yml` nach jeder Analyse und bei Änderungen an `web/`.
+
 ## Stand: Phase 2 (Historie)
 
 | Workflow | Zeitplan | Ergebnis im Branch **`data`** |
@@ -53,6 +67,8 @@ Tagesvolumen ≥ 10 × Stückzahl, CV ≤ 10 %, Trend ≥ −2 %/Tag. Alle Schwe
 python3.12 -m venv .venv
 .venv/bin/pip install --require-hashes --only-binary=:all: --no-deps -r requirements-dev.txt
 .venv/bin/python -m pytest
+node --test tests/js/*.test.mjs
+python3 -m http.server -d web 8000   # Dashboard lokal (shopping-list.json nach web/ kopieren)
 PYTHONPATH=src .venv/bin/python -m gw2tp snapshot --out out
 PYTHONPATH=src .venv/bin/python -m gw2tp analyze --data-dir <checkout-von-data> --out out
 ```

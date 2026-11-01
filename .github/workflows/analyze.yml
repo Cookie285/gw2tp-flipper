@@ -80,3 +80,15 @@ jobs:
         env:
           TOKEN: ${{ github.token }}
         run: bash main/.github/scripts/publish-data.sh analyze incoming
+
+  pages:
+    # Dashboard mit der neuen Liste veröffentlichen. Die Rechte gelten nur für pages.yml.
+    name: pages
+    needs: publish
+    permissions:
+      contents: read # web/ und shopping-list.json lesen
+      pages: write # Seite veröffentlichen
+      id-token: write # OIDC-Token für deploy-pages
+    # Bewährte Syntax für lokale Reusable Workflows; die von zizmor vorgeschlagene `$/`-Form
+    # ist hier nicht verifiziert.
+    uses: ./.github/workflows/pages.yml # zizmor: ignore[self-repository]
