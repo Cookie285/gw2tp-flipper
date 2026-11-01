@@ -1,0 +1,27 @@
+[project]
+name = "gw2tp-flipper"
+version = "0.1.0"
+description = "Tägliche Einkaufsliste für Flips am Guild Wars 2 Handelsposten (nur Lesezugriff, kein Auto-Trading)."
+readme = "README.md"
+requires-python = ">=3.12"
+# Abhängigkeiten werden über requirements*.txt (pip-compile --generate-hashes) gesperrt.
+dependencies = ["PyYAML"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "S", "SIM", "RUF"]
+ignore = [
+    "RUF001", "RUF002", "RUF003",  # deutsche Texte/Typografie
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101"]  # assert in Tests

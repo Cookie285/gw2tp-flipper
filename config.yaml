@@ -1,0 +1,41 @@
+# Schwellwerte für die Einkaufsliste. Alle Geldbeträge in Kupfer (1 g = 100 s = 10 000 c).
+# Unbekannte Schlüssel sind ein Fehler (Schutz vor Tippfehlern).
+
+budget_gold: 200            # Bis zum Dashboard (Phase 3) kommt das Budget von hier.
+
+fees:
+  listing_fee: 0.05         # Einstellgebühr
+  exchange_fee: 0.10        # Verkaufssteuer
+
+filters:
+  min_roi: 0.10             # ROI ≥ 10 %
+  max_roi: 2.0              # > 200 % ist meist ein Ausreißer/manipuliertes Orderbuch
+  min_profit_per_unit_copper: 1000      # ≥ 10 s pro Stück …
+  min_profit_per_position_copper: 10000 # … oder ≥ 1 g pro Position
+  min_buy_price_copper: 100 # Kaufpreis ≥ 1 s
+  # Phase 1: Orderbuch-Tiefe als Ersatz für das Tagesvolumen (Phase 2: echte Umsatzschätzung)
+  min_demand_quantity: 500
+  min_supply_quantity: 500
+  excluded_flags: [AccountBound, SoulbindOnAcquire]
+
+sizing:
+  max_budget_share: 0.10    # max. 10 % des Budgets pro Item
+  max_depth_share: 0.05     # max. 5 % der (geschätzten) Tagesmenge
+  max_units: 250
+  max_positions: 10
+
+ranking:
+  liquidity_reference_quantity: 100000
+  max_item_lookups: 400
+
+risk:                       # Ampel
+  green_min_roi: 0.20
+  green_min_depth: 5000
+  red_below_roi: 0.12
+  red_below_depth: 1000
+
+api:
+  timeout_s: 20
+  max_retries: 5
+  min_request_interval_s: 0.25   # ≤ 240 Requests/Minute (Limit ca. 300)
+  max_failed_batch_share: 0.2

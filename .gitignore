@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+*.egg-info/
+build/
+dist/
+
+# Lokale Ausgaben (Marktdaten gehören nur in den Branch `data`)
+out/
+data/
+snapshots/
+*.sqlite
+*.sqlite3
+*.db
+
+# Lokale Konfiguration, Schlüssel und Secrets – niemals committen
+.env
+.env.*
+*.local.yaml
+*.local.yml
+*.local.json
+config.local.*
+*.key
+*.pem
+*.p12
+*.pfx
+*apikey*
+*api_key*
+*api-key*
+secrets.*
+credentials.*
+
+# Editor/OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
