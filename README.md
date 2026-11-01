@@ -22,6 +22,27 @@ Sicherheit: [SECURITY.md](SECURITY.md).
 - Statische Seite ohne Build-Schritt, ohne Bibliotheken, ohne CDN. Veröffentlicht durch
   `pages.yml` nach jeder Analyse und bei Änderungen an `web/`.
 
+### Persönliche Ansichten (Phase 4)
+
+Die Tabs **„Meine Orders“** und **„Gewinn“** brauchen einen eigenen GW2-API-Key. Erstelle ihn unter
+[account.arena.net/applications](https://account.arena.net/applications) **nur mit den
+Berechtigungen „account“ und „tradingpost“**.
+
+- **Meine Orders:**
+  - offene Kaufgebote mit Warnung, wenn jemand mehr bietet
+  - offene Verkaufsangebote mit Warnung, wenn jemand billiger verkauft
+  - fällige Verkäufe aus der Abholbox mit Preisvorschlag (niedrigstes Angebot − 1c) und
+    erwartetem Gewinn gegenüber deinem Einkaufspreis
+- **Gewinn:** realisierter Gewinn der letzten 7/30/90 Tage, pro Woche und pro Tag.
+  Verkäufe werden per FIFO deinen Einkäufen zugeordnet, nach 5 % Einstellgebühr und 10 % Steuer.
+  Die GW2-API liefert die Historie der letzten 90 Tage.
+- **Datenschutz:**
+  - Der Key bleibt im Browser: „nur für diese Sitzung“ (sessionStorage, Standard) oder
+    „auf diesem Gerät merken“ (localStorage). „Key löschen“ entfernt ihn aus beiden.
+  - Er wird nur im Header `Authorization: Bearer …` an `api.guildwars2.com` gesendet,
+    nie in einer URL, nie an andere Hosts. Abfragen nach Preisen und Items laufen ohne Key.
+  - Persönliche Daten werden nur im Arbeitsspeicher des Tabs gehalten und nie gespeichert.
+
 ## Stand: Phase 2 (Historie)
 
 | Workflow | Zeitplan | Ergebnis im Branch **`data`** |

@@ -24,6 +24,10 @@ REQUIRED_CSP = {
 }
 
 
+# Einzige erlaubte externe Verlinkung (reine Navigation, kein Laden von Ressourcen).
+EXTERNAL_LINKS = {"https://account.arena.net/applications"}
+
+
 def _csp() -> dict[str, str]:
     html = HTML.read_text(encoding="utf-8")
     m = re.search(r'<meta http-equiv="Content-Security-Policy" content="([^"]+)">', html)
@@ -77,9 +81,73 @@ def test_html_has_no_inline_code_or_external_resources():
     assert not re.search(r"\sstyle\s*=", html)
     assert not re.search(r"\son[a-z]+\s*=", html, re.IGNORECASE)
     for url in re.findall(r'(?:src|href)="([^"]+)"', html):
-        assert not re.match(r"[a-z]+:", url), url  # nur relative URLs
+        if url in EXTERNAL_LINKS:
+            continue
+        assert not re.match(r"[a-z]+:", url), url  # sonst nur relative URLs
+    # Externe Links öffnen ohne Referrer und ohne Zugriff auf window.opener.
+    for tag in re.findall(r"<a\b[^>]*>", html):
+        if 'href="https://' in tag:
+            assert 'rel="noopener noreferrer"' in tag, tag
 
 
 def test_only_static_files_are_deployed():
-    allowed = {".html", ".js", ".css", ".svg", ".json"}
+    allowed = {".html", ".js", ".css", ".svg", ".json"}  # .json = package.json, nicht deployt
     assert {p.suffix for p in WEB.iterdir()} <= allowed
+
+
+# --- Phase 4: Umgang mit dem persönlichen API-Key -----------------------------------------
+
+
+def _sources() -> dict[str, str]:
+    return {p.name: p.read_text(encoding="utf-8") for p in JS}
+
+
+def test_key_never_in_url():
+    for name, src in _sources().items():
+        assert "access_token" not in src, name
+
+
+def test_authorization_header_only_in_api_client():
+    header_use = re.compile(r"""\.Authorization\b|["']Authorization["']|\bAuthorization\s*:""")
+    for name, src in _sources().items():
+        code = re.sub(r"^\s*//.*$", "", src, flags=re.MULTILINE)  # Kommentare ignorieren
+        if name != "gw2api.js":
+            assert not header_use.search(code), name
+    api = (WEB / "gw2api.js").read_text(encoding="utf-8")
+    assert "headers.Authorization = `Bearer ${key}`" in api
+    assert 'redirect: "error"' in api
+    assert 'credentials: "omit"' in api
+    assert 'referrerPolicy: "no-referrer"' in api
+
+
+def test_network_access_only_via_known_modules():
+    # Nur der API-Client (api.guildwars2.com) und die Einkaufsliste (gleicher Ursprung) laden Daten.
+    for name, src in _sources().items():
+        if re.search(r"\bfetch\s*\(", src):
+            assert name in {"gw2api.js", "shopping.js"}, name
+        assert "XMLHttpRequest" not in src and "sendBeacon" not in src and "WebSocket" not in src
+    shopping = (WEB / "shopping.js").read_text(encoding="utf-8")
+    assert re.findall(r"fetch\(([^,]+),", shopping) == ["DATA_URL"]
+
+
+def test_key_storage_only_in_keystore():
+    for name, src in _sources().items():
+        if name in {"keystore.js"}:
+            continue
+        assert "sessionStorage" not in src, name
+        if "localStorage" in src:
+            assert name == "shopping.js", name  # nur das (unkritische) Budget
+            assert "apiKey" not in src
+
+
+def test_no_console_logging():
+    for name, src in _sources().items():
+        assert not re.search(r"\bconsole\.", src), name
+
+
+def test_key_input_is_not_autocompleted():
+    html = HTML.read_text(encoding="utf-8")
+    tag = re.search(r'<input id="api-key"[^>]*>', html).group(0)
+    assert 'type="password"' in tag
+    assert 'autocomplete="off"' in tag
+    assert 'spellcheck="false"' in tag
