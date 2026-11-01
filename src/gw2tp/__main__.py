@@ -35,6 +35,7 @@ class RunResult:
     positions: list[analyze.Position]
     stats: report.RunStats
     universe: list[int]
+    pool: list[analyze.PoolEntry]
 
 
 def _check_failures(client: Gw2Client, cfg: config.Config) -> None:
@@ -73,27 +74,28 @@ def run(
     mode = report.MODE_HISTORY if usable else report.MODE_ORDERBOOK
     log.info("Modus %s: %d Snapshots, %d Items mit Historie", mode, len(snapshots), len(usable))
 
-    ranked = analyze.preselect(prices, cfg, usable if usable else None)
-    log.info("%d Kandidaten nach Markt-, Größen- und Gewinnfiltern", len(ranked))
-    shortlist = ranked[: cfg.ranking.max_item_lookups]
+    pool = analyze.build_pool(prices, cfg, usable if usable else None)
+    pool = pool[: cfg.ranking.max_item_lookups]
+    log.info("%d Kandidaten im Pool", len(pool))
 
-    items_raw = client.get_items([p.candidate.item_id for p in shortlist]) if shortlist else []
+    items_raw = client.get_items([e.candidate.item_id for e in pool]) if pool else []
     items, items_rejected = parse_many(items_raw, Item.parse)
     _check_failures(client, cfg)
 
-    positions = analyze.finalize(shortlist, {i.id: i for i in items}, cfg)
+    pool = analyze.attach_items(pool, {i.id: i for i in items}, cfg.filters)
+    positions = analyze.plan(pool, cfg)
     stats = report.RunStats(
         prices_total=len(prices),
         prices_rejected=prices_rejected,
         items_rejected=items_rejected,
-        candidates=len(ranked),
+        candidates=len(pool),
         failed_batches=client.stats.failed_batches,
         mode=mode,
         snapshots=len(snapshots),
         history_items=len(usable),
         universe_size=len(universe),
     )
-    return RunResult(positions=positions, stats=stats, universe=universe)
+    return RunResult(positions=positions, stats=stats, universe=universe, pool=pool)
 
 
 def write_outputs(result: RunResult, out_dir: Path, cfg: config.Config, now: datetime) -> None:
@@ -108,7 +110,7 @@ def write_outputs(result: RunResult, out_dir: Path, cfg: config.Config, now: dat
         report.to_markdown(result.positions, **kwargs), encoding="utf-8"
     )
     (out_dir / "shopping-list.json").write_text(
-        report.to_json(result.positions, **kwargs), encoding="utf-8"
+        report.to_json(result.positions, pool=result.pool, cfg=cfg, **kwargs), encoding="utf-8"
     )
     (out_dir / history.UNIVERSE_FILE).write_text(
         history.encode_universe(result.universe, now), encoding="utf-8"

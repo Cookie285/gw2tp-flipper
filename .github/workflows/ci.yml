@@ -37,8 +37,15 @@ jobs:
           ruff check .
           ruff format --check .
 
-      - name: Tests
+      - name: Tests (Python, inkl. Parität mit dem Dashboard)
+        env:
+          REQUIRE_NODE: "1" # Paritätstest darf in der CI nicht übersprungen werden
         run: python -m pytest
+
+      - name: Tests (Dashboard-Logik, node:test)
+        run: |
+          node --version
+          node --test tests/js/*.test.mjs
 
       - name: Shell-Skripte prüfen (shellcheck)
         run: shellcheck .github/scripts/*.sh

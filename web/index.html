@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' https://render.guildwars2.com; connect-src 'self' https://api.guildwars2.com; object-src 'none'; base-uri 'none'; form-action 'none'; require-trusted-types-for 'script'; trusted-types 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>GW2 Flip-Einkaufsliste</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>Flip-Einkaufsliste</h1>
+      <p class="sub">Guild Wars 2 · Handelsposten · <span id="generated">wird geladen …</span></p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <p id="error" class="note error" role="alert" hidden></p>
+
+    <div id="content" hidden>
+      <p id="stale" class="note warn" hidden>
+        Die Daten sind älter als 36 Stunden. Der tägliche Lauf ist eventuell ausgefallen.
+      </p>
+      <p id="mode" class="note"></p>
+
+      <form id="budget-form" class="budget" autocomplete="off">
+        <label for="budget">Budget (Gold)</label>
+        <input id="budget" name="budget" inputmode="decimal" maxlength="12" required>
+        <button id="budget-reset" type="button" class="secondary">Standard</button>
+        <span id="budget-error" class="field-error" hidden>Bitte 1 bis 1.000.000 Gold eingeben.</span>
+      </form>
+
+      <p id="summary" class="summary"></p>
+
+      <div class="table-scroll">
+        <table id="table">
+          <thead>
+            <tr>
+              <th class="num">#</th>
+              <th>Risiko</th>
+              <th>Item · Chatcode</th>
+              <th class="num">Kaufgebot</th>
+              <th class="num">Stück</th>
+              <th class="num">Verkaufspreis</th>
+              <th class="num">Netto/Stück</th>
+              <th class="num">ROI</th>
+              <th class="num">Einsatz</th>
+              <th class="num">Erw. Gewinn</th>
+              <th class="num history-col">Vol./Tag</th>
+              <th class="num history-col">Trend/Tag</th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+      <p id="empty" class="note" hidden>Für dieses Budget erfüllt heute kein Item alle Filter.</p>
+      <p id="rejected" class="muted" hidden></p>
+
+      <section class="howto">
+        <h2>So gehst du vor</h2>
+        <ol>
+          <li>Chatcode kopieren, im Spiel in den Chat einfügen und anklicken: Das Item öffnet sich im Handelsposten.</li>
+          <li>Kaufgebot zum angegebenen Preis mit der angegebenen Stückzahl einstellen.</li>
+          <li>Sobald das Gebot gefüllt ist, zum Verkaufspreis einstellen (5 % Einstellgebühr, 10 % Steuer beim Verkauf).</li>
+          <li>Preise vorher im Spiel prüfen: Die Liste wird einmal täglich erstellt.</li>
+        </ol>
+      </section>
+    </div>
+  </main>
+
+  <footer class="wrap muted">
+    Es wird nichts automatisch gekauft oder verkauft. Daten: offizielle Guild-Wars-2-API.
+    Guild Wars 2 ist eine Marke von ArenaNet, LLC. Dieses Projekt steht in keiner Verbindung zu ArenaNet.
+  </footer>
+</body>
+</html>

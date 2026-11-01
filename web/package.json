@@ -1,0 +1,5 @@
+{
+  "//": "Nur für Node-Tests (ES-Module). Wird nicht veröffentlicht.",
+  "private": true,
+  "type": "module"
+}

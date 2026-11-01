@@ -94,7 +94,7 @@ def test_json_output(cfg):
     data = json.loads(
         to_json(positions, generated_at=NOW, budget_copper=cfg.budget_copper, stats=STATS)
     )
-    assert data["schema_version"] == 1
+    assert data["schema_version"] == 2
     assert data["generated_at"] == "2026-11-01T04:23:00Z"
     assert data["volume_source"] == "orderbook_depth"
     [p] = data["positions"]

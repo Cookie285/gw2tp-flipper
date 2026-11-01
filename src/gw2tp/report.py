@@ -9,10 +9,11 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Any
 
-from .analyze import Position, RiskLevel
+from .analyze import PoolEntry, Position, RiskLevel
+from .config import Config
 from .fees import COPPER_PER_GOLD, COPPER_PER_SILVER
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 MODE_HISTORY = "snapshots"
 MODE_ORDERBOOK = "orderbook_depth"
 RISK_ICON = {RiskLevel.GREEN: "🟢", RiskLevel.YELLOW: "🟡", RiskLevel.RED: "🔴"}
@@ -137,7 +138,7 @@ def to_markdown(
         f"- Universum (stündlich gespeichert): {stats.universe_size} Items",
         f"- Snapshots im Fenster: {stats.snapshots}, Items mit Historie: {stats.history_items}",
         f"- Preise geladen: {stats.prices_total} (verworfen: {stats.prices_rejected})",
-        f"- Kandidaten nach Markt- und Gewinnfiltern: {stats.candidates}",
+        f"- Kandidaten im Pool (nach Markt- und Historienfiltern): {stats.candidates}",
         f"- Item-Datensätze verworfen: {stats.items_rejected}",
         f"- Fehlgeschlagene API-Blöcke: {stats.failed_batches}",
         "",
@@ -160,11 +161,14 @@ def to_json_data(
     budget_copper: int,
     stats: RunStats,
     window_days: int = 7,
+    pool: Sequence[PoolEntry] = (),
+    cfg: Config | None = None,
 ) -> dict[str, Any]:
+    cfg = cfg or Config()
     return {
         "schema_version": SCHEMA_VERSION,
         "generated_at": generated_at.strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "phase": 2,
+        "phase": 3,
         "volume_source": stats.mode,
         "window_days": window_days,
         "budget_copper": budget_copper,
@@ -207,6 +211,61 @@ def to_json_data(
             }
             for i, p in enumerate(positions, 1)
         ],
+        # Für das Dashboard: Parameter und Pool, um die Liste für ein anderes Budget
+        # neu zu berechnen (web/plan.js). Faktoren ungerundet, damit beide Seiten gleich rechnen.
+        "params": _params(cfg),
+        "candidates": [_candidate(e) for e in pool],
+    }
+
+
+def _params(cfg: Config) -> dict[str, Any]:
+    s, f, r = cfg.sizing, cfg.filters, cfg.risk
+    return {
+        "sizing": {
+            "max_budget_share": s.max_budget_share,
+            "max_volume_share": s.max_volume_share,
+            "max_depth_share": s.max_depth_share,
+            "max_units": s.max_units,
+            "max_positions": s.max_positions,
+        },
+        "filters": {
+            "min_profit_per_unit_copper": f.min_profit_per_unit_copper,
+            "min_profit_per_position_copper": f.min_profit_per_position_copper,
+            "min_volume_multiple": f.min_volume_multiple,
+            "min_daily_volume": f.min_daily_volume,
+        },
+        "risk": {
+            "green_min_roi": r.green_min_roi,
+            "green_min_depth": r.green_min_depth,
+            "red_below_roi": r.red_below_roi,
+            "red_below_depth": r.red_below_depth,
+            "green_max_cv": r.green_max_cv,
+            "red_min_cv": r.red_min_cv,
+            "red_below_trend": r.red_below_trend,
+            "green_min_volume_multiple": r.green_min_volume_multiple,
+        },
+    }
+
+
+def _candidate(e: PoolEntry) -> dict[str, Any]:
+    c, st, it = e.candidate, e.stats, e.item
+    return {
+        "id": c.item_id,
+        "name": it.name if it else None,
+        "icon": it.icon if it else None,
+        "chat_link": it.chat_link if it else None,
+        "rarity": it.rarity if it else None,
+        "buy_price": c.buy_price,
+        "sell_price": c.sell_price,
+        "profit_per_unit": c.profit_per_unit,
+        "roi": c.roi,
+        "demand": c.demand,
+        "supply": c.supply,
+        "daily_volume": st.daily_volume if st else None,
+        "price_cv": st.price_cv if st else None,
+        "trend": st.trend if st else None,
+        "liquidity_factor": e.liquidity_factor,
+        "stability_factor": e.stability_factor,
     }
 
 
