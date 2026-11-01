@@ -220,3 +220,8 @@ tr.alert { background: var(--red-bg); }
 .stat-label { color: var(--muted); font-size: 0.85rem; }
 .stat-value { font-size: 1.35rem; font-weight: 700; }
 .stat-sub { font-size: 0.85rem; }
+
+/* --- Phase 5: Filter-Trichter ------------------------------------------------------------ */
+.funnel { margin-top: 16px; }
+.funnel summary { cursor: pointer; font-weight: 600; }
+.funnel table { max-width: 40rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }

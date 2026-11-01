@@ -32,6 +32,7 @@
         Die Daten sind älter als 36 Stunden. Der tägliche Lauf ist eventuell ausgefallen.
       </p>
       <p id="mode" class="note"></p>
+      <p id="review" class="note"></p>
 
       <form id="budget-form" class="budget" autocomplete="off">
         <label for="budget">Budget (Gold)</label>
@@ -65,6 +66,12 @@
       </div>
       <p id="empty" class="note" hidden>Für dieses Budget erfüllt heute kein Item alle Filter.</p>
       <p id="rejected" class="muted" hidden></p>
+
+      <details id="funnel-box" class="funnel" hidden>
+        <summary>Filter-Trichter dieser Analyse</summary>
+        <p class="muted small">Wie viele Items an welchem Filter scheitern – Grundlage für das Feintuning von <code>config.yaml</code>.</p>
+        <table id="funnel"></table>
+      </details>
 
       <section class="howto">
         <h2>So gehst du vor</h2>

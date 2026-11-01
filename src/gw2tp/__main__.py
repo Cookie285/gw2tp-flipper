@@ -13,17 +13,21 @@ from __future__ import annotations
 import argparse
 import logging
 import sys
+from collections import Counter
 from dataclasses import dataclass
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
+from typing import Any
 
-from . import analyze, config, history, report
+from . import analyze, config, evaluate, history, report
 from .fetch import ApiError, Gw2Client
 from .models import Item, Price, ValidationError, parse_id_list, parse_many
 
 log = logging.getLogger("gw2tp")
 
 REMOVE_LIST = "remove.txt"
+ARCHIVE_FILE = "archive.json"  # wird vom Publish-Skript als lists/YYYY-MM-DD.json abgelegt
+EVALUATION_FILE = "evaluation.md"
 
 
 class RunError(RuntimeError):
@@ -36,6 +40,7 @@ class RunResult:
     stats: report.RunStats
     universe: list[int]
     pool: list[analyze.PoolEntry]
+    funnel: dict[str, int]
 
 
 def _check_failures(client: Gw2Client, cfg: config.Config) -> None:
@@ -74,7 +79,8 @@ def run(
     mode = report.MODE_HISTORY if usable else report.MODE_ORDERBOOK
     log.info("Modus %s: %d Snapshots, %d Items mit Historie", mode, len(snapshots), len(usable))
 
-    pool = analyze.build_pool(prices, cfg, usable if usable else None)
+    funnel: Counter[str] = Counter()
+    pool = analyze.build_pool(prices, cfg, usable if usable else None, funnel)
     pool = pool[: cfg.ranking.max_item_lookups]
     log.info("%d Kandidaten im Pool", len(pool))
 
@@ -95,10 +101,18 @@ def run(
         history_items=len(usable),
         universe_size=len(universe),
     )
-    return RunResult(positions=positions, stats=stats, universe=universe, pool=pool)
+    return RunResult(
+        positions=positions, stats=stats, universe=universe, pool=pool, funnel=dict(funnel)
+    )
 
 
-def write_outputs(result: RunResult, out_dir: Path, cfg: config.Config, now: datetime) -> None:
+def write_outputs(
+    result: RunResult,
+    out_dir: Path,
+    cfg: config.Config,
+    now: datetime,
+    review: dict[str, Any] | None = None,
+) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     kwargs = {
         "generated_at": now,
@@ -110,11 +124,51 @@ def write_outputs(result: RunResult, out_dir: Path, cfg: config.Config, now: dat
         report.to_markdown(result.positions, **kwargs), encoding="utf-8"
     )
     (out_dir / "shopping-list.json").write_text(
-        report.to_json(result.positions, pool=result.pool, cfg=cfg, **kwargs), encoding="utf-8"
+        report.to_json(
+            result.positions,
+            pool=result.pool,
+            cfg=cfg,
+            funnel=result.funnel,
+            review=review,
+            **kwargs,
+        ),
+        encoding="utf-8",
+    )
+    (out_dir / ARCHIVE_FILE).write_text(
+        evaluate.encode_archive(result.positions, now, result.stats.mode), encoding="utf-8"
     )
     (out_dir / history.UNIVERSE_FILE).write_text(
         history.encode_universe(result.universe, now), encoding="utf-8"
     )
+
+
+def review_lists(
+    data_dir: Path, snapshots: list[history.Snapshot], cfg: config.Config, now: datetime
+) -> tuple[list[evaluate.ArchivedList], list[evaluate.Outcome]]:
+    """Frühere Listen (2 bis retention_days Tage alt) gegen die Snapshots auswerten."""
+    cutoff = now - timedelta(hours=max(evaluate.HORIZONS_H))
+    first = (now - timedelta(days=cfg.history.retention_days)).date()
+    lists = [
+        lst
+        for lst in evaluate.load_archives(data_dir, first, cutoff.date())
+        if lst.generated_at <= cutoff
+    ]
+    outcomes = evaluate.evaluate_lists(lists, snapshots, cfg.fees, cfg.history.max_gap_hours * 3600)
+    return lists, outcomes
+
+
+def review_summary(
+    lists: list[evaluate.ArchivedList], outcomes: list[evaluate.Outcome]
+) -> dict[str, Any] | None:
+    if not outcomes:
+        return None
+    days = sorted(lst.day for lst in lists)
+    return {
+        "lists": len(lists),
+        "from": days[0].isoformat(),
+        "to": days[-1].isoformat(),
+        **evaluate.summarize(outcomes).to_dict(),
+    }
 
 
 def write_compaction(c: history.Compaction, out_dir: Path) -> None:
@@ -186,9 +240,21 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == "snapshot":
             take_snapshot(client, cfg, data_dir, args.out, now)
             return 0
-        snaps = history.load_snapshots(data_dir, now, cfg.history.window_days) if data_dir else []
+        # Snapshots für die Auswertung (bis retention_days zurück) einmal laden; für die
+        # Kennzahlen nur das Fenster der letzten window_days verwenden.
+        all_snaps = (
+            history.load_snapshots(data_dir, now, cfg.history.retention_days + 1)
+            if data_dir
+            else []
+        )
+        window_start = now - timedelta(days=cfg.history.window_days)
+        snaps = [s for s in all_snaps if s.taken_at >= window_start]
         result = run(client, cfg, snaps)
-        write_outputs(result, args.out, cfg, now)
+        lists, outcomes = review_lists(data_dir, all_snaps, cfg, now) if data_dir else ([], [])
+        write_outputs(result, args.out, cfg, now, review_summary(lists, outcomes))
+        (args.out / EVALUATION_FILE).write_text(
+            evaluate.to_markdown(outcomes, lists, result.funnel, now), encoding="utf-8"
+        )
         if data_dir:
             write_compaction(history.compact(data_dir, now.date(), cfg.history), args.out)
     except (config.ConfigError, OSError) as exc:

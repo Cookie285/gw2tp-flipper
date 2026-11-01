@@ -171,6 +171,25 @@ def test_analyze_writes_list_archive_and_universe(tmp_path, remote):
     assert log_on_data(remote) == ["Einkaufsliste 2026-11-20"]
 
 
+def test_analyze_archives_list_and_evaluation(tmp_path, remote):
+    incoming = make_incoming(
+        tmp_path,
+        "in",
+        analyze_files(**{"archive.json": '{"schema_version": 1}', "evaluation.md": "# Auswertung"}),
+    )
+    r = publish("analyze", incoming, remote)
+    assert r.returncode == 0, r.stderr
+    files = files_on_data(remote)
+    assert "lists/2026-11-20.json" in files
+    assert "evaluation.md" in files
+    assert "archive.json" not in files
+
+
+def test_analyze_rejects_invalid_archive(tmp_path, remote):
+    incoming = make_incoming(tmp_path, "in", analyze_files(**{"archive.json": "{kaputt"}))
+    assert publish("analyze", incoming, remote).returncode != 0
+
+
 def test_analyze_compaction_removes_only_covered_days(tmp_path, remote):
     for i, name in enumerate(
         [

@@ -20,7 +20,7 @@ max_remove_lines=2000
 retry_sleep="${PUBLISH_RETRY_SLEEP:-5}"
 
 snapshot_re='^snapshots/[0-9]{4}-[0-9]{2}-[0-9]{2}/[0-9]{4}\.json\.gz$'
-analyze_re='^(shopping-list\.md|shopping-list\.json|universe\.json|remove\.txt|daily/[0-9]{4}-[0-9]{2}-[0-9]{2}\.json\.gz)$'
+analyze_re='^(shopping-list\.md|shopping-list\.json|universe\.json|evaluation\.md|archive\.json|remove\.txt|daily/[0-9]{4}-[0-9]{2}-[0-9]{2}\.json\.gz)$'
 
 die() {
   echo "::error::$*" >&2
@@ -116,7 +116,8 @@ checkout_data() {
 apply_changes() {
   local f r d
   for f in "${files[@]}"; do
-    [ "$f" = remove.txt ] && continue
+    # remove.txt steuert nur Löschungen; archive.json wird unten als lists/<Tag>.json abgelegt.
+    [ "$f" = remove.txt ] || [ "$f" = archive.json ] && continue
     mkdir -p "$(dirname "$f")"
     cp -- "$incoming/$f" "$f"
     git add -- "$f"
@@ -125,6 +126,10 @@ apply_changes() {
     mkdir -p lists
     cp -- "$incoming/shopping-list.md" "lists/$day.md"
     git add -- "lists/$day.md"
+    if [ -f "$incoming/archive.json" ]; then
+      cp -- "$incoming/archive.json" "lists/$day.json"
+      git add -- "lists/$day.json"
+    fi
     for r in "${removals[@]}"; do
       d="${r#snapshots/}"
       d="${d%%/*}"

@@ -45,6 +45,36 @@ Berechtigungen „account“ und „tradingpost“**.
     Abfragen nach Preisen und Items laufen ohne Key.
   - Persönliche Daten werden nur im Arbeitsspeicher des Tabs gehalten und nie gespeichert.
 
+## Feintuning (Phase 5)
+
+Die Schwellwerte in `config.yaml` werden anhand **echter Ergebnisse** angepasst. Dafür misst
+`analyze` jeden Tag mit:
+
+- **Archiv:** Jede Liste wird zusätzlich kompakt als `lists/YYYY-MM-DD.json` im Branch `data`
+  abgelegt.
+- **Rückblick (`evaluation.md` im Branch `data`):** Listen, die 2 bis 14 Tage alt sind, werden
+  gegen die stündlichen Snapshots geprüft. Ausgewiesen werden der ROI bei Verkauf nach 48 h,
+  ob der Verkaufspreis gehalten hat, ob das Gebot binnen 24 h überholt wurde und das
+  beobachtete gegenüber dem geschätzten Volumen. Alles ist aufgeschlüsselt nach Ampel,
+  geplantem ROI, Volatilität und Tagesvolumen. Eine Kurzfassung zeigt das Dashboard als „Bilanz“.
+- **Filter-Trichter:** wie viele Items an welchem Filter scheitern (`evaluation.md` und Dashboard).
+
+Nach ein bis zwei Wochen Daten liest du die Tabellen so:
+
+| Beobachtung in `evaluation.md` | Anpassung in `config.yaml` |
+|---|---|
+| Bereich „Volatilität 7–10 %“ deutlich schlechter als darunter | `filters.max_price_cv` senken (z. B. 0.07) |
+| hoher geplanter ROI (≥ 60 %) oft *nicht* profitabel | `filters.max_roi` senken (Ausreißer) |
+| „Volumen beobachtet/geschätzt“ deutlich < 1 | `sizing.max_volume_share` senken oder `filters.min_volume_multiple` erhöhen |
+| Ampel „rot“ selten profitabel | `risk.red_min_cv` / `risk.red_below_trend` verschärfen |
+| Ampel „grün“ nicht besser als „gelb“ | `risk.green_*` verschärfen |
+| Trichter: kaum Items bestehen, Liste oft leer | Filter mit dem größten Anteil vorsichtig lockern |
+
+Änderungen an `config.yaml` laufen wie aller Code über einen Pull Request. Die Bilanz der
+folgenden Tage zeigt dann, ob die Anpassung geholfen hat. Die Werte sind eine Näherung: Ob ein
+Gebot wirklich gefüllt worden wäre, lässt sich aus Snapshots nicht sicher ablesen. Für echte
+Ergebnisse den Tab „Gewinn“ mit den eigenen Flips vergleichen.
+
 ## Stand: Phase 2 (Historie)
 
 | Workflow | Zeitplan | Ergebnis im Branch **`data`** |
