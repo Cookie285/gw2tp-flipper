@@ -14,6 +14,8 @@ import {
   riskLevel,
   validateCandidate,
   validateData,
+  validateFunnel,
+  validateReview,
 } from "../../web/plan.js";
 
 const PARAMS = {
@@ -183,4 +185,38 @@ test("Budget-Eingabe", () => {
   assert.equal(parseBudgetGold("1e3"), null);
   assert.equal(parseBudgetGold("-5"), null);
   assert.equal(parseBudgetGold("10000000"), null);
+});
+
+// --- Phase 5 -----------------------------------------------------------------------------
+
+const REVIEW = {
+  lists: 3, from: "2026-11-10", to: "2026-11-12", positions: 30, with_data: 28,
+  profitable_48: 0.75, median_roi_48: 0.12, price_held_48: 0.8, outbid_24: 0.4,
+  median_volume_ratio: 0.9,
+};
+
+test("Rückblick wird validiert", () => {
+  assert.equal(validateReview(REVIEW).profitable48, 0.75);
+  assert.equal(validateReview(null), null);
+  assert.equal(validateReview({ ...REVIEW, profitable_48: 1.5 }), null);
+  assert.equal(validateReview({ ...REVIEW, from: "<b>" }), null);
+  assert.equal(validateReview({ ...REVIEW, with_data: 31 }), null);
+  assert.equal(validateReview({ ...REVIEW, median_roi_48: null }).medianRoi48, null);
+});
+
+test("Trichter: nur bekannte Schlüssel, feste Reihenfolge", () => {
+  const f = validateFunnel({ passed: 10, roi_low: 90, evil: 5, demand: "3", no_quotes: 0 });
+  assert.deepEqual(f.map((x) => x.key), ["roi_low", "passed"]);
+  assert.deepEqual(validateFunnel(null), []);
+});
+
+test("validateData übernimmt Rückblick und Trichter optional", () => {
+  const raw = {
+    schema_version: 2, generated_at: "2026-11-20T04:23:00Z", volume_source: "snapshots",
+    window_days: 7, budget_copper: 2000000, params: PARAMS, candidates: [],
+  };
+  assert.equal(validateData(raw).review, null);
+  const d = validateData({ ...raw, review: REVIEW, funnel: { passed: 1 } });
+  assert.equal(d.review.lists, 3);
+  assert.equal(d.funnel.length, 1);
 });

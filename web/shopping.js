@@ -120,6 +120,43 @@ function renderMeta(data) {
   $("rejected").textContent = `${data.rejected} fehlerhafte Datensätze wurden ignoriert.`;
 }
 
+const fmtShare = (v) => (v === null ? "–" : `${Math.round(v * 100)} %`);
+const fmtDate = (iso) => {
+  const [y, m, d] = iso.split("-");
+  return `${d}.${m}.${y}`;
+};
+
+function renderReview(review) {
+  const box = $("review");
+  if (review === null) {
+    box.textContent =
+      "Bilanz: Noch keine Auswertung. Eine Liste wird frühestens 48 Stunden nach ihrer " +
+      "Erstellung gegen die Snapshots geprüft.";
+    return;
+  }
+  const roi = review.medianRoi48 === null ? "–" : formatPct(review.medianRoi48);
+  box.textContent =
+    `Bilanz der Listen vom ${fmtDate(review.from)} bis ${fmtDate(review.to)} ` +
+    `(${review.withData} von ${review.positions} Positionen mit Daten): ` +
+    `${fmtShare(review.profitable48)} wären nach 48 h mit Gewinn verkaufbar gewesen ` +
+    `(Median-ROI ${roi}), Preis gehalten bei ${fmtShare(review.priceHeld48)}, ` +
+    `Gebot binnen 24 h überholt bei ${fmtShare(review.outbid24)}. ` +
+    "Details: evaluation.md im Branch data.";
+}
+
+function renderFunnel(funnel) {
+  const total = funnel.reduce((s, f) => s + f.count, 0);
+  const rows = funnel.map((f) =>
+    el("tr", {}, [
+      el("td", { text: f.label }),
+      el("td", { cls: "num", text: f.count.toLocaleString("de-DE") }),
+      el("td", { cls: "num", text: formatPct(f.count / total) }),
+    ]),
+  );
+  $("funnel").replaceChildren(el("tbody", {}, rows));
+  $("funnel-box").hidden = funnel.length === 0;
+}
+
 function showError(message) {
   $("error").textContent = message;
   $("error").hidden = false;
@@ -135,6 +172,8 @@ export async function initShopping() {
     return;
   }
   renderMeta(data);
+  renderReview(data.review);
+  renderFunnel(data.funnel);
 
   const input = $("budget");
   const initial = loadBudget() ?? data.defaultBudget;

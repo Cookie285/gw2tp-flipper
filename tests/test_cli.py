@@ -171,7 +171,9 @@ def test_main_analyze_with_data_dir(monkeypatch, make_client, tmp_path):
     assert rc == 0
     names = sorted(str(p.relative_to(out)) for p in out.rglob("*") if p.is_file())
     assert names == [
+        "archive.json",
         "daily/2026-10-01.json.gz",
+        "evaluation.md",
         "remove.txt",
         "shopping-list.json",
         "shopping-list.md",

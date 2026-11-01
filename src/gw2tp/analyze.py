@@ -11,6 +11,7 @@ Zwei Modi:
 from __future__ import annotations
 
 import math
+from collections import Counter
 from collections.abc import Iterable, Mapping
 from dataclasses import dataclass, replace
 from enum import StrEnum
@@ -283,8 +284,62 @@ class PoolEntry:
     item: Item | None = None
 
 
+# Filter in Prüfreihenfolge mit Beschreibung (für den Filter-Trichter in Report und Dashboard).
+FUNNEL_STEPS: dict[str, str] = {
+    "no_quotes": "kein Kaufgebot oder kein Verkaufsangebot",
+    "no_spread": "kein Spread nach Über-/Unterbieten",
+    "min_buy_price": "Kaufpreis unter Minimum",
+    "roi_low": "ROI unter Minimum",
+    "roi_high": "ROI über Maximum (Ausreißer)",
+    "demand": "zu wenig Nachfrage im Orderbuch",
+    "supply": "zu wenig Angebot im Orderbuch",
+    "no_history": "keine ausreichende Historie",
+    "volume": "Tagesvolumen unter Minimum",
+    "volatility": "Volatilität zu hoch",
+    "downtrend": "Abwärtstrend",
+    "passed": "besteht alle budgetunabhängigen Filter",
+}
+
+
+def rejection_reason(
+    price: Price, cfg: Config, stats: Mapping[int, MarketStats] | None = None
+) -> str | None:
+    """Erster budgetunabhängiger Filter, an dem ein Item scheitert (``None`` = besteht)."""
+    f = cfg.filters
+    if price.buys.unit_price <= 0 or price.sells.unit_price <= 0:
+        return "no_quotes"
+    c = evaluate(price, cfg.fees)
+    if c is None:
+        return "no_spread"
+    if c.buy_price < f.min_buy_price_copper:
+        return "min_buy_price"
+    if c.profit_per_unit <= 0 or c.roi < f.min_roi:
+        return "roi_low"
+    if c.roi > f.max_roi:
+        return "roi_high"
+    if c.demand < f.min_demand_quantity:
+        return "demand"
+    if c.supply < f.min_supply_quantity:
+        return "supply"
+    if stats is None:
+        return None
+    st = stats.get(price.id)
+    if st is None:
+        return "no_history"
+    if st.daily_volume < f.min_daily_volume:
+        return "volume"
+    if st.price_cv is None or st.price_cv > f.max_price_cv:
+        return "volatility"
+    if st.trend is not None and st.trend < -f.max_negative_trend:
+        return "downtrend"
+    return None
+
+
 def build_pool(
-    prices: Iterable[Price], cfg: Config, stats: Mapping[int, MarketStats] | None = None
+    prices: Iterable[Price],
+    cfg: Config,
+    stats: Mapping[int, MarketStats] | None = None,
+    funnel: Counter[str] | None = None,
 ) -> list[PoolEntry]:
     """Kandidaten, die alle budgetunabhängigen Filter bestehen, als Vereinigung zweier Ranglisten:
 
@@ -294,13 +349,14 @@ def build_pool(
     So enthält der Pool für jedes realistische Budget die besten Items."""
     entries: list[PoolEntry] = []
     for price in prices:
-        item_stats = None
-        if stats is not None:
-            item_stats = stats.get(price.id)
-            if item_stats is None or not passes_static_history_filters(item_stats, cfg.filters):
-                continue
+        item_stats = stats.get(price.id) if stats is not None else None
+        reason = rejection_reason(price, cfg, stats)
+        if funnel is not None:
+            funnel[reason or "passed"] += 1
+        if reason is not None:
+            continue
         c = evaluate(price, cfg.fees)
-        if c is None or c.profit_per_unit <= 0 or not passes_market_filters(c, cfg.filters):
+        if c is None:  # pragma: no cover - durch rejection_reason ausgeschlossen
             continue
         entries.append(
             PoolEntry(

@@ -150,6 +150,8 @@ export function validateData(raw) {
     else candidates.push(v);
   }
   return {
+    review: validateReview(raw.review),
+    funnel: validateFunnel(raw.funnel),
     generatedAt: new Date(raw.generated_at),
     history,
     windowDays: raw.window_days,
@@ -158,6 +160,58 @@ export function validateData(raw) {
     candidates,
     rejected,
   };
+}
+
+// --- Phase 5: Rückblick und Filter-Trichter (optional) -------------------------------------
+
+export const FUNNEL_LABELS = {
+  no_quotes: "kein Kaufgebot oder kein Verkaufsangebot",
+  no_spread: "kein Spread nach Über-/Unterbieten",
+  min_buy_price: "Kaufpreis unter Minimum",
+  roi_low: "ROI unter Minimum",
+  roi_high: "ROI über Maximum (Ausreißer)",
+  demand: "zu wenig Nachfrage im Orderbuch",
+  supply: "zu wenig Angebot im Orderbuch",
+  no_history: "keine ausreichende Historie",
+  volume: "Tagesvolumen unter Minimum",
+  volatility: "Volatilität zu hoch",
+  downtrend: "Abwärtstrend",
+  passed: "besteht alle budgetunabhängigen Filter",
+};
+
+const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+const SHARE_KEYS = ["profitable_48", "price_held_48", "outbid_24"];
+
+/** Rückblick-Zusammenfassung prüfen; ``null`` wenn fehlend oder ungültig. */
+export function validateReview(raw) {
+  if (raw === null || raw === undefined || typeof raw !== "object" || Array.isArray(raw)) return null;
+  if (!isInt(raw.lists, 1, 1000) || !isInt(raw.positions, 0, 100000)) return null;
+  if (!isInt(raw.with_data, 0, raw.positions)) return null;
+  if (typeof raw.from !== "string" || !DATE_RE.test(raw.from)) return null;
+  if (typeof raw.to !== "string" || !DATE_RE.test(raw.to)) return null;
+  for (const k of SHARE_KEYS) if (!isNullableNum(raw[k], 0, 1)) return null;
+  if (!isNullableNum(raw.median_roi_48, -10, 1e3)) return null;
+  if (!isNullableNum(raw.median_volume_ratio, 0, 1e6)) return null;
+  return {
+    lists: raw.lists,
+    positions: raw.positions,
+    withData: raw.with_data,
+    from: raw.from,
+    to: raw.to,
+    profitable48: raw.profitable_48,
+    medianRoi48: raw.median_roi_48,
+    priceHeld48: raw.price_held_48,
+    outbid24: raw.outbid_24,
+    medianVolumeRatio: raw.median_volume_ratio,
+  };
+}
+
+/** Filter-Trichter prüfen: nur bekannte Schlüssel mit Ganzzahlen, in fester Reihenfolge. */
+export function validateFunnel(raw) {
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return [];
+  return Object.keys(FUNNEL_LABELS)
+    .filter((k) => isInt(raw[k], 1, 10_000_000))
+    .map((k) => ({ key: k, label: FUNNEL_LABELS[k], count: raw[k] }));
 }
 
 // --- Planung (gleich wie analyze.py) -------------------------------------------------------

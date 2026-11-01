@@ -163,6 +163,8 @@ def to_json_data(
     window_days: int = 7,
     pool: Sequence[PoolEntry] = (),
     cfg: Config | None = None,
+    funnel: dict[str, int] | None = None,
+    review: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     cfg = cfg or Config()
     return {
@@ -215,6 +217,9 @@ def to_json_data(
         # neu zu berechnen (web/plan.js). Faktoren ungerundet, damit beide Seiten gleich rechnen.
         "params": _params(cfg),
         "candidates": [_candidate(e) for e in pool],
+        # Phase 5: Filter-Trichter dieses Laufs und Rückblick auf frühere Listen.
+        "funnel": dict(funnel or {}),
+        "review": review,
     }
 
 

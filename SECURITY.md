@@ -36,6 +36,8 @@ Unterstützt wird jeweils nur der aktuelle Stand von `main`.
 - Marktdaten landen nur im Branch `data`, nie in `main`. Kein Force-Push. Alte Snapshots werden
   über normale Commits verdichtet.
 - Gelesene Snapshots werden validiert (Schema, Typen, Größenlimit gegen gzip-Bomben, keine Symlinks).
+- Archivierte Listen (`lists/*.json`) werden beim Rückblick ebenso validiert (Schema, Typen,
+  Größenlimit, keine Symlinks). Das Publish-Skript lässt nur die festen Dateinamen zu.
 
 **Abhängigkeiten**
 - Feste Versionen mit Hashes (`pip-compile --generate-hashes`), Installation mit
