@@ -1,0 +1,2 @@
+# Laufzeit-Abhängigkeiten. Lock: pip-compile --generate-hashes --allow-unsafe requirements.in
+PyYAML

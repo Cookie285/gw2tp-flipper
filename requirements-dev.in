@@ -1,0 +1,7 @@
+# Entwicklungs-/CI-Abhängigkeiten.
+# Lock: pip-compile --generate-hashes --allow-unsafe requirements-dev.in
+-c requirements.txt
+-r requirements.in
+pytest
+ruff
+zizmor

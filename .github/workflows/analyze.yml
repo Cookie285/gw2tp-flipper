@@ -1,0 +1,118 @@
+name: Analyze
+
+on:
+  schedule:
+    - cron: "23 4 * * *" # täglich 04:23 UTC (nicht zur vollen Stunde, weniger Verzögerung)
+  workflow_dispatch:
+
+permissions: {}
+
+# Alle Workflows, die in den Branch `data` schreiben, teilen sich diese Gruppe.
+# Kein Abbrechen laufender Läufe, damit kein Commit verloren geht.
+concurrency:
+  group: data-branch
+  cancel-in-progress: false
+
+jobs:
+  analyze:
+    name: analyze
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read # nur Code auschecken
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+
+      - name: Abhängigkeiten installieren (nur gesperrte Versionen mit Hash)
+        run: |
+          python -m pip install --require-hashes --only-binary=:all: --no-deps -r requirements.txt
+
+      - name: Einkaufsliste berechnen
+        env:
+          PYTHONPATH: src
+        run: python -m gw2tp analyze --config config.yaml --out out
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: shopping-list
+          path: |
+            out/shopping-list.md
+            out/shopping-list.json
+          if-no-files-found: error
+          retention-days: 7
+
+  publish:
+    # Schreibt in den Branch `data`. Führt keinen Projektcode aus, nur git und Shell.
+    name: publish
+    needs: analyze
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write # Commit der Einkaufsliste in den Branch `data`
+    steps:
+      - name: Branch `data` auschecken (oder beim ersten Lauf leer anlegen)
+        env:
+          REPO: ${{ github.repository }}
+          SERVER: ${{ github.server_url }}
+          TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git init -q data
+          cd data
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # Token nur für diesen Job, über einen Header statt in der Remote-URL.
+          AUTH="$(printf 'x-access-token:%s' "$TOKEN" | base64 -w0)"
+          echo "::add-mask::$AUTH"
+          git config http.extraheader "AUTHORIZATION: basic $AUTH"
+          git remote add origin "$SERVER/$REPO.git"
+          if git ls-remote --exit-code --heads origin data >/dev/null; then
+            git fetch -q --depth=1 origin data
+            git checkout -q -b data FETCH_HEAD
+          else
+            echo "Branch data existiert noch nicht – wird als eigenständiger Branch angelegt."
+            git checkout -q --orphan data
+          fi
+
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: shopping-list
+          path: incoming
+
+      - name: Artifact prüfen
+        run: |
+          set -euo pipefail
+          # Nur die zwei erwarteten, regulären Dateien mit begrenzter Größe zulassen.
+          found="$(find incoming -mindepth 1 -printf '%P %y\n' | sort)"
+          expected="$(printf 'shopping-list.json f\nshopping-list.md f\n')"
+          if [ "$found" != "$expected" ]; then
+            echo "::error::Unerwarteter Artifact-Inhalt"; exit 1
+          fi
+          for f in incoming/shopping-list.md incoming/shopping-list.json; do
+            size="$(stat -c %s "$f")"
+            if [ "$size" -gt 1048576 ]; then echo "::error::$f zu groß"; exit 1; fi
+          done
+          python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); assert d["schema_version"]==1' \
+            incoming/shopping-list.json
+
+      - name: Commit und Push (normaler Fast-Forward-Push, kein Force)
+        run: |
+          set -euo pipefail
+          day="$(date -u +%F)"
+          cd data
+          mkdir -p lists
+          cp ../incoming/shopping-list.md shopping-list.md
+          cp ../incoming/shopping-list.json shopping-list.json
+          cp ../incoming/shopping-list.md "lists/$day.md"
+          git add shopping-list.md shopping-list.json "lists/$day.md"
+          if git diff --cached --quiet; then
+            echo "Keine Änderungen."; exit 0
+          fi
+          git commit -q -m "Einkaufsliste $day"
+          git push origin HEAD:refs/heads/data
