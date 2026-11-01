@@ -70,17 +70,27 @@ Unterstützt wird jeweils nur der aktuelle Stand von `main`.
 
 - Der Key bleibt **ausschließlich im Browser**: sessionStorage („nur für diese Sitzung“, Standard)
   oder localStorage („merken“). Ein Button löscht ihn aus beiden Speichern.
-- Er wird nur im Header `Authorization: Bearer …` an `https://api.guildwars2.com` gesendet:
-  - nie in einer URL (`access_token` kommt im Code nicht vor)
-  - nie an andere Hosts: Pfad-Allowlist, `redirect: "error"`, CSP `connect-src`
-  - ohne Cookies und ohne Referrer
+- **Bewusste Ausnahme von „Key nie in URLs“:** Das GW2-API-Backend unterstützt keine
+  CORS-Preflight-Anfragen. Ein `Authorization`-Header löst im Browser immer einen Preflight aus
+  und scheitert daher. Die offizielle Doku sieht für Browser den Parameter `?access_token=` vor.
+  Das Dashboard nutzt ihn unter diesen Grenzen:
+  - nur für sechs feste Konto-Endpunkte (`/v2/tokeninfo`, `/v2/commerce/delivery`,
+    `/v2/commerce/transactions/{current,history}/{buys,sells}`), nie für andere Pfade
+  - nur an `https://api.guildwars2.com`: Pfad-Allowlist, `redirect: "error"`, CSP `connect-src`
+  - per `fetch` ohne Cookies, ohne Referrer und ohne Cache, als „einfache“ Anfrage ohne Preflight
+  - die URL erscheint nie in der Adresszeile oder im Browser-Verlauf und wird nicht geloggt
+  - sichtbar bleibt sie in den eigenen DevTools (Netzwerk-Tab) und in den Server-Logs von
+    ArenaNet, also beim Empfänger des Keys
 - Öffentliche Endpunkte (Preise, Items) werden ohne Key abgefragt.
 - Der Key wird nicht geloggt. Fehlermeldungen enthalten weder Key noch URL, und das Eingabefeld
   wird nach dem Lesen sofort geleert.
 - Persönliche Daten (Orders, Historie) liegen nur im Arbeitsspeicher des Tabs.
-- Tests prüfen das: `tests/js/account.test.mjs` (Header statt URL, keine Keys bei öffentlichen
-  Abfragen, Fehlertexte) und `tests/test_web_security.py` (Authorization nur in `gw2api.js`,
-  kein `access_token`, Speicherzugriff nur in `keystore.js`, kein `console.*`).
+- Tests prüfen das:
+  - `tests/js/account.test.mjs`: Key nur bei Konto-Endpunkten, nur safelisted Header, keine Keys
+    bei öffentlichen Abfragen, Fehlertexte ohne Key oder URL
+  - `tests/test_web_security.py`: `access_token` nur in `gw2api.js` und genau einmal, feste Liste
+    der Konto-Endpunkte, kein `Authorization`, Speicherzugriff nur in `keystore.js`, kein
+    `console.*`
 - **Einschränkung:** Der Browser-Speicher gilt pro Ursprung. Alle GitHub-Pages-Projekte unter
   `cookie285.github.io` teilen sich denselben Ursprung und damit auch sessionStorage und
   localStorage. Liegen dort weitere (fremde) Inhalte, besser „nur für diese Sitzung“ nutzen oder

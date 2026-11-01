@@ -85,8 +85,9 @@
         Erstelle unter
         <a href="https://account.arena.net/applications" target="_blank" rel="noopener noreferrer">account.arena.net/applications</a>
         einen eigenen Key <strong>nur mit den Berechtigungen „account“ und „tradingpost“</strong>.
-        Der Key bleibt in deinem Browser und wird ausschließlich an api.guildwars2.com gesendet,
-        nie in einer URL.
+        Der Key bleibt in deinem Browser und wird ausschließlich an die Konto-Endpunkte von
+        api.guildwars2.com gesendet (als Parameter <code>access_token</code>, wie von der API für
+        Browser vorgesehen). Er erscheint nie in der Adresszeile und wird nicht protokolliert.
       </p>
       <form id="key-form" class="key-form" autocomplete="off">
         <label for="api-key">API-Key</label>

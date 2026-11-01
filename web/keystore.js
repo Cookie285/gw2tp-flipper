@@ -3,7 +3,7 @@
 // * "session": sessionStorage, wird beim Schließen des Tabs gelöscht (Standard, empfohlen)
 // * "local":   localStorage, bleibt auf diesem Gerät, bis der Nutzer ihn löscht
 //
-// Der Key wird nirgends sonst abgelegt, nicht geloggt und nur per Authorization-Header an
+// Der Key wird nirgends sonst abgelegt, nicht geloggt und nur an die Konto-Endpunkte von
 // https://api.guildwars2.com gesendet (siehe gw2api.js).
 
 export const STORAGE_KEY = "gw2tp.apiKey";

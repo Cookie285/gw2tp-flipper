@@ -102,22 +102,44 @@ def _sources() -> dict[str, str]:
     return {p.name: p.read_text(encoding="utf-8") for p in JS}
 
 
-def test_key_never_in_url():
-    for name, src in _sources().items():
-        assert "access_token" not in src, name
+AUTH_PATHS = {
+    "/v2/tokeninfo",
+    "/v2/commerce/delivery",
+    "/v2/commerce/transactions/current/buys",
+    "/v2/commerce/transactions/current/sells",
+    "/v2/commerce/transactions/history/buys",
+    "/v2/commerce/transactions/history/sells",
+}
 
 
-def test_authorization_header_only_in_api_client():
-    header_use = re.compile(r"""\.Authorization\b|["']Authorization["']|\bAuthorization\s*:""")
+def test_access_token_only_in_api_client():
+    # Die GW2-API unterstützt keinen CORS-Preflight; im Browser geht der Key daher nur als
+    # access_token. Das darf ausschließlich der API-Client tun, und nur für AUTH_PATHS.
     for name, src in _sources().items():
-        code = re.sub(r"^\s*//.*$", "", src, flags=re.MULTILINE)  # Kommentare ignorieren
         if name != "gw2api.js":
-            assert not header_use.search(code), name
+            assert "access_token" not in src, name
     api = (WEB / "gw2api.js").read_text(encoding="utf-8")
-    assert "headers.Authorization = `Bearer ${key}`" in api
-    assert 'redirect: "error"' in api
-    assert 'credentials: "omit"' in api
-    assert 'referrerPolicy: "no-referrer"' in api
+    assert api.count('searchParams.set("access_token"') == 1
+    block = re.search(r"AUTH_PATHS = new Set\(\[(.*?)\]\)", api, re.DOTALL).group(1)
+    assert set(re.findall(r'"([^"]+)"', block)) == AUTH_PATHS
+    assert "if (!AUTH_PATHS.has(path))" in api
+
+
+def test_requests_avoid_preflight_and_leaks():
+    api = (WEB / "gw2api.js").read_text(encoding="utf-8")
+    code = re.sub(r"^\s*//.*$", "", api, flags=re.MULTILINE)
+    assert "Authorization" not in code  # würde einen Preflight auslösen
+    assert 'headers: { Accept: "application/json" }' in api
+    for snippet in [
+        'redirect: "error"',
+        'credentials: "omit"',
+        'referrerPolicy: "no-referrer"',
+        'cache: "no-store"',
+    ]:
+        assert snippet in api, snippet
+    for name, src in _sources().items():
+        c = re.sub(r"^\s*//.*$", "", src, flags=re.MULTILINE)
+        assert not re.search(r"\bAuthorization\b", c), name
 
 
 def test_network_access_only_via_known_modules():
