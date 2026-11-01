@@ -13,10 +13,9 @@ Unterstützt wird jeweils nur der aktuelle Stand von `main`.
 - Es liest ausschließlich **öffentliche Marktdaten** der offiziellen API `https://api.guildwars2.com`.
   Es kauft und verkauft nichts und automatisiert keine Spielaktionen.
 - Für die Marktdaten wird **kein API-Key** benötigt. Im Repository gibt es **keine GitHub Secrets**.
-- Ab Phase 4 kann das Dashboard optional einen persönlichen GW2-API-Key verwenden. Dieser Key
-  bleibt **ausschließlich im Browser** (sessionStorage oder auf Wunsch localStorage). Er wird nur an
-  `api.guildwars2.com` gesendet, nie in URLs, Logs oder an andere Hosts. Vergib dem Key nur die
-  Berechtigungen `account` und `tradingpost`.
+- Das Dashboard kann optional einen persönlichen GW2-API-Key verwenden (Phase 4). Vergib dem
+  Key nur die Berechtigungen `account` und `tradingpost`. Hat er weitere Rechte, warnt das
+  Dashboard.
 
 ## Maßnahmen
 
@@ -66,3 +65,23 @@ Unterstützt wird jeweils nur der aktuelle Stand von `main`.
   fremde Hosts sowie Inline-Code.
 - Pages-Deploy: Der Build-Job liest nur (`contents: read`). Nur der Deploy-Job erhält
   `pages: write` und `id-token: write`.
+
+## Persönlicher API-Key (Phase 4)
+
+- Der Key bleibt **ausschließlich im Browser**: sessionStorage („nur für diese Sitzung“, Standard)
+  oder localStorage („merken“). Ein Button löscht ihn aus beiden Speichern.
+- Er wird nur im Header `Authorization: Bearer …` an `https://api.guildwars2.com` gesendet:
+  - nie in einer URL (`access_token` kommt im Code nicht vor)
+  - nie an andere Hosts: Pfad-Allowlist, `redirect: "error"`, CSP `connect-src`
+  - ohne Cookies und ohne Referrer
+- Öffentliche Endpunkte (Preise, Items) werden ohne Key abgefragt.
+- Der Key wird nicht geloggt. Fehlermeldungen enthalten weder Key noch URL, und das Eingabefeld
+  wird nach dem Lesen sofort geleert.
+- Persönliche Daten (Orders, Historie) liegen nur im Arbeitsspeicher des Tabs.
+- Tests prüfen das: `tests/js/account.test.mjs` (Header statt URL, keine Keys bei öffentlichen
+  Abfragen, Fehlertexte) und `tests/test_web_security.py` (Authorization nur in `gw2api.js`,
+  kein `access_token`, Speicherzugriff nur in `keystore.js`, kein `console.*`).
+- **Einschränkung:** Der Browser-Speicher gilt pro Ursprung. Alle GitHub-Pages-Projekte unter
+  `cookie285.github.io` teilen sich denselben Ursprung und damit auch sessionStorage und
+  localStorage. Liegen dort weitere (fremde) Inhalte, besser „nur für diese Sitzung“ nutzen oder
+  eine eigene Domain einrichten. Darauf weist auch das Dashboard hin.

@@ -15,10 +15,16 @@
     <div class="wrap">
       <h1>Flip-Einkaufsliste</h1>
       <p class="sub">Guild Wars 2 · Handelsposten · <span id="generated">wird geladen …</span></p>
+      <nav class="tabs" role="tablist" aria-label="Bereiche">
+        <button id="tab-liste" type="button" role="tab" aria-controls="panel-liste" aria-selected="true">Einkaufsliste</button>
+        <button id="tab-orders" type="button" role="tab" aria-controls="panel-orders" aria-selected="false">Meine Orders</button>
+        <button id="tab-gewinn" type="button" role="tab" aria-controls="panel-gewinn" aria-selected="false">Gewinn</button>
+      </nav>
     </div>
   </header>
 
   <main class="wrap">
+   <section id="panel-liste" role="tabpanel" aria-labelledby="tab-liste">
     <p id="error" class="note error" role="alert" hidden></p>
 
     <div id="content" hidden>
@@ -70,6 +76,78 @@
         </ol>
       </section>
     </div>
+   </section>
+
+   <section id="key-panel" class="card" hidden>
+    <h2>Persönlicher GW2-API-Key</h2>
+    <div id="key-form-wrap">
+      <p>
+        Erstelle unter
+        <a href="https://account.arena.net/applications" target="_blank" rel="noopener noreferrer">account.arena.net/applications</a>
+        einen eigenen Key <strong>nur mit den Berechtigungen „account“ und „tradingpost“</strong>.
+        Der Key bleibt in deinem Browser und wird ausschließlich an api.guildwars2.com gesendet,
+        nie in einer URL.
+      </p>
+      <form id="key-form" class="key-form" autocomplete="off">
+        <label for="api-key">API-Key</label>
+        <input id="api-key" name="api-key" type="password" autocomplete="off" spellcheck="false" autocapitalize="off" maxlength="100" required>
+        <fieldset>
+          <legend>Speichern</legend>
+          <label><input type="radio" name="key-mode" value="session" checked> Nur für diese Sitzung (empfohlen)</label>
+          <label><input type="radio" name="key-mode" value="local"> Auf diesem Gerät merken</label>
+        </fieldset>
+        <button id="key-submit" type="submit">Verbinden</button>
+      </form>
+    </div>
+    <div id="key-active" hidden>
+      <p>
+        Verbunden: <strong id="key-name"></strong> <span id="key-mask" class="muted"></span>
+        · <span id="key-mode-text"></span>
+      </p>
+      <p id="key-extra" class="note warn" hidden></p>
+      <div class="key-actions">
+        <button id="key-refresh" type="button">Aktualisieren</button>
+        <button id="key-clear" type="button" class="danger">Key löschen</button>
+        <span id="account-status" class="muted" aria-live="polite"></span>
+      </div>
+    </div>
+    <p id="key-error" class="note error" role="alert" hidden></p>
+    <p class="muted small">
+      Hinweis: Alle GitHub-Pages-Seiten unter derselben Adresse (cookie285.github.io) teilen sich
+      den Browser-Speicher. „Merken“ nur nutzen, wenn dort keine fremden Inhalte liegen.
+      „Key löschen“ entfernt ihn aus beiden Speichern.
+    </p>
+   </section>
+
+   <section id="panel-orders" role="tabpanel" aria-labelledby="tab-orders" hidden>
+    <div id="account-content" hidden>
+      <h2>Fällige Verkäufe (Abholbox)</h2>
+      <p id="delivery-coins" class="summary" hidden></p>
+      <div class="table-scroll"><table id="due"></table></div>
+      <p id="due-empty" class="muted" hidden></p>
+
+      <h2>Offene Kaufgebote</h2>
+      <div class="table-scroll"><table id="buys"></table></div>
+      <p id="buys-empty" class="muted" hidden></p>
+
+      <h2>Offene Verkaufsangebote</h2>
+      <div class="table-scroll"><table id="sells"></table></div>
+      <p id="sells-empty" class="muted" hidden></p>
+    </div>
+   </section>
+
+   <section id="panel-gewinn" role="tabpanel" aria-labelledby="tab-gewinn" hidden>
+    <div id="profit-content" hidden>
+    <div id="profit-summary" class="stats"></div>
+    <h2>Pro Woche</h2>
+    <div class="table-scroll"><table id="weeks"></table></div>
+    <p id="weeks-empty" class="muted" hidden></p>
+    <h2>Pro Tag (letzte 14 Tage mit Verkäufen)</h2>
+    <div class="table-scroll"><table id="days"></table></div>
+    <p id="days-empty" class="muted" hidden></p>
+    <p id="profit-note" class="muted small"></p>
+    </div>
+   </section>
   </main>
 
   <footer class="wrap muted">

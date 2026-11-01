@@ -11,9 +11,9 @@ const MAX_CANDIDATES = 2000;
 const MAX_NAME_LENGTH = 200;
 const MAX_PRICE = 10_000_000_000;
 const MAX_QUANTITY = 1_000_000_000;
-const ICON_RE = /^https:\/\/render\.guildwars2\.com\/[A-Za-z0-9/._-]+$/;
-const CHAT_RE = /^\[&[A-Za-z0-9+/]{1,64}={0,2}\]$/;
-const WORD_RE = /^[A-Za-z]{1,64}$/;
+export const ICON_RE = /^https:\/\/render\.guildwars2\.com\/[A-Za-z0-9/._-]+$/;
+export const CHAT_RE = /^\[&[A-Za-z0-9+/]{1,64}={0,2}\]$/;
+export const WORD_RE = /^[A-Za-z]{1,64}$/;
 const TIME_RE = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/;
 // Steuerzeichen inkl. Bidi-Overrides (Unicode-Kategorie C*), wie clean_text in models.py.
 const CONTROL_RE = /\p{C}/gu;
@@ -26,7 +26,7 @@ const isNum = (v, min = 0, max = 1e9) =>
   typeof v === "number" && Number.isFinite(v) && v >= min && v <= max;
 const isNullableNum = (v, min, max) => v === null || isNum(v, min, max);
 
-function cleanName(v) {
+export function cleanName(v) {
   if (typeof v !== "string") return null;
   const s = v.replace(CONTROL_RE, " ").split(/\s+/).filter(Boolean).join(" ");
   return s && s.length <= MAX_NAME_LENGTH ? s : null;
