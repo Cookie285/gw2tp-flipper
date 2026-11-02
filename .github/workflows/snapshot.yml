@@ -2,7 +2,9 @@ name: Snapshot
 
 on:
   schedule:
-    - cron: "17 * * * *" # stündlich zur Minute 17 (nicht zur vollen Stunde)
+    # Zweimal pro Stunde (Minute 7 und 37, abseits der vollen Stunde): GitHub verzögert geplante
+    # Läufe bei Last und verwirft manche ganz. So kommen trotzdem etwa stündlich Daten an.
+    - cron: "7,37 * * * *"
   workflow_dispatch:
 
 permissions: {}

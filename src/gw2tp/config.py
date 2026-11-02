@@ -84,7 +84,7 @@ class Universe:
 @dataclass(frozen=True, slots=True)
 class History:
     window_days: int = 7
-    max_gap_hours: float = 3.0  # größere Lücken zählen nicht für die Volumenschätzung
+    max_gap_hours: float = 4.0  # größere Lücken zählen nicht für die Volumenschätzung
     min_history_hours: float = 24.0  # weniger → Item hat (noch) keine verwertbare Historie
     min_trend_days: int = 3
     min_samples_per_day: int = 4
