@@ -159,6 +159,20 @@ def test_order_flow_counts_only_decreases_within_gap():
     assert covered == 3 * 3600
 
 
+def test_default_gap_tolerates_single_missed_runs():
+    # Standard: Lücken bis 4 h zählen (ausgefallene geplante Läufe), größere nicht.
+    assert H.max_gap_hours == 4.0
+    p = lambda bq: make_price(1, demand=bq, supply=bq)  # noqa: E731
+    series = [
+        (T0, p(1000)),
+        (T0 + timedelta(hours=3.5), p(900)),  # zählt
+        (T0 + timedelta(hours=8), p(800)),  # 4,5 h Lücke → zählt nicht
+    ]
+    s = compute_stats(series, H)
+    assert s.coverage_hours == pytest.approx(3.5)
+    assert s.daily_bought == int(100 * 24 / 3.5)
+
+
 def test_daily_volume_extrapolated_from_coverage():
     # 25 stündliche Snapshots (24 h Abdeckung): Angebot −10/h, Nachfrage −5/h
     snaps = hourly_snapshots(

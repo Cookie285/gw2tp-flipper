@@ -65,7 +65,7 @@ universe:                   # welche Items stündlich gespeichert werden
 
 history:
   window_days: 7            # Fenster für Volumen, Volatilität und Trend
-  max_gap_hours: 3          # größere Lücken (verspätete Läufe) zählen nicht fürs Volumen
+  max_gap_hours: 4          # größere Lücken (ausgefallene Läufe) zählen nicht fürs Volumen
   min_history_hours: 24     # weniger Abdeckung → Item hat noch keine Historie
   min_trend_days: 3
   min_samples_per_day: 4

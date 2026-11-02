@@ -79,7 +79,7 @@ Ergebnisse den Tab „Gewinn“ mit den eigenen Flips vergleichen.
 
 | Workflow | Zeitplan | Ergebnis im Branch **`data`** |
 |---|---|---|
-| `snapshot.yml` | stündlich, Minute 17 | `snapshots/YYYY-MM-DD/HHMM.json.gz`: Preise und Mengen des Universums |
+| `snapshot.yml` | zweimal stündlich (Minute 7 und 37) | `snapshots/YYYY-MM-DD/HHMM.json.gz`: Preise und Mengen des Universums |
 | `analyze.yml` | täglich 04:23 UTC | `shopping-list.md`/`.json`, `lists/YYYY-MM-DD.md`, `universe.json`, `daily/` |
 
 Beide lassen sich auch manuell starten (Actions → Workflow → „Run workflow“).
@@ -139,6 +139,8 @@ Im Normalfall übernimmt Dependabot das.
 
 - Actions-Minuten: In öffentlichen Repos sind die stündlichen Läufe kostenlos. In privaten Repos
   verbrauchen sie ca. 1.500 Minuten pro Monat.
-- Geplante Workflows können sich verzögern. GitHub pausiert sie, wenn das Repo 60 Tage lang
-  keine Aktivität hat.
+- Geplante Workflows können sich verzögern, und GitHub verwirft bei hoher Last einzelne Läufe.
+  Deshalb startet `snapshot.yml` zweimal pro Stunde, und die Volumenschätzung überbrückt Lücken
+  bis 4 Stunden (`history.max_gap_hours`). Größere Lücken fließen nicht ein.
+- GitHub pausiert geplante Workflows, wenn das Repo 60 Tage lang keine Aktivität hat.
 - Datenquelle ist ausschließlich die offizielle API, kein Scraping.
