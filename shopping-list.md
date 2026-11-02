@@ -1,6 +1,6 @@
 # Einkaufsliste – 2026-11-02
 
-Erstellt: 2026-11-02 11:26 UTC · Budget: 200g 0s 0c
+Erstellt: 2026-11-02 12:42 UTC · Budget: 200g 0s 0c
 
 > **Noch keine ausreichende Historie:** Das Volumen wird aus der aktuellen Orderbuch-Tiefe geschätzt, nicht aus echten Umsätzen. Volatilität und Trend werden noch nicht geprüft. Preise vor dem Kauf im Spiel kontrollieren. Es wird nichts automatisch gekauft.
 
@@ -15,14 +15,14 @@ Erstellt: 2026-11-02 11:26 UTC · Budget: 200g 0s 0c
 | 7 | 🟢 gering | Lunar New Year Firework | `[&AgERDAEA]` | 11s 76c | 170 | 27s 74c | 11s 82c | 100.5 % | 19g 99s 20c | 20g 9s 40c |
 | 8 | 🟡 mittel | Cleric\'s Adventurer\'s Spectacles | `[&AgE1BAEA]` | 16s 14c | 123 | 40s 89c | 18s 62c | 115.4 % | 19g 85s 22c | 22g 90s 26c |
 | 9 | 🟡 mittel | Medium Dusty Wintersday Gift | `[&AgGRlQAA]` | 37s 36c | 53 | 96s 86c | 44s 97c | 120.4 % | 19g 80s 8c | 23g 83s 41c |
-| 10 | 🟡 mittel | Superior Rune of Speed | `[&AgGQYAAA]` | 22s 24c | 89 | 54s 96c | 24s 47c | 110.0 % | 19g 79s 36c | 21g 77s 83c |
+| 10 | 🟡 mittel | Bag of Shimmering Energy | `[&AgHkHgEA]` | 17s 89c | 73 | 57s 75c | 31s 19c | 174.3 % | 13g 5s 97c | 22g 76s 87c |
 
-**Summe:** Einsatz 188g 59s 38c · erwarteter Gewinn 253g 7s 13c (nach 15 % Gebühren)
+**Summe:** Einsatz 181g 85s 99c · erwarteter Gewinn 254g 6s 17c (nach 15 % Gebühren)
 
 <details><summary>Lauf-Statistik</summary>
 
 - Modus: Orderbuch (Rückfall)
-- Universum (stündlich gespeichert): 808 Items
+- Universum (stündlich gespeichert): 809 Items
 - Snapshots im Fenster: 6, Items mit Historie: 0
 - Preise geladen: 27999 (verworfen: 0)
 - Kandidaten im Pool (nach Markt- und Historienfiltern): 196
