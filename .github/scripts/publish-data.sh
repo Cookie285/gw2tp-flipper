@@ -17,6 +17,7 @@ incoming="${2:-}"
 branch="data"
 max_file_bytes=$((2 * 1024 * 1024))
 max_remove_lines=2000
+max_snapshots=30
 retry_sleep="${PUBLISH_RETRY_SLEEP:-5}"
 
 snapshot_re='^snapshots/[0-9]{4}-[0-9]{2}-[0-9]{2}/[0-9]{4}\.json\.gz$'
@@ -60,8 +61,13 @@ for f in "${files[@]}"; do
 done
 
 if [ "$mode" = snapshot ]; then
-  [ "${#files[@]}" -eq 1 ] || die "Genau ein Snapshot erwartet"
-  commit_msg="Snapshot ${files[0]#snapshots/}"
+  # Dauerlauf: bis zu max_snapshots Snapshots pro Lauf (z. B. 12 bei 30-Minuten-Abstand).
+  [ "${#files[@]}" -le "$max_snapshots" ] || die "Zu viele Snapshots im Artifact"
+  if [ "${#files[@]}" -eq 1 ]; then
+    commit_msg="Snapshot ${files[0]#snapshots/}"
+  else
+    commit_msg="Snapshots ${files[0]#snapshots/} bis ${files[-1]#snapshots/} (${#files[@]})"
+  fi
 else
   [ -f "$incoming/shopping-list.md" ] && [ -f "$incoming/shopping-list.json" ] \
     || die "Einkaufsliste fehlt"

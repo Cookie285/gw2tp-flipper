@@ -94,6 +94,17 @@ def test_snapshot_creates_branch_then_appends(tmp_path, remote):
     ]
 
 
+def test_snapshot_batch_from_long_run(tmp_path, remote):
+    names = [f"snapshots/2026-11-20/{h:02d}{m:02d}.json.gz" for h in (6, 7, 8) for m in (11, 41)]
+    incoming = make_incoming(tmp_path, "batch", {n: gz() for n in names})
+    r = publish("snapshot", incoming, remote)
+    assert r.returncode == 0, r.stderr
+    assert files_on_data(remote) == sorted(names)
+    assert log_on_data(remote) == [
+        "Snapshots 2026-11-20/0611.json.gz bis 2026-11-20/0841.json.gz (6)"
+    ]
+
+
 def test_snapshot_unchanged_makes_no_commit(tmp_path, remote):
     a = make_incoming(tmp_path, "a", {"snapshots/2026-11-20/0417.json.gz": gz()})
     publish("snapshot", a, remote)
@@ -111,10 +122,8 @@ def test_snapshot_unchanged_makes_no_commit(tmp_path, remote):
         {"snapshots/2026-11-20/0417.json": "{}"},  # falsche Endung
         {"snapshots/2026-11-20/0417.json.gz": b"kein gzip"},
         {"shopping-list.md": "x"},  # gehört nicht in den Snapshot-Modus
-        {
-            "snapshots/2026-11-20/0417.json.gz": gz(),
-            "snapshots/2026-11-20/0517.json.gz": gz(),
-        },  # nur genau eine Datei
+        {f"snapshots/2026-11-20/{h:02d}{m:02d}.json.gz": gz() for h in range(16) for m in (7, 37)},
+        # mehr als 30 Snapshots auf einmal
         {},
     ],
 )
