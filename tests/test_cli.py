@@ -197,3 +197,126 @@ def test_main_snapshot_without_data_branch(monkeypatch, make_client, tmp_path):
     )
     assert rc == 0
     assert len(list((tmp_path / "out/snapshots").rglob("*.json.gz"))) == 1
+
+
+# --- Dauerlauf der Snapshots -------------------------------------------------------------
+
+
+class _Clock:
+    """Simulierte Uhr: sleep() rückt monotone Zeit und Wanduhr gemeinsam vor."""
+
+    def __init__(self, start):
+        self.t = 0.0
+        self.start = start
+        self.sleeps = []
+
+    def monotonic(self):
+        return self.t
+
+    def sleep(self, s):
+        self.sleeps.append(s)
+        self.t += s
+
+    def now(self):
+        return self.start + timedelta(seconds=self.t)
+
+
+def test_snapshot_loop_takes_regular_snapshots(make_client, cfg, tmp_path):
+    clock = _Clock(datetime(2026, 11, 3, 6, 11, tzinfo=UTC))
+
+    def factory(cfg):
+        clock.t += 20  # jeder Abruf dauert 20 s
+        return make_client(FakeOpener(handler=api))
+
+    paths = cli.snapshot_loop(
+        factory,
+        cfg,
+        None,
+        tmp_path,
+        repeat_for_s=330 * 60,
+        every_s=30 * 60,
+        now_fn=clock.now,
+        monotonic=clock.monotonic,
+        sleep=clock.sleep,
+    )
+    # t = 0, 30, …, 330 Minuten → 12 Snapshots, alle mit eigenem Dateinamen
+    assert len(paths) == 12 == len(set(paths))
+    assert paths[0].name == "0611.json.gz" and paths[-1].name == "1141.json.gz"
+    # Wartezeit gleicht die Abrufdauer aus (kein Wegdriften)
+    assert all(s == pytest.approx(30 * 60 - 20) for s in clock.sleeps)
+
+
+def test_snapshot_loop_survives_failed_rounds(make_client, cfg, tmp_path):
+    clock = _Clock(datetime(2026, 11, 3, 6, 11, tzinfo=UTC))
+    calls = {"n": 0}
+
+    def flaky(req):
+        if "ids=" in req.full_url:
+            calls["n"] += 1
+            if calls["n"] in (2, 3):  # zwei Durchgänge fallen komplett aus
+                return (503, {})
+        return api(req)
+
+    data_dir = tmp_path / "data"
+    data_dir.mkdir()
+    (data_dir / "universe.json").write_text(history.encode_universe([1, 6], NOW))
+    paths = cli.snapshot_loop(
+        lambda cfg: make_client(FakeOpener(handler=flaky), max_retries=0),
+        cfg,
+        data_dir,
+        tmp_path / "out",
+        repeat_for_s=120 * 60,
+        every_s=30 * 60,
+        now_fn=clock.now,
+        monotonic=clock.monotonic,
+        sleep=clock.sleep,
+    )
+    assert len(paths) == 3  # 5 Durchgänge, 2 fehlgeschlagen
+
+
+def test_snapshot_loop_fails_if_nothing_succeeded(make_client, cfg, tmp_path):
+    clock = _Clock(datetime(2026, 11, 3, 6, 11, tzinfo=UTC))
+    with pytest.raises(RunError, match="Kein einziger"):
+        cli.snapshot_loop(
+            lambda cfg: make_client(FakeOpener(handler=lambda r: (503, {})), max_retries=0),
+            cfg,
+            None,
+            tmp_path,
+            repeat_for_s=60 * 60,
+            every_s=30 * 60,
+            now_fn=clock.now,
+            monotonic=clock.monotonic,
+            sleep=clock.sleep,
+        )
+
+
+def test_snapshot_loop_bootstraps_universe_once(make_client, cfg, tmp_path):
+    clock = _Clock(datetime(2026, 11, 3, 6, 11, tzinfo=UTC))
+    openers = []
+
+    def factory(cfg):
+        openers.append(FakeOpener(handler=api))
+        return make_client(openers[-1])
+
+    cli.snapshot_loop(
+        factory,
+        cfg,
+        None,
+        tmp_path,
+        repeat_for_s=60 * 60,
+        every_s=30 * 60,
+        now_fn=clock.now,
+        monotonic=clock.monotonic,
+        sleep=clock.sleep,
+    )
+    # 1. Durchgang: alle IDs + alle Preise; danach nur noch der Preis-Block des Universums
+    assert len(openers[0].requests) == 2
+    assert [len(o.requests) for o in openers[1:]] == [1, 1]
+
+
+@pytest.mark.parametrize(
+    "extra", [["--repeat-for-min", "400"], ["--every-min", "2"], ["--repeat-for-min", "-1"]]
+)
+def test_snapshot_cli_rejects_unsafe_durations(extra, tmp_path):
+    with pytest.raises(SystemExit):
+        cli.main(["snapshot", "--out", str(tmp_path), *extra])

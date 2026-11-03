@@ -2,9 +2,12 @@ name: Snapshot
 
 on:
   schedule:
-    # Zweimal pro Stunde (Minute 7 und 37, abseits der vollen Stunde): GitHub verzögert geplante
-    # Läufe bei Last und verwirft manche ganz. So kommen trotzdem etwa stündlich Daten an.
-    - cron: "7,37 * * * *"
+    # Dauerlauf: Jeder Lauf nimmt ca. 5,5 h lang alle 30 Minuten einen Snapshot auf. GitHub
+    # führt geplante Läufe für dieses Repo nur unzuverlässig aus (stundenlang verspätet oder gar
+    # nicht). Ausgelöst wird deshalb alle 2 Stunden; läuft noch ein Durchgang, wartet der
+    # nächste dank concurrency und schließt direkt an. So reicht schon ein Teil der Auslöser für
+    # eine lückenlose Reihe.
+    - cron: "11 */2 * * *"
   workflow_dispatch:
 
 permissions: {}
@@ -13,7 +16,7 @@ jobs:
   snapshot:
     name: snapshot
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 355 # GitHub-Maximum sind 360 Minuten
     permissions:
       contents: read # Code und universe.json lesen
     concurrency:
@@ -43,10 +46,12 @@ jobs:
         run: |
           python -m pip install --require-hashes --only-binary=:all: --no-deps -r requirements.txt
 
-      - name: Snapshot erzeugen
+      - name: Snapshots im Dauerlauf erzeugen (330 Minuten, alle 30 Minuten)
         env:
           PYTHONPATH: src
-        run: python -m gw2tp snapshot --config config.yaml --data-dir datadir --out out
+        run: >-
+          python -m gw2tp snapshot --config config.yaml --data-dir datadir --out out
+          --repeat-for-min 330 --every-min 30
 
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:

@@ -13,7 +13,9 @@ from __future__ import annotations
 import argparse
 import logging
 import sys
+import time
 from collections import Counter
+from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
@@ -26,6 +28,9 @@ from .models import Item, Price, ValidationError, parse_id_list, parse_many
 log = logging.getLogger("gw2tp")
 
 REMOVE_LIST = "remove.txt"
+# Dauerlauf: GitHub-Jobs dürfen höchstens 6 h laufen; Puffer für Setup und Upload.
+MAX_REPEAT_MIN = 345
+MIN_EVERY_MIN = 5  # Dateinamen haben Minutenauflösung
 ARCHIVE_FILE = "archive.json"  # wird vom Publish-Skript als lists/YYYY-MM-DD.json abgelegt
 EVALUATION_FILE = "evaluation.md"
 
@@ -180,11 +185,14 @@ def write_compaction(c: history.Compaction, out_dir: Path) -> None:
         (out_dir / REMOVE_LIST).write_text("\n".join(c.removed) + "\n", encoding="utf-8")
 
 
-def take_snapshot(
-    client: Gw2Client, cfg: config.Config, data_dir: Path | None, out_dir: Path, now: datetime
-) -> Path:
-    """Preise des Universums abrufen und als ``snapshots/YYYY-MM-DD/HHMM.json.gz`` ablegen."""
-    universe = history.load_universe(data_dir / history.UNIVERSE_FILE) if data_dir else None
+def _snapshot_once(
+    client: Gw2Client,
+    cfg: config.Config,
+    universe: list[int] | None,
+    out_dir: Path,
+    now: datetime,
+) -> tuple[Path, list[int]]:
+    """Ein Snapshot. Gibt den Pfad und das (ggf. neu bestimmte) Universum zurück."""
     if universe:
         prices, _ = parse_many(client.get_prices(universe), Price.parse)
         _check_failures(client, cfg)
@@ -201,7 +209,56 @@ def take_snapshot(
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_bytes(history.encode_snapshot(now, prices))
     log.info("Snapshot mit %d Items: %s", len(prices), target)
-    return target
+    return target, universe
+
+
+def take_snapshot(
+    client: Gw2Client, cfg: config.Config, data_dir: Path | None, out_dir: Path, now: datetime
+) -> Path:
+    """Preise des Universums abrufen und als ``snapshots/YYYY-MM-DD/HHMM.json.gz`` ablegen."""
+    universe = history.load_universe(data_dir / history.UNIVERSE_FILE) if data_dir else None
+    return _snapshot_once(client, cfg, universe, out_dir, now)[0]
+
+
+def snapshot_loop(
+    client_factory: Callable[[config.Config], Gw2Client],
+    cfg: config.Config,
+    data_dir: Path | None,
+    out_dir: Path,
+    repeat_for_s: float,
+    every_s: float,
+    now_fn: Callable[[], datetime] = lambda: datetime.now(UTC).replace(microsecond=0),
+    monotonic: Callable[[], float] = time.monotonic,
+    sleep: Callable[[float], None] = time.sleep,
+) -> list[Path]:
+    """Snapshots im Dauerlauf: sofort einer, danach alle ``every_s`` Sekunden, solange der
+    nächste Zeitpunkt höchstens ``repeat_for_s`` nach dem Start liegt.
+
+    GitHub führt geplante Workflows unzuverlässig aus. Ein einzelner Auslöser liefert so
+    trotzdem eine lückenlose Reihe. Fehlgeschlagene Durchläufe werden übersprungen."""
+    universe = history.load_universe(data_dir / history.UNIVERSE_FILE) if data_dir else None
+    start = monotonic()
+    paths: list[Path] = []
+    failures = 0
+    i = 0
+    while True:
+        try:
+            path, universe = _snapshot_once(client_factory(cfg), cfg, universe, out_dir, now_fn())
+            paths.append(path)
+        except (ApiError, RunError) as exc:
+            failures += 1
+            log.warning("Snapshot %d fehlgeschlagen: %s", i + 1, exc)
+        i += 1
+        offset = i * every_s
+        if offset > repeat_for_s:
+            break
+        wait = start + offset - monotonic()
+        if wait > 0:
+            sleep(wait)
+    log.info("%d Snapshots geschrieben, %d fehlgeschlagen", len(paths), failures)
+    if not paths:
+        raise RunError("Kein einziger Snapshot erfolgreich")
+    return paths
 
 
 def _client(cfg: config.Config) -> Gw2Client:
@@ -215,16 +272,33 @@ def _client(cfg: config.Config) -> Gw2Client:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="gw2tp", description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
+    parsers = {}
     for name, text in (
         ("analyze", "Einkaufsliste erzeugen, Universum aktualisieren, alte Snapshots verdichten"),
-        ("snapshot", "Stündlichen Preis-Snapshot des Universums erzeugen"),
+        ("snapshot", "Preis-Snapshot(s) des Universums erzeugen"),
     ):
         p = sub.add_parser(name, help=text)
         p.add_argument("--config", type=Path, default=Path("config.yaml"))
         p.add_argument("--data-dir", type=Path, default=None, help="Checkout des Branches data")
         p.add_argument("--out", type=Path, default=Path("out"))
         p.add_argument("-v", "--verbose", action="store_true")
+        parsers[name] = p
+    parsers["snapshot"].add_argument(
+        "--repeat-for-min",
+        type=int,
+        default=0,
+        help="Dauerlauf: so viele Minuten lang wiederholen (0 = ein einzelner Snapshot)",
+    )
+    parsers["snapshot"].add_argument(
+        "--every-min", type=int, default=30, help="Abstand im Dauerlauf in Minuten"
+    )
     args = parser.parse_args(argv)
+    if args.command == "snapshot" and not (
+        0 <= args.repeat_for_min <= MAX_REPEAT_MIN and MIN_EVERY_MIN <= args.every_min <= 120
+    ):
+        parser.error(
+            f"--repeat-for-min muss 0–{MAX_REPEAT_MIN} und --every-min {MIN_EVERY_MIN}–120 sein"
+        )
 
     logging.basicConfig(
         level=logging.DEBUG if args.verbose else logging.INFO,
@@ -238,7 +312,12 @@ def main(argv: list[str] | None = None) -> int:
         cfg = config.load(args.config)
         client = _client(cfg)
         if args.command == "snapshot":
-            take_snapshot(client, cfg, data_dir, args.out, now)
+            if args.repeat_for_min > 0:
+                snapshot_loop(
+                    _client, cfg, data_dir, args.out, args.repeat_for_min * 60, args.every_min * 60
+                )
+            else:
+                take_snapshot(client, cfg, data_dir, args.out, now)
             return 0
         # Snapshots für die Auswertung (bis retention_days zurück) einmal laden; für die
         # Kennzahlen nur das Fenster der letzten window_days verwenden.
