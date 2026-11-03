@@ -2,11 +2,10 @@ name: Snapshot
 
 on:
   schedule:
-    # Dauerlauf: Jeder Lauf nimmt ca. 5,5 h lang alle 30 Minuten einen Snapshot auf. GitHub
-    # führt geplante Läufe für dieses Repo nur unzuverlässig aus (stundenlang verspätet oder gar
-    # nicht). Ausgelöst wird deshalb alle 2 Stunden; läuft noch ein Durchgang, wartet der
-    # nächste dank concurrency und schließt direkt an. So reicht schon ein Teil der Auslöser für
-    # eine lückenlose Reihe.
+    # Dauerlauf: Jeder Lauf nimmt ca. 5,5 h lang alle 30 Minuten einen Snapshot auf und startet
+    # am Ende selbst den nächsten (Job `continue`). Der Zeitplan ist nur der Rückfall, falls die
+    # Kette einmal reißt: GitHub führt geplante Läufe für dieses Repo unzuverlässig aus. Läuft
+    # noch ein Durchgang, wartet der nächste dank concurrency und schließt direkt an.
     - cron: "11 */2 * * *"
   workflow_dispatch:
 
@@ -22,6 +21,8 @@ jobs:
     concurrency:
       group: snapshot
       cancel-in-progress: false
+    outputs:
+      count: ${{ steps.count.outputs.count }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -52,6 +53,10 @@ jobs:
         run: >-
           python -m gw2tp snapshot --config config.yaml --data-dir datadir --out out
           --repeat-for-min 330 --every-min 30
+
+      - name: Snapshots zählen (Schutz der Selbstverkettung)
+        id: count
+        run: echo "count=$(find out -name '*.json.gz' -type f | wc -l)" >> "$GITHUB_OUTPUT"
 
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
@@ -87,3 +92,41 @@ jobs:
         env:
           TOKEN: ${{ github.token }}
         run: bash main/.github/scripts/publish-data.sh snapshot incoming
+
+  analyze:
+    # Einkaufsliste direkt mit den neuen Snapshots aktualisieren. Die Rechte gelten nur für
+    # analyze.yml (und das darin aufgerufene pages.yml).
+    name: analyze
+    needs: publish
+    concurrency:
+      group: analyze-call # eigener Name, damit sie nicht mit den Gruppen in analyze.yml kollidiert
+      cancel-in-progress: false
+    permissions:
+      contents: write # Einkaufsliste in den Branch `data` (nur der Publish-Job in analyze.yml)
+      pages: write # Dashboard veröffentlichen (nur der Deploy-Job in pages.yml)
+      id-token: write # OIDC-Token für deploy-pages
+    uses: ./.github/workflows/analyze.yml # zizmor: ignore[self-repository]
+
+  continue:
+    # Selbstverkettung: Nach einem erfolgreichen Stapel sofort den nächsten Dauerlauf starten,
+    # unabhängig von GitHubs unzuverlässigem Zeitplan. Schlägt ein Lauf fehl, endet die Kette und
+    # der Zeitplan oben springt als Rückfall ein. Stoppen: Workflow in Actions deaktivieren.
+    # Dieser Job führt keinen Projektcode aus und checkt nichts aus.
+    name: continue
+    needs: [snapshot, publish]
+    # Nur nach einem echten Dauerlauf (≥ 6 Snapshots) weiterketten – verhindert eine Kette aus
+    # Sekunden-Läufen, falls der Lauf vorzeitig endet.
+    if: github.ref == 'refs/heads/main' && fromJSON(needs.snapshot.outputs.count) >= 6
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      actions: write # nur zum Starten des nächsten Snapshot-Laufs (workflow_dispatch)
+    concurrency:
+      group: snapshot-continue
+      cancel-in-progress: false
+    steps:
+      - name: Nächsten Dauerlauf starten
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: gh workflow run snapshot.yml --repo "$REPO" --ref main
