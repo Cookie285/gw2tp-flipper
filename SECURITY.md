@@ -30,6 +30,15 @@ Unterstützt wird jeweils nur der aktuelle Stand von `main`.
   Das Skript lässt nur erwartete Dateinamen zu (Allowlist), verbietet Symlinks, begrenzt die
   Größe, prüft gzip und JSON und löscht Snapshots nur, wenn deren Tageswerte vorliegen.
 - `shellcheck` und Tests prüfen das Publish-Skript in der CI.
+- Selbstverkettung der Snapshots: Nur der Job `continue` hat `actions: write`. Er checkt nichts
+  aus, führt nur `gh workflow run snapshot.yml` aus und läuft nur auf `main` nach einem echten
+  Dauerlauf (mindestens 6 Snapshots). Die Kette lässt sich jederzeit über „Disable workflow“
+  stoppen.
+- `tests/test_workflows.py` prüft alle Workflows:
+  - `permissions: {}` auf oberster Ebene, `permissions`, `concurrency` und `timeout-minutes` je Job
+  - Schreibrechte nur in einer festen Liste von Jobs
+  - SHA-gepinnte Actions, keine Ausdrücke in `run:`, `persist-credentials: false`
+  - kein `pull_request_target` oder `workflow_run`
 - `zizmor` prüft die Workflows in der CI.
 
 **Daten**

@@ -79,8 +79,8 @@ Ergebnisse den Tab „Gewinn“ mit den eigenen Flips vergleichen.
 
 | Workflow | Zeitplan | Ergebnis im Branch **`data`** |
 |---|---|---|
-| `snapshot.yml` | Dauerlauf: alle 30 Min. ein Snapshot, je Lauf ca. 5,5 h; Auslöser alle 2 h | `snapshots/YYYY-MM-DD/HHMM.json.gz`: Preise und Mengen des Universums |
-| `analyze.yml` | täglich 04:23 UTC | `shopping-list.md`/`.json`, `lists/YYYY-MM-DD.md`, `universe.json`, `daily/` |
+| `snapshot.yml` | Dauerlauf: alle 30 Min. ein Snapshot, je Lauf ca. 5,5 h; startet sich danach selbst neu (Rückfall: Zeitplan alle 2 h) und ruft `analyze.yml` auf | `snapshots/YYYY-MM-DD/HHMM.json.gz`: Preise und Mengen des Universums |
+| `analyze.yml` | nach jedem Snapshot-Stapel (ca. alle 5,5 h); Rückfall täglich 04:23 UTC | `shopping-list.md`/`.json`, `lists/YYYY-MM-DD.md`, `universe.json`, `daily/` |
 
 Beide lassen sich auch manuell starten (Actions → Workflow → „Run workflow“).
 
@@ -137,8 +137,8 @@ Im Normalfall übernimmt Dependabot das.
 
 ## Hinweise
 
-- Actions-Minuten: In öffentlichen Repos sind die stündlichen Läufe kostenlos. In privaten Repos
-  verbrauchen sie ca. 1.500 Minuten pro Monat.
+- Actions-Minuten: In öffentlichen Repos sind die Läufe kostenlos. In einem privaten Repo würde der
+  Dauerlauf rund um die Uhr laufen (ca. 44.000 Minuten pro Monat) und wäre dort nicht sinnvoll.
 - Geplante Workflows können sich stark verzögern, und GitHub verwirft bei hoher Last ganze Läufe.
   In diesem Repo kamen anfangs nur wenige stündliche Läufe an. Deshalb arbeitet `snapshot.yml`
   im **Dauerlauf**: Ein Lauf nimmt ca. 5,5 Stunden lang alle 30 Minuten einen Snapshot auf
@@ -147,5 +147,11 @@ Im Normalfall übernimmt Dependabot das.
   schließt direkt an. Die Volumenschätzung überbrückt Lücken bis 4 Stunden
   (`history.max_gap_hours`). Neue Snapshots erscheinen im Branch `data` deshalb gebündelt,
   etwa alle 5,5 Stunden.
+- **Selbstverkettung:** Nach einem erfolgreichen Lauf mit mindestens 6 Snapshots startet der Job
+  `continue` sofort den nächsten Lauf. Er führt keinen Projektcode aus und hat nur
+  `actions: write`. Reißt die Kette (Lauf fehlgeschlagen), springt der Zeitplan ein.
+  **Stoppen:** Actions → „Snapshot“ → „Disable workflow“.
+- Danach ruft `snapshot.yml` die Analyse auf. Einkaufsliste und Dashboard werden dadurch
+  etwa alle 5,5 Stunden aktuell, unabhängig vom Zeitplan.
 - GitHub pausiert geplante Workflows, wenn das Repo 60 Tage lang keine Aktivität hat.
 - Datenquelle ist ausschließlich die offizielle API, kein Scraping.
