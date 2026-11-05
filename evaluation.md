@@ -40,15 +40,15 @@ Ausgewertet: 1 Listen vom 02.11.2026 bis 02.11.2026.
 
 | Filter | Items | Anteil |
 |---|---:|---:|
-| kein Kaufgebot oder kein Verkaufsangebot | 3257 | 11.6 % |
-| kein Spread nach Über-/Unterbieten | 327 | 1.2 % |
-| Kaufpreis unter Minimum | 6127 | 21.9 % |
-| ROI unter Minimum | 2391 | 8.5 % |
-| ROI über Maximum (Ausreißer) | 6329 | 22.6 % |
-| zu wenig Nachfrage im Orderbuch | 5908 | 21.1 % |
-| zu wenig Angebot im Orderbuch | 1638 | 5.9 % |
-| keine ausreichende Historie | 1431 | 5.1 % |
-| Tagesvolumen unter Minimum | 401 | 1.4 % |
-| Volatilität zu hoch | 46 | 0.2 % |
-| Abwärtstrend | 21 | 0.1 % |
-| besteht alle budgetunabhängigen Filter | 123 | 0.4 % |
+| kein Kaufgebot oder kein Verkaufsangebot | 3258 | 11.6 % |
+| kein Spread nach Über-/Unterbieten | 315 | 1.1 % |
+| Kaufpreis unter Minimum | 6138 | 21.9 % |
+| ROI unter Minimum | 2360 | 8.4 % |
+| ROI über Maximum (Ausreißer) | 6333 | 22.6 % |
+| zu wenig Nachfrage im Orderbuch | 5895 | 21.1 % |
+| zu wenig Angebot im Orderbuch | 1645 | 5.9 % |
+| keine ausreichende Historie | 1440 | 5.1 % |
+| Tagesvolumen unter Minimum | 410 | 1.5 % |
+| Volatilität zu hoch | 51 | 0.2 % |
+| Abwärtstrend | 17 | 0.1 % |
+| besteht alle budgetunabhängigen Filter | 137 | 0.5 % |
