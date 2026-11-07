@@ -70,6 +70,17 @@ Nach ein bis zwei Wochen Daten liest du die Tabellen so:
 | Ampel „grün“ nicht besser als „gelb“ | `risk.green_*` verschärfen |
 | Trichter: kaum Items bestehen, Liste oft leer | Filter mit dem größten Anteil vorsichtig lockern |
 
+**Bisherige Anpassungen:**
+
+| Datum | Änderung | Grund (aus `evaluation.md`) |
+|---|---|---|
+| 07.11.2026 | `filters.max_price_cv` 0.10 → 0.07 | CV 7–10 %: 1 von 2 profitabel, Preis nie gehalten; CV < 7 %: 8 von 8 profitabel |
+| 07.11.2026 | `sizing.max_volume_share` 0.05 → 0.03 | beobachtetes Volumen im Median nur 59 % der Schätzung |
+
+Grundlage war die erste Liste im Historien-Modus (10 Positionen). Das ist noch eine dünne
+Datenbasis, die nächsten Wochen zeigen, ob die Werte passen. Der Rückblick wertet seitdem
+Historien- und Orderbuch-Listen getrennt aus.
+
 Änderungen an `config.yaml` laufen wie aller Code über einen Pull Request. Die Bilanz der
 folgenden Tage zeigt dann, ob die Anpassung geholfen hat. Die Werte sind eine Näherung: Ob ein
 Gebot wirklich gefüllt worden wäre, lässt sich aus Snapshots nicht sicher ablesen. Für echte

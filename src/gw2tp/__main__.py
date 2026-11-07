@@ -165,14 +165,18 @@ def review_lists(
 def review_summary(
     lists: list[evaluate.ArchivedList], outcomes: list[evaluate.Outcome]
 ) -> dict[str, Any] | None:
-    if not outcomes:
+    """Bilanz fürs Dashboard – nur Listen aus dem Historien-Modus, damit illiquide Ausreißer aus
+    dem Orderbuch-Modus die Zahlen nicht verzerren."""
+    history = evaluate.history_outcomes(outcomes)
+    if not history:
         return None
-    days = sorted(lst.day for lst in lists)
+    history_lists = [lst for lst in lists if lst.mode == report.MODE_HISTORY]
+    days = sorted(lst.day for lst in history_lists)
     return {
-        "lists": len(lists),
+        "lists": len(history_lists),
         "from": days[0].isoformat(),
         "to": days[-1].isoformat(),
-        **evaluate.summarize(outcomes).to_dict(),
+        **evaluate.summarize(history).to_dict(),
     }
 
 

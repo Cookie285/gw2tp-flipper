@@ -304,3 +304,58 @@ def test_funnel_labels_match_dashboard():
     block = _re.search(r"FUNNEL_LABELS = \{(.*?)\};", src, _re.DOTALL).group(1)
     js = dict(_re.findall(r'(\w+): "([^"]+)"', block))
     assert js == FUNNEL_STEPS
+
+
+# --- Trennung nach Modus (Phase-5-Anpassung) ----------------------------------------------
+
+
+def _mixed_outcomes():
+    series = _series(50, lambda h: [Price(1, Quote(1000, 10**5), Quote(1500, 10**5))])
+    hist = evaluate.ArchivedList(T0.date(), T0, "snapshots", [_pos(risk="yellow")])
+    book = evaluate.ArchivedList(
+        T0.date() - timedelta(days=1),
+        T0 - timedelta(days=1),
+        "orderbook_depth",
+        [_pos(risk="green", roi=1.5, daily_volume=None)],
+    )
+    outcomes = [
+        evaluate_position(
+            _pos(risk="yellow"), T0, T0.date(), series, DEFAULT_FEES, GAP, "snapshots"
+        ),
+        evaluate_position(
+            _pos(risk="green", roi=1.5, daily_volume=None),
+            T0,
+            T0.date(),
+            series,
+            DEFAULT_FEES,
+            GAP,
+            "orderbook_depth",
+        ),
+    ]
+    return [hist, book], outcomes
+
+
+def test_evaluate_lists_keeps_mode():
+    lst = evaluate.ArchivedList(T0.date(), T0, "snapshots", [_pos()])
+    [o] = evaluate_lists([lst], [], DEFAULT_FEES, GAP)
+    assert o.mode == "snapshots"
+
+
+def test_review_summary_counts_only_history_mode():
+    lists, outcomes = _mixed_outcomes()
+    s = review_summary(lists, outcomes)
+    assert s["lists"] == 1 and s["positions"] == 1
+    assert s["from"] == s["to"] == T0.date().isoformat()
+    # Nur Orderbuch-Listen → keine Bilanz statt verzerrter Zahlen
+    assert review_summary(lists[1:], outcomes[1:]) is None
+
+
+def test_markdown_separates_modes():
+    lists, outcomes = _mixed_outcomes()
+    md = to_markdown(outcomes, lists, {}, T0 + timedelta(days=3))
+    assert "| Historien-Modus | 1 |" in md
+    assert "| Orderbuch-Modus | 1 |" in md
+    assert "enthält nur Listen aus dem Historien-Modus" in md
+    # Aufschlüsselung nach Ampel nur mit der Historien-Position (gelb), nicht der grünen
+    ampel = md.split("## Nach Ampel")[1].split("##")[0]
+    assert "| gelb |" in ampel and "| grün |" not in ampel

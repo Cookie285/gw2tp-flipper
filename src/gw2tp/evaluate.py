@@ -33,6 +33,7 @@ from .analyze import FUNNEL_STEPS, Position
 from .fees import FeeSchedule, net_profit
 from .history import SECONDS_PER_DAY, Snapshot, order_flow
 from .models import ValidationError, clean_text, item_id
+from .report import MODE_HISTORY
 
 log = logging.getLogger(__name__)
 
@@ -207,6 +208,7 @@ class Outcome:
     price_held_48: bool | None
     outbid_24: bool | None
     volume_ratio: float | None
+    mode: str = ""  # Modus der Liste: "snapshots" (Historie) oder "orderbook_depth"
 
 
 def _nearest(series: Sequence[tuple[datetime, Any]], target: datetime) -> Any | None:
@@ -233,10 +235,11 @@ def evaluate_position(
     series: Sequence[tuple[datetime, Any]],
     fees: FeeSchedule,
     max_gap_s: float,
+    mode: str = "",
 ) -> Outcome:
     after = [(t, pr) for t, pr in series if t > generated_at]
     if not after:
-        return Outcome(p, list_day, False, None, None, None, None, None)
+        return Outcome(p, list_day, False, None, None, None, None, None, mode)
     at = {h: _nearest(after, generated_at + timedelta(hours=h)) for h in HORIZONS_H}
     roi_24 = _roi_at(p, at[24], fees)
     roi_48 = _roi_at(p, at[48], fees)
@@ -252,7 +255,7 @@ def evaluate_position(
         observed = min(bought, sold) * SECONDS_PER_DAY / covered
         ratio = observed / p.daily_volume
     has = any(v is not None for v in (roi_24, roi_48, outbid))
-    return Outcome(p, list_day, has, roi_24, roi_48, held, outbid, ratio)
+    return Outcome(p, list_day, has, roi_24, roi_48, held, outbid, ratio, mode)
 
 
 def evaluate_lists(
@@ -270,7 +273,13 @@ def evaluate_lists(
         for p in lst.positions:
             out.append(
                 evaluate_position(
-                    p, lst.generated_at, lst.day, series.get(p.item_id, []), fees, max_gap_s
+                    p,
+                    lst.generated_at,
+                    lst.day,
+                    series.get(p.item_id, []),
+                    fees,
+                    max_gap_s,
+                    lst.mode,
                 )
             )
     return out
@@ -302,6 +311,11 @@ class Summary:
             "outbid_24": r(self.outbid_24),
             "median_volume_ratio": r(self.median_volume_ratio),
         }
+
+
+def history_outcomes(outcomes: Sequence[Outcome]) -> list[Outcome]:
+    """Nur Positionen aus Listen im Historien-Modus (mit Volumen-, CV- und Trendschätzung)."""
+    return [o for o in outcomes if o.mode == MODE_HISTORY]
 
 
 def _share(values: list[bool]) -> float | None:
@@ -443,6 +457,8 @@ def to_markdown(
         ]
     else:
         days = sorted({lst.day for lst in lists})
+        history = history_outcomes(outcomes)
+        orderbook = [o for o in outcomes if o.mode != MODE_HISTORY]
         lines += [
             f"Ausgewertet: {len(lists)} Listen vom {days[0]:%d.%m.%Y} bis {days[-1]:%d.%m.%Y}.",
             "",
@@ -450,9 +466,20 @@ def to_markdown(
             "",
             HEADER,
             _row("alle", summarize(outcomes)),
-            "",
         ]
-        for key, rows in grouped(outcomes).items():
+        if history:
+            lines.append(_row("Historien-Modus", summarize(history)))
+        if orderbook:
+            lines.append(_row("Orderbuch-Modus", summarize(orderbook)))
+        lines.append("")
+        if history and orderbook:
+            lines += [
+                "Die Aufschlüsselung unten enthält nur Listen aus dem Historien-Modus. Listen aus "
+                "dem Orderbuch-Modus (ohne Volumenschätzung) enthalten oft illiquide Ausreißer, "
+                "deren Gebote kaum gefüllt würden, und verzerren sonst die Statistik.",
+                "",
+            ]
+        for key, rows in grouped(history or outcomes).items():
             title = GROUPS[key][0]
             lines += [f"## Nach {title}", "", HEADER.replace("| |", f"| {title} |", 1)]
             lines += [_row(label, s) for label, s in rows]
