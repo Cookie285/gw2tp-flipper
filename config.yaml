@@ -19,12 +19,16 @@ filters:
   # Aus der Historie (Phase 2):
   min_volume_multiple: 10   # geschätztes Tagesvolumen ≥ 10 × Stückzahl
   min_daily_volume: 50
-  max_price_cv: 0.10        # Variationskoeffizient von Kauf- und Verkaufspreis über 7 Tage
+  # Phase 5 (07.11.): 0.10 → 0.07. Im Rückblick waren Items mit CV 7–10 % die einzigen mit
+  # schwachem Ergebnis (1 von 2 profitabel, Preis nie gehalten). Datenbasis noch dünn.
+  max_price_cv: 0.07        # Variationskoeffizient von Kauf- und Verkaufspreis über 7 Tage
   max_negative_trend: 0.02  # Tagesmedian darf höchstens 2 %/Tag fallen
 
 sizing:
   max_budget_share: 0.10    # max. 10 % des Budgets pro Item
-  max_volume_share: 0.05    # max. 5 % des geschätzten Tagesvolumens
+  # Phase 5 (07.11.): 0.05 → 0.04. Beobachtetes Volumen lag im Median bei 59 % der Schätzung;
+  # 0.03 entspräche genau 5 % des echten Umsatzes, 0.04 ist der bewusst gewählte Mittelweg.
+  max_volume_share: 0.04    # max. 4 % des geschätzten Tagesvolumens
   max_depth_share: 0.05     # ohne Historie: max. 5 % der Orderbuch-Tiefe
   max_units: 250
   max_positions: 10
