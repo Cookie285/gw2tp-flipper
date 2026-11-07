@@ -75,7 +75,7 @@ Nach ein bis zwei Wochen Daten liest du die Tabellen so:
 | Datum | Änderung | Grund (aus `evaluation.md`) |
 |---|---|---|
 | 07.11.2026 | `filters.max_price_cv` 0.10 → 0.07 | CV 7–10 %: 1 von 2 profitabel, Preis nie gehalten; CV < 7 %: 8 von 8 profitabel |
-| 07.11.2026 | `sizing.max_volume_share` 0.05 → 0.03 | beobachtetes Volumen im Median nur 59 % der Schätzung |
+| 07.11.2026 | `sizing.max_volume_share` 0.05 → 0.04 | beobachtetes Volumen im Median nur 59 % der Schätzung; 0.03 entspräche genau 5 % des echten Umsatzes, 0.04 ist ein bewusster Mittelweg für mehr Kapitaleinsatz |
 
 Grundlage war die erste Liste im Historien-Modus (10 Positionen). Das ist noch eine dünne
 Datenbasis, die nächsten Wochen zeigen, ob die Werte passen. Der Rückblick wertet seitdem

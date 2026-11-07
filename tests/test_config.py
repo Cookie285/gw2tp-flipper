@@ -62,5 +62,5 @@ def test_phase5_tuning_in_repo_config():
     # Erste Anpassung anhand des Rückblicks vom 07.11. (siehe README „Feintuning“).
     cfg = config.load(ROOT / "config.yaml")
     assert cfg.filters.max_price_cv == 0.07
-    assert cfg.sizing.max_volume_share == 0.03
+    assert cfg.sizing.max_volume_share == 0.04
     assert cfg.filters.max_price_cv <= cfg.risk.red_min_cv
