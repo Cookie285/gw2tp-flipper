@@ -1,31 +1,31 @@
-# Einkaufsliste – 2026-11-07
+# Einkaufsliste – 2026-11-08
 
-Erstellt: 2026-11-07 19:15 UTC · Budget: 200g 0s 0c
+Erstellt: 2026-11-08 00:45 UTC · Budget: 200g 0s 0c
 
-> Volumen, Volatilität und Trend stammen aus den stündlichen Snapshots der letzten 7 Tage (222 Snapshots, 900 Items mit Historie). Das Volumen ist eine Schätzung aus Mengenänderungen. Preise vor dem Kauf im Spiel kontrollieren. Es wird nichts automatisch gekauft.
+> Volumen, Volatilität und Trend stammen aus den stündlichen Snapshots der letzten 7 Tage (233 Snapshots, 900 Items mit Historie). Das Volumen ist eine Schätzung aus Mengenänderungen. Preise vor dem Kauf im Spiel kontrollieren. Es wird nichts automatisch gekauft.
 
 | # | Risiko | Item | Chatcode | Kaufgebot | Stück | Verkaufspreis | Netto/Stück | ROI | Einsatz | Erw. Gewinn | Vol./Tag | Trend |
 |---:|:---:|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1 | 🔴 erhöht | Mystic Aspect | `[&AgERXAEA]` | 1g 35s 28c | 14 | 1g 77s 66c | 15s 73c | 11.6 % | 18g 93s 92c | 2g 20s 22c | 331 | ↗ +1.2 %/Tag |
-| 2 | 🟡 mittel | Jorbreaker | `[&AgE4qQAA]` | 4g 31s 78c | 4 | 5g 69s 97c | 52s 69c | 12.2 % | 17g 27s 12c | 2g 10s 76c | 89 | ↗ +1.3 %/Tag |
-| 3 | 🟡 mittel | Superior Rune of Snowfall | `[&AgFVCwEA]` | 1g 89s 60c | 4 | 2g 79s 97c | 48s 37c | 25.5 % | 7g 58s 40c | 1g 93s 48c | 84 | → +0.1 %/Tag |
-| 4 | 🔴 erhöht | Mist\-Hardened Lockbox | `[&AgHLhQEA]` | 4s 88c | 193 | 6s 36c | 52c | 10.7 % | 9g 41s 84c | 1g 0s 36c | 3877 | → -0.1 %/Tag |
-| 5 | 🔴 erhöht | Mystic Curio | `[&AgEyNgEA]` | 25s 73c | 33 | 36s 99c | 5s 71c | 22.2 % | 8g 49s 9c | 1g 88s 43c | 663 | ↘ -0.8 %/Tag |
-| 6 | 🔴 erhöht | Writ of Masterful Strength | `[&AgHnHQEA]` | 1g 3s 97c | 10 | 1g 45s 61c | 19s 80c | 19.0 % | 10g 39s 70c | 1g 98s 0c | 218 | ↘ -1.3 %/Tag |
-| 7 | 🔴 erhöht | Karka Shell | `[&AgEJlAAA]` | 8s 8c | 108 | 10s 87c | 1s 16c | 14.4 % | 8g 72s 64c | 1g 25s 28c | 2173 | ↘ -0.4 %/Tag |
-| 8 | 🟡 mittel | Mystic Mote | `[&AgEtXAEA]` | 1g 10s 6c | 9 | 1g 46s 81c | 14s 73c | 13.4 % | 9g 90s 54c | 1g 32s 57c | 193 | ↗ +1.3 %/Tag |
-| 9 | 🟡 mittel | Jolly Wintersday Gift | `[&AgHdgwEA]` | 36s 56c | 14 | 54s 59c | 9s 84c | 26.9 % | 5g 11s 84c | 1g 37s 76c | 296 | ↘ -0.3 %/Tag |
-| 10 | 🔴 erhöht | High\-Quality Plastic Fangs | `[&AgGlvgAA]` | 56s 58c | 10 | 79s 50c | 10s 99c | 19.4 % | 5g 65s 80c | 1g 9s 90c | 218 | ↗ +0.3 %/Tag |
+| 1 | 🔴 erhöht | \+9 Agony Infusion | `[&AgEYwQAA]` | 3g 58s 2c | 5 | 4g 79s 99c | 49s 97c | 14.0 % | 17g 90s 10c | 2g 49s 85c | 249 | ↘ -1.0 %/Tag |
+| 2 | 🔴 erhöht | Mystic Aspect | `[&AgERXAEA]` | 1g 35s 32c | 12 | 1g 76s 96c | 15s 9c | 11.2 % | 16g 23s 84c | 1g 81s 8c | 323 | ↗ +1.2 %/Tag |
+| 3 | 🟡 mittel | Shard of Glory | `[&AgGkFAEA]` | 3s 62c | 250 | 4s 88c | 53c | 14.6 % | 9g 5s 0c | 1g 32s 50c | 17178 | ↗ +3.0 %/Tag |
+| 4 | 🟡 mittel | Superior Rune of Snowfall | `[&AgFVCwEA]` | 1g 89s 68c | 3 | 2g 86s 98c | 54s 25c | 28.6 % | 5g 69s 4c | 1g 62s 75c | 80 | → +0.1 %/Tag |
+| 5 | 🟡 mittel | Jorbreaker | `[&AgE4qQAA]` | 4g 31s 78c | 3 | 5g 69s 93c | 52s 66c | 12.2 % | 12g 95s 34c | 1g 57s 98c | 84 | ↗ +1.3 %/Tag |
+| 6 | 🟡 mittel | Jolly Wintersday Gift | `[&AgHdgwEA]` | 36s 60c | 14 | 54s 58c | 9s 79c | 26.7 % | 5g 12s 40c | 1g 37s 6c | 354 | ↘ -0.3 %/Tag |
+| 7 | 🟡 mittel | Bowl of Sweet and Spicy Butternut Squash Soup | `[&AgFhogAA]` | 29s 66c | 29 | 39s 18c | 3s 64c | 12.3 % | 8g 60s 14c | 1g 5s 56c | 726 | ↘ -0.3 %/Tag |
+| 8 | 🟡 mittel | Karka Shell | `[&AgEJlAAA]` | 8s 10c | 87 | 10s 93c | 1s 19c | 14.7 % | 7g 4s 70c | 1g 3s 53c | 2191 | ↘ -0.4 %/Tag |
+| 9 | 🟡 mittel | \+7 Agony Infusion | `[&AgEWwQAA]` | 1g 5s 77c | 6 | 1g 40s 87c | 13s 97c | 13.2 % | 6g 34s 62c | 83s 82c | 166 | – |
+| 10 | 🔴 erhöht | Totem | `[&AgHqXgAA]` | 2s 43c | 231 | 3s 45c | 50c | 20.6 % | 5g 61s 33c | 1g 15s 50c | 5797 | ↘ -1.4 %/Tag |
 
-**Summe:** Einsatz 101g 50s 89c · erwarteter Gewinn 16g 16s 76c (nach 15 % Gebühren)
+**Summe:** Einsatz 94g 56s 51c · erwarteter Gewinn 14g 29s 63c (nach 15 % Gebühren)
 
 <details><summary>Lauf-Statistik</summary>
 
 - Modus: Historie
-- Universum (stündlich gespeichert): 811 Items
-- Snapshots im Fenster: 222, Items mit Historie: 900
+- Universum (stündlich gespeichert): 810 Items
+- Snapshots im Fenster: 233, Items mit Historie: 900
 - Preise geladen: 27999 (verworfen: 0)
-- Kandidaten im Pool (nach Markt- und Historienfiltern): 140
+- Kandidaten im Pool (nach Markt- und Historienfiltern): 108
 - Item-Datensätze verworfen: 0
 - Fehlgeschlagene API-Blöcke: 0
 
