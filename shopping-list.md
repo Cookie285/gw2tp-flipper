@@ -1,31 +1,31 @@
 # Einkaufsliste – 2026-11-10
 
-Erstellt: 2026-11-10 02:18 UTC · Budget: 200g 0s 0c
+Erstellt: 2026-11-10 07:48 UTC · Budget: 200g 0s 0c
 
-> Volumen, Volatilität und Trend stammen aus den stündlichen Snapshots der letzten 7 Tage (328 Snapshots, 924 Items mit Historie). Das Volumen ist eine Schätzung aus Mengenänderungen. Preise vor dem Kauf im Spiel kontrollieren. Es wird nichts automatisch gekauft.
+> Volumen, Volatilität und Trend stammen aus den stündlichen Snapshots der letzten 7 Tage (336 Snapshots, 910 Items mit Historie). Das Volumen ist eine Schätzung aus Mengenänderungen. Preise vor dem Kauf im Spiel kontrollieren. Es wird nichts automatisch gekauft.
 
 | # | Risiko | Item | Chatcode | Kaufgebot | Stück | Verkaufspreis | Netto/Stück | ROI | Einsatz | Erw. Gewinn | Vol./Tag | Trend |
 |---:|:---:|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1 | 🟡 mittel | Four Winds Prize Bag | `[&AgEagQEA]` | 48s 40c | 29 | 69s 88c | 11s 0c | 22.7 % | 14g 3s 60c | 3g 19s 0c | 743 | ↗ +0.2 %/Tag |
-| 2 | 🟡 mittel | Mystic Aspect | `[&AgERXAEA]` | 1g 35s 63c | 12 | 1g 80s 87c | 18s 11c | 13.4 % | 16g 27s 56c | 2g 17s 32c | 316 | ↗ +0.5 %/Tag |
-| 3 | 🟡 mittel | Superior Rune of Snowfall | `[&AgFVCwEA]` | 1g 90s 24c | 4 | 2g 79s 95c | 47s 71c | 25.1 % | 7g 60s 96c | 1g 90s 84c | 105 | ↘ -0.2 %/Tag |
-| 4 | 🟡 mittel | Mystic Mote | `[&AgEtXAEA]` | 1g 11s 26c | 10 | 1g 50s 67c | 16s 81c | 15.1 % | 11g 12s 60c | 1g 68s 10c | 258 | ↗ +1.1 %/Tag |
-| 5 | 🟡 mittel | Jorbreaker | `[&AgE4qQAA]` | 4g 32s 31c | 3 | 5g 70s 34c | 52s 48c | 12.1 % | 12g 96s 93c | 1g 57s 44c | 98 | → +0.0 %/Tag |
-| 6 | 🟡 mittel | Piece of Mother\-of\-Pearl | `[&AgGdFQEA]` | 22s 39c | 19 | 35s 33c | 7s 64c | 34.1 % | 4g 25s 41c | 1g 45s 16c | 475 | ↗ +0.2 %/Tag |
-| 7 | 🔴 erhöht | \+7 Agony Infusion | `[&AgEWwQAA]` | 1g 5s 77c | 6 | 1g 37s 50c | 11s 10c | 10.5 % | 6g 34s 62c | 66s 60c | 166 | – |
-| 8 | 🟡 mittel | Superior Sigil of Mischief | `[&AgFUCwEA]` | 2g 90s 66c | 2 | 3g 98s 29c | 47s 89c | 16.5 % | 5g 81s 32c | 95s 78c | 56 | ↗ +0.9 %/Tag |
-| 9 | 🟡 mittel | \+8 Agony Infusion | `[&AgEXwQAA]` | 2g 15s 77c | 2 | 2g 85s 18c | 26s 63c | 12.3 % | 4g 31s 54c | 53s 26c | 64 | → +0.0 %/Tag |
-| 10 | 🟡 mittel | Plate of Spicy Moa Wings | `[&AgENZwEA]` | 53s 90c | 3 | 91s 46c | 23s 84c | 44.2 % | 1g 61s 70c | 71s 52c | 85 | ↘ -0.8 %/Tag |
+| 1 | 🟡 mittel | Four Winds Prize Bag | `[&AgEagQEA]` | 48s 38c | 28 | 69s 87c | 11s 1c | 22.8 % | 13g 54s 64c | 3g 8s 28c | 724 | → +0.0 %/Tag |
+| 2 | 🟡 mittel | Mystic Aspect | `[&AgERXAEA]` | 1g 35s 65c | 13 | 1g 80s 88c | 18s 10c | 13.3 % | 17g 63s 45c | 2g 35s 30c | 326 | ↗ +0.5 %/Tag |
+| 3 | 🟡 mittel | Superior Rune of Snowfall | `[&AgFVCwEA]` | 1g 90s 25c | 4 | 2g 79s 94c | 47s 70c | 25.1 % | 7g 61s 0c | 1g 90s 80c | 103 | ↘ -0.2 %/Tag |
+| 4 | 🟡 mittel | Mystic Mote | `[&AgEtXAEA]` | 1g 11s 27c | 11 | 1g 50s 67c | 16s 80c | 15.1 % | 12g 23s 97c | 1g 84s 80c | 296 | ↗ +1.1 %/Tag |
+| 5 | 🟡 mittel | Jorbreaker | `[&AgE4qQAA]` | 4g 32s 32c | 3 | 5g 70s 32c | 52s 45c | 12.1 % | 12g 96s 96c | 1g 57s 35c | 96 | → +0.0 %/Tag |
+| 6 | 🟡 mittel | Piece of Mother\-of\-Pearl | `[&AgGdFQEA]` | 22s 41c | 18 | 35s 29c | 7s 59c | 33.9 % | 4g 3s 38c | 1g 36s 62c | 463 | ↗ +0.2 %/Tag |
+| 7 | 🟡 mittel | Bowl of Sweet and Spicy Butternut Squash Soup | `[&AgFhogAA]` | 29s 60c | 25 | 40s 21c | 4s 58c | 15.5 % | 7g 40s 0c | 1g 14s 50c | 633 | ↗ +0.4 %/Tag |
+| 8 | 🟡 mittel | Writ of Masterful Strength | `[&AgHnHQEA]` | 1g 4s 27c | 9 | 1g 38s 98c | 13s 86c | 13.3 % | 9g 38s 43c | 1g 24s 74c | 225 | ↘ -0.5 %/Tag |
+| 9 | 🔴 erhöht | \+7 Agony Infusion | `[&AgEWwQAA]` | 1g 5s 77c | 6 | 1g 37s 50c | 11s 10c | 10.5 % | 6g 34s 62c | 66s 60c | 166 | – |
+| 10 | 🟡 mittel | Superior Sigil of Mischief | `[&AgFUCwEA]` | 2g 90s 65c | 2 | 3g 98s 29c | 47s 90c | 16.5 % | 5g 81s 30c | 95s 80c | 54 | ↗ +0.9 %/Tag |
 
-**Summe:** Einsatz 84g 36s 24c · erwarteter Gewinn 14g 85s 2c (nach 15 % Gebühren)
+**Summe:** Einsatz 96g 97s 75c · erwarteter Gewinn 16g 14s 79c (nach 15 % Gebühren)
 
 <details><summary>Lauf-Statistik</summary>
 
 - Modus: Historie
-- Universum (stündlich gespeichert): 809 Items
-- Snapshots im Fenster: 328, Items mit Historie: 924
+- Universum (stündlich gespeichert): 811 Items
+- Snapshots im Fenster: 336, Items mit Historie: 910
 - Preise geladen: 27999 (verworfen: 0)
-- Kandidaten im Pool (nach Markt- und Historienfiltern): 106
+- Kandidaten im Pool (nach Markt- und Historienfiltern): 101
 - Item-Datensätze verworfen: 0
 - Fehlgeschlagene API-Blöcke: 0
 
