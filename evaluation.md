@@ -2,14 +2,14 @@
 
 Rückblick auf frühere Einkaufslisten anhand der stündlichen Snapshots. Grundlage für das Feintuning der Schwellwerte in `config.yaml` (Phase 5).
 
-Ausgewertet: 8 Listen vom 02.11.2026 bis 10.11.2026.
+Ausgewertet: 9 Listen vom 02.11.2026 bis 11.11.2026.
 
 ## Gesamt
 
 | | Positionen | mit Daten | profitabel nach 48 h | Median-ROI 48 h | Preis gehalten | Gebot überholt (24 h) | Volumen beobachtet/geschätzt |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| alle | 80 | 72 | 93 % | +16.1 % | 75 % | 92 % | 0.81 |
-| Historien-Modus | 70 | 67 | 92 % | +15.3 % | 75 % | 99 % | 0.81 |
+| alle | 90 | 82 | 94 % | +16.2 % | 78 % | 93 % | 0.73 |
+| Historien-Modus | 80 | 77 | 93 % | +16.1 % | 78 % | 99 % | 0.73 |
 | Orderbuch-Modus | 10 | 5 | 100 % | +112.6 % | 80 % | 0 % | – |
 
 Die Aufschlüsselung unten enthält nur Listen aus dem Historien-Modus. Listen aus dem Orderbuch-Modus (ohne Volumenschätzung) enthalten oft illiquide Ausreißer, deren Gebote kaum gefüllt würden, und verzerren sonst die Statistik.
@@ -18,33 +18,33 @@ Die Aufschlüsselung unten enthält nur Listen aus dem Historien-Modus. Listen a
 
 | Ampel | Positionen | mit Daten | profitabel nach 48 h | Median-ROI 48 h | Preis gehalten | Gebot überholt (24 h) | Volumen beobachtet/geschätzt |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| gelb | 45 | 45 | 95 % | +17.9 % | 80 % | 100 % | 0.81 |
-| rot | 25 | 22 | 85 % | +11.9 % | 65 % | 95 % | 0.89 |
+| gelb | 54 | 54 | 96 % | +17.9 % | 83 % | 100 % | 0.72 |
+| rot | 26 | 23 | 86 % | +11.9 % | 67 % | 96 % | 0.86 |
 
 ## Nach geplanter ROI
 
 | geplanter ROI | Positionen | mit Daten | profitabel nach 48 h | Median-ROI 48 h | Preis gehalten | Gebot überholt (24 h) | Volumen beobachtet/geschätzt |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| 10 % – 20 % | 44 | 41 | 92 % | +13.6 % | 82 % | 98 % | 0.93 |
-| 20 % – 35 % | 23 | 23 | 91 % | +24.9 % | 64 % | 100 % | 0.52 |
+| 10 % – 20 % | 50 | 47 | 93 % | +13.7 % | 84 % | 98 % | 0.90 |
+| 20 % – 35 % | 27 | 27 | 92 % | +24.8 % | 69 % | 100 % | 0.55 |
 | 35 % – 60 % | 3 | 3 | 100 % | +31.6 % | 67 % | 100 % | 0.81 |
 
 ## Nach Volatilität (CV)
 
 | Volatilität (CV) | Positionen | mit Daten | profitabel nach 48 h | Median-ROI 48 h | Preis gehalten | Gebot überholt (24 h) | Volumen beobachtet/geschätzt |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| 0 % – 2 % | 5 | 2 | 100 % | +25.1 % | 100 % | 100 % | 0.32 |
-| 2 % – 4 % | 15 | 15 | 100 % | +13.8 % | 93 % | 100 % | 0.72 |
-| 4 % – 7 % | 38 | 38 | 95 % | +16.1 % | 79 % | 100 % | 0.94 |
+| 0 % – 2 % | 6 | 3 | 100 % | +25.0 % | 100 % | 100 % | 0.52 |
+| 2 % – 4 % | 17 | 17 | 100 % | +13.8 % | 94 % | 100 % | 0.72 |
+| 4 % – 7 % | 45 | 45 | 95 % | +16.2 % | 82 % | 100 % | 0.81 |
 | 7 % – 10 % | 12 | 12 | 70 % | +8.1 % | 30 % | 92 % | 0.68 |
 
 ## Nach Tagesvolumen
 
 | Tagesvolumen | Positionen | mit Daten | profitabel nach 48 h | Median-ROI 48 h | Preis gehalten | Gebot überholt (24 h) | Volumen beobachtet/geschätzt |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| 0 – 200 | 26 | 23 | 91 % | +14.6 % | 87 % | 100 % | 0.72 |
-| 200 – 1.000 | 38 | 38 | 94 % | +16.1 % | 66 % | 97 % | 0.84 |
-| 1.000 – 5.000 | 5 | 5 | 80 % | +9.7 % | 80 % | 100 % | 1.00 |
+| 0 – 200 | 29 | 26 | 92 % | +14.8 % | 88 % | 100 % | 0.69 |
+| 200 – 1.000 | 44 | 44 | 95 % | +16.9 % | 71 % | 98 % | 0.72 |
+| 1.000 – 5.000 | 6 | 6 | 80 % | +9.7 % | 80 % | 100 % | 0.98 |
 | 5.000 – 20.000 | 1 | 1 | 100 % | +5.3 % | 100 % | 100 % | 0.73 |
 
 **Lesehilfe:** *profitabel nach 48 h* = Kauf zum geplanten Gebot und Verkauf zum dann günstigsten Angebot − 1 wäre nach Gebühren im Plus gewesen. *Preis gehalten* = günstigstes Angebot höchstens 5 % unter dem geplanten Verkaufspreis. *Gebot überholt* = jemand bot binnen 24 h mehr. *Volumen* < 1 heißt: Die Schätzung war zu optimistisch.
@@ -53,15 +53,15 @@ Die Aufschlüsselung unten enthält nur Listen aus dem Historien-Modus. Listen a
 
 | Filter | Items | Anteil |
 |---|---:|---:|
-| kein Kaufgebot oder kein Verkaufsangebot | 3314 | 11.8 % |
-| kein Spread nach Über-/Unterbieten | 326 | 1.2 % |
-| Kaufpreis unter Minimum | 6082 | 21.7 % |
-| ROI unter Minimum | 2414 | 8.6 % |
-| ROI über Maximum (Ausreißer) | 6230 | 22.2 % |
-| zu wenig Nachfrage im Orderbuch | 5893 | 21.0 % |
-| zu wenig Angebot im Orderbuch | 1657 | 5.9 % |
-| keine ausreichende Historie | 1451 | 5.2 % |
-| Tagesvolumen unter Minimum | 414 | 1.5 % |
-| Volatilität zu hoch | 120 | 0.4 % |
-| Abwärtstrend | 2 | 0.0 % |
-| besteht alle budgetunabhängigen Filter | 106 | 0.4 % |
+| kein Kaufgebot oder kein Verkaufsangebot | 3320 | 11.9 % |
+| kein Spread nach Über-/Unterbieten | 309 | 1.1 % |
+| Kaufpreis unter Minimum | 6084 | 21.7 % |
+| ROI unter Minimum | 2423 | 8.7 % |
+| ROI über Maximum (Ausreißer) | 6204 | 22.2 % |
+| zu wenig Nachfrage im Orderbuch | 5905 | 21.1 % |
+| zu wenig Angebot im Orderbuch | 1681 | 6.0 % |
+| keine ausreichende Historie | 1449 | 5.2 % |
+| Tagesvolumen unter Minimum | 412 | 1.5 % |
+| Volatilität zu hoch | 122 | 0.4 % |
+| Abwärtstrend | 4 | 0.0 % |
+| besteht alle budgetunabhängigen Filter | 96 | 0.3 % |
