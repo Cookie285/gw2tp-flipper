@@ -187,7 +187,7 @@ def risk_level(
         c.roi >= r.green_min_roi
         and cv <= r.green_max_cv
         and stats.trend is not None
-        and stats.trend >= 0
+        and stats.trend >= r.green_min_trend
         and stats.daily_volume >= r.green_min_volume_multiple * max(1, quantity)
     ):
         return RiskLevel.GREEN

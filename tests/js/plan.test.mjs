@@ -220,3 +220,26 @@ test("validateData übernimmt Rückblick und Trichter optional", () => {
   assert.equal(d.review.lists, 3);
   assert.equal(d.funnel.length, 1);
 });
+
+test("Grün mit Trend-Untergrenze (green_min_trend)", () => {
+  const r = { ...PARAMS.risk, green_min_trend: -0.005 };
+  assert.equal(riskLevel(cand({ trend: -0.004 }), r, 100, true), "green");
+  assert.equal(riskLevel(cand({ trend: -0.006 }), r, 100, true), "yellow");
+  // ohne Parameter wie früher: Trend ≥ 0
+  assert.equal(riskLevel(cand({ trend: -0.004 }), { ...PARAMS.risk, green_min_trend: 0 }, 100, true), "yellow");
+});
+
+test("green_min_trend ist optional, aber validiert", () => {
+  const raw = {
+    schema_version: 2, generated_at: "2026-11-20T04:23:00Z", volume_source: "snapshots",
+    window_days: 7, budget_copper: 2000000, params: PARAMS, candidates: [],
+  };
+  assert.equal(validateData(raw).params.risk.green_min_trend, 0);
+  const withParam = structuredClone(raw);
+  withParam.params.risk.green_min_trend = -0.005;
+  assert.equal(validateData(withParam).params.risk.green_min_trend, -0.005);
+  withParam.params.risk.green_min_trend = "x";
+  assert.throws(() => validateData(withParam));
+  withParam.params.risk.green_min_trend = -5;
+  assert.throws(() => validateData(withParam));
+});

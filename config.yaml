@@ -39,15 +39,18 @@ ranking:
   max_item_lookups: 400
   pool_size_per_regime: 100  # Dashboard-Pool: je 100 Items für großes und kleines Budget
 
-risk:                       # Ampel
-  green_min_roi: 0.20
-  green_min_depth: 5000
-  red_below_roi: 0.12
-  red_below_depth: 1000
-  green_max_cv: 0.04
+risk:                       # Ampel (Phase 5, 14.11.: neu kalibriert, siehe README „Feintuning“)
+  green_min_roi: 0.15       # vorher 0.20
+  green_min_depth: 5000     # nur Orderbuch-Modus
+  red_below_roi: 0.10       # vorher 0.12; ROI 10–12 % lief im Rückblick 9 von 9 gut
+  red_below_depth: 1000     # nur Orderbuch-Modus
+  green_max_cv: 0.05        # vorher 0.04
   red_min_cv: 0.07
   red_below_trend: 0.01     # fällt der Median um mehr als 1 %/Tag → rot
-  green_min_volume_multiple: 40
+  # vorher 40 – mit max_volume_share 0.04 (Stückzahl ≤ 4 % des Volumens, also Volumen ≥ 25 ×
+  # Stückzahl) war Grün praktisch unerreichbar
+  green_min_volume_multiple: 20
+  green_min_trend: -0.005   # Grün ab −0,5 %/Tag (vorher ≥ 0)
 
 universe:                   # welche Items stündlich gespeichert werden
   max_items: 800

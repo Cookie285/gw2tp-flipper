@@ -72,6 +72,14 @@ const PARAM_SPEC = {
   },
 };
 
+/** Optionaler Parameter (seit 14.11.): fehlt er in älteren Daten, gilt wie früher Trend ≥ 0. */
+function greenMinTrend(risk) {
+  const v = risk.green_min_trend;
+  if (v === undefined) return 0;
+  if (!isNum(v, -1, 1)) throw new DataError("risk.green_min_trend ungültig");
+  return v;
+}
+
 /** Einen Kandidaten prüfen; ``null`` bei ungültigen Daten. */
 export function validateCandidate(raw, history) {
   if (!raw || typeof raw !== "object" || Array.isArray(raw)) return null;
@@ -136,7 +144,7 @@ export function validateData(raw) {
   const params = {
     sizing: requireNumbers(p.sizing, PARAM_SPEC.sizing, "sizing"),
     filters: requireNumbers(p.filters, PARAM_SPEC.filters, "filters"),
-    risk: requireNumbers(p.risk, PARAM_SPEC.risk, "risk"),
+    risk: { ...requireNumbers(p.risk, PARAM_SPEC.risk, "risk"), green_min_trend: greenMinTrend(p.risk) },
   };
   if (!Array.isArray(raw.candidates) || raw.candidates.length > MAX_CANDIDATES) {
     throw new DataError("candidates ungültig");
@@ -254,7 +262,7 @@ export function riskLevel(c, r, qty, history) {
     c.roi >= r.green_min_roi &&
     cv <= r.green_max_cv &&
     c.trend !== null &&
-    c.trend >= 0 &&
+    c.trend >= (r.green_min_trend ?? 0) &&
     c.daily_volume >= r.green_min_volume_multiple * Math.max(1, qty)
   ) {
     return "green";

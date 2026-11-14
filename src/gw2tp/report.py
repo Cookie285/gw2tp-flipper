@@ -248,6 +248,7 @@ def _params(cfg: Config) -> dict[str, Any]:
             "red_min_cv": r.red_min_cv,
             "red_below_trend": r.red_below_trend,
             "green_min_volume_multiple": r.green_min_volume_multiple,
+            "green_min_trend": r.green_min_trend,
         },
     }
 

@@ -145,3 +145,11 @@ def test_universe_whitelist_always_included():
     u = Universe(max_items=1, whitelist_ids=(19721, 2))
     prices = [make_price(1), make_price(2, demand=10, supply=10)]
     assert select_universe(prices, u, DEFAULT_FEES) == [1, 2, 19721]
+
+
+def test_green_min_trend_threshold():
+    r = Risk(green_min_trend=-0.005)
+    assert risk_level(_cand(), r, make_stats(cv=0.02, trend=-0.004), 100) is RiskLevel.GREEN
+    assert risk_level(_cand(), r, make_stats(cv=0.02, trend=-0.006), 100) is RiskLevel.YELLOW
+    # Standard (0.0) wie bisher
+    assert risk_level(_cand(), Risk(), make_stats(cv=0.02, trend=-0.004), 100) is RiskLevel.YELLOW
