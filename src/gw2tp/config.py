@@ -68,6 +68,8 @@ class Risk:
     red_min_cv: float = 0.07
     red_below_trend: float = 0.01  # fällt der Median > 1 %/Tag → rot
     green_min_volume_multiple: float = 40.0
+    # Grün verlangt einen Trend ≥ diesem Wert (relativ pro Tag; −0,005 = −0,5 %/Tag).
+    green_min_trend: float = 0.0
 
 
 @dataclass(frozen=True, slots=True)
@@ -112,6 +114,9 @@ class Config:
     universe: Universe = field(default_factory=Universe)
     history: History = field(default_factory=History)
 
+
+# Werte, die negativ sein dürfen (relative Änderung pro Tag).
+_SIGNED = {"green_min_trend"}
 
 _RATIOS = {
     "min_roi",
@@ -168,7 +173,10 @@ def _build(cls: type, data: Any, section: str) -> Any:
             if not isinstance(value, int | float):
                 raise ConfigError(f"{key}: Zahl erwartet")
             value = float(value)
-            if value < 0:
+            if name in _SIGNED:
+                if not -1 <= value <= 1:
+                    raise ConfigError(f"{key}: muss zwischen −1 und 1 liegen")
+            elif value < 0:
                 raise ConfigError(f"{key}: darf nicht negativ sein")
             if name in _RATIOS and name != "max_roi" and value > 1:
                 raise ConfigError(f"{key}: Anteil muss zwischen 0 und 1 liegen")

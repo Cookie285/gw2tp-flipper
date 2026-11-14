@@ -64,3 +64,21 @@ def test_phase5_tuning_in_repo_config():
     assert cfg.filters.max_price_cv == 0.07
     assert cfg.sizing.max_volume_share == 0.04
     assert cfg.filters.max_price_cv <= cfg.risk.red_min_cv
+
+
+def test_green_min_trend_may_be_negative_but_bounded():
+    assert config.from_dict({"risk": {"green_min_trend": -0.005}}).risk.green_min_trend == -0.005
+    with pytest.raises(ConfigError):
+        config.from_dict({"risk": {"green_min_trend": -2}})
+    with pytest.raises(ConfigError):  # andere Werte bleiben nicht-negativ
+        config.from_dict({"risk": {"green_max_cv": -0.01}})
+
+
+def test_phase5_risk_calibration_in_repo_config():
+    # 14.11.: Grün war mit green_min_volume_multiple 40 bei 4 % Volumenanteil unerreichbar.
+    cfg = config.load(ROOT / "config.yaml")
+    r = cfg.risk
+    assert (r.green_max_cv, r.green_min_roi, r.green_min_trend) == (0.05, 0.15, -0.005)
+    assert r.red_below_roi == cfg.filters.min_roi == 0.10
+    # Grün muss mit der Positionsgröße erreichbar sein: Volumen/Stück ≥ 1/max_volume_share
+    assert r.green_min_volume_multiple <= 1 / cfg.sizing.max_volume_share

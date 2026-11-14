@@ -85,9 +85,14 @@ def _run_node(path: Path, budget: int) -> dict:
     return json.loads(out.stdout)
 
 
+@pytest.mark.parametrize("use_repo_config", [False, True], ids=["standard", "config.yaml"])
 @pytest.mark.parametrize("history", [False, True], ids=["orderbuch", "historie"])
 @pytest.mark.parametrize("seed", [1, 2, 3])
-def test_python_and_js_plan_identically(tmp_path, cfg, seed, history):
+def test_python_and_js_plan_identically(tmp_path, cfg, seed, history, use_repo_config):
+    if use_repo_config:
+        from gw2tp import config as _config
+
+        cfg = _config.load(ROOT / "config.yaml")
     prices = _market(seed)
     stats = (
         usable_stats(build_stats(_history(prices, seed), cfg.history), cfg.history)

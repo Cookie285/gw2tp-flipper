@@ -76,8 +76,13 @@ Nach ein bis zwei Wochen Daten liest du die Tabellen so:
 |---|---|---|
 | 07.11.2026 | `filters.max_price_cv` 0.10 → 0.07 | CV 7–10 %: 1 von 2 profitabel, Preis nie gehalten; CV < 7 %: 8 von 8 profitabel |
 | 07.11.2026 | `sizing.max_volume_share` 0.05 → 0.04 | beobachtetes Volumen im Median nur 59 % der Schätzung; 0.03 entspräche genau 5 % des echten Umsatzes, 0.04 ist ein bewusster Mittelweg für mehr Kapitaleinsatz |
+| 14.11.2026 | Ampel Grün: `green_min_volume_multiple` 40 → 20, `green_max_cv` 0.04 → 0.05, `green_min_roi` 0.20 → 0.15, neu `green_min_trend` −0.005 (vorher Trend ≥ 0) | Grün kam in 80 Positionen nie vor (40 × Volumen ist bei 4 % Anteil unerreichbar). Mit den neuen Regeln wären 14 von 65 grün gewesen: alle profitabel, Median +25 %, Preis immer gehalten (übrige: 96 %, +15 %, 82 %) |
+| 14.11.2026 | Ampel Rot: `red_below_roi` 0.12 → 0.10 | ROI 10–12 %: 9 von 9 profitabel, Preis immer gehalten |
 
-Grundlage war die erste Liste im Historien-Modus (10 Positionen). Das ist noch eine dünne
+Grundlage am 07.11. war die erste Liste im Historien-Modus (10 Positionen), am 14.11. waren es
+8 Listen mit 77 auswertbaren Positionen (viele Items kommen mehrfach vor). Bestätigt hat sich am
+14.11.: Listen mit den neuen Werten waren zu 95 % profitabel (vorher 92 %), CV 7–10 % war über
+12 Positionen nur zu 70 % profitabel. Das ist noch eine dünne
 Datenbasis, die nächsten Wochen zeigen, ob die Werte passen. Der Rückblick wertet seitdem
 Historien- und Orderbuch-Listen getrennt aus.
 
