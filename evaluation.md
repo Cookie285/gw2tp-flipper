@@ -1,4 +1,4 @@
-# Auswertung – 2026-11-14
+# Auswertung – 2026-11-15
 
 Rückblick auf frühere Einkaufslisten anhand der stündlichen Snapshots. Grundlage für das Feintuning der Schwellwerte in `config.yaml` (Phase 5).
 
@@ -53,15 +53,15 @@ Die Aufschlüsselung unten enthält nur Listen aus dem Historien-Modus. Listen a
 
 | Filter | Items | Anteil |
 |---|---:|---:|
-| kein Kaufgebot oder kein Verkaufsangebot | 3310 | 11.8 % |
-| kein Spread nach Über-/Unterbieten | 310 | 1.1 % |
-| Kaufpreis unter Minimum | 6101 | 21.8 % |
-| ROI unter Minimum | 2393 | 8.5 % |
-| ROI über Maximum (Ausreißer) | 6205 | 22.2 % |
-| zu wenig Nachfrage im Orderbuch | 5928 | 21.2 % |
-| zu wenig Angebot im Orderbuch | 1691 | 6.0 % |
-| keine ausreichende Historie | 1424 | 5.1 % |
-| Tagesvolumen unter Minimum | 395 | 1.4 % |
-| Volatilität zu hoch | 142 | 0.5 % |
+| kein Kaufgebot oder kein Verkaufsangebot | 3317 | 11.8 % |
+| kein Spread nach Über-/Unterbieten | 327 | 1.2 % |
+| Kaufpreis unter Minimum | 6102 | 21.8 % |
+| ROI unter Minimum | 2387 | 8.5 % |
+| ROI über Maximum (Ausreißer) | 6208 | 22.2 % |
+| zu wenig Nachfrage im Orderbuch | 5918 | 21.1 % |
+| zu wenig Angebot im Orderbuch | 1679 | 6.0 % |
+| keine ausreichende Historie | 1421 | 5.1 % |
+| Tagesvolumen unter Minimum | 397 | 1.4 % |
+| Volatilität zu hoch | 140 | 0.5 % |
 | Abwärtstrend | 1 | 0.0 % |
-| besteht alle budgetunabhängigen Filter | 109 | 0.4 % |
+| besteht alle budgetunabhängigen Filter | 112 | 0.4 % |
