@@ -53,15 +53,15 @@ Die Aufschlüsselung unten enthält nur Listen aus dem Historien-Modus. Listen a
 
 | Filter | Items | Anteil |
 |---|---:|---:|
-| kein Kaufgebot oder kein Verkaufsangebot | 3317 | 11.8 % |
-| kein Spread nach Über-/Unterbieten | 327 | 1.2 % |
-| Kaufpreis unter Minimum | 6102 | 21.8 % |
-| ROI unter Minimum | 2387 | 8.5 % |
+| kein Kaufgebot oder kein Verkaufsangebot | 3320 | 11.9 % |
+| kein Spread nach Über-/Unterbieten | 342 | 1.2 % |
+| Kaufpreis unter Minimum | 6095 | 21.8 % |
+| ROI unter Minimum | 2379 | 8.5 % |
 | ROI über Maximum (Ausreißer) | 6208 | 22.2 % |
-| zu wenig Nachfrage im Orderbuch | 5918 | 21.1 % |
-| zu wenig Angebot im Orderbuch | 1679 | 6.0 % |
-| keine ausreichende Historie | 1421 | 5.1 % |
-| Tagesvolumen unter Minimum | 397 | 1.4 % |
-| Volatilität zu hoch | 140 | 0.5 % |
-| Abwärtstrend | 1 | 0.0 % |
-| besteht alle budgetunabhängigen Filter | 112 | 0.4 % |
+| zu wenig Nachfrage im Orderbuch | 5930 | 21.2 % |
+| zu wenig Angebot im Orderbuch | 1668 | 6.0 % |
+| keine ausreichende Historie | 1429 | 5.1 % |
+| Tagesvolumen unter Minimum | 401 | 1.4 % |
+| Volatilität zu hoch | 130 | 0.5 % |
+| Abwärtstrend | 2 | 0.0 % |
+| besteht alle budgetunabhängigen Filter | 105 | 0.4 % |
