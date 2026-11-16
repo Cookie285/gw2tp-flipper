@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-11-16T12:26:38Z",
+  "generated_at": "2026-11-16T12:57:52Z",
   "phase": 3,
   "volume_source": "snapshots",
   "window_days": 7,
@@ -11,9 +11,9 @@
     "items_rejected": 0,
     "candidates": 107,
     "failed_batches": 0,
-    "snapshots": 345,
-    "history_items": 921,
-    "universe_size": 810
+    "snapshots": 344,
+    "history_items": 920,
+    "universe_size": 809
   },
   "positions": [
     {
@@ -30,14 +30,14 @@
       "roi": 0.1431,
       "invest": 195169,
       "expected_profit": 27924,
-      "daily_volume": 361,
-      "price_cv": 0.0637,
+      "daily_volume": 363,
+      "price_cv": 0.0619,
       "trend": 0.0119,
       "demand": 4783,
       "supply": 8579,
-      "liquidity_factor": 0.6397,
-      "stability_factor": 0.5453,
-      "score": 9739.44,
+      "liquidity_factor": 0.6403,
+      "stability_factor": 0.5578,
+      "score": 9972.62,
       "risk": "yellow"
     },
     {
@@ -60,8 +60,8 @@
       "demand": 11991,
       "supply": 6980,
       "liquidity_factor": 0.4702,
-      "stability_factor": 0.7865,
-      "score": 4961.34,
+      "stability_factor": 0.7862,
+      "score": 4959.42,
       "risk": "yellow"
     },
     {
@@ -71,21 +71,21 @@
       "icon": "https://render.guildwars2.com/file/D77E646CF20F072A15B8A4EB6AA1A56204369C5A/2155855.png",
       "chat_link": "[&AgEmZAEA]",
       "rarity": "Masterwork",
-      "buy_price": 6274,
+      "buy_price": 6275,
       "sell_price": 13330,
       "quantity": 2,
-      "profit_per_unit": 5056,
-      "roi": 0.8059,
-      "invest": 12548,
-      "expected_profit": 10112,
+      "profit_per_unit": 5055,
+      "roi": 0.8056,
+      "invest": 12550,
+      "expected_profit": 10110,
       "daily_volume": 69,
-      "price_cv": 0.0559,
+      "price_cv": 0.056,
       "trend": 0.0134,
-      "demand": 5987,
+      "demand": 5919,
       "supply": 3876,
       "liquidity_factor": 0.4613,
-      "stability_factor": 0.6007,
-      "score": 2801.74,
+      "stability_factor": 0.6003,
+      "score": 2799.58,
       "risk": "yellow"
     },
     {
@@ -108,8 +108,8 @@
       "demand": 4356,
       "supply": 3559,
       "liquidity_factor": 0.4771,
-      "stability_factor": 0.6636,
-      "score": 2012.8,
+      "stability_factor": 0.6637,
+      "score": 2012.89,
       "risk": "yellow"
     },
     {
@@ -132,8 +132,8 @@
       "demand": 3796,
       "supply": 3407,
       "liquidity_factor": 0.4351,
-      "stability_factor": 0.8398,
-      "score": 1140.75,
+      "stability_factor": 0.84,
+      "score": 1141.01,
       "risk": "yellow"
     }
   ],
@@ -176,11 +176,11 @@
       "roi": 0.67875,
       "demand": 10632,
       "supply": 13487,
-      "daily_volume": 65,
-      "price_cv": 0.06060312091385483,
+      "daily_volume": 66,
+      "price_cv": 0.06061862272582459,
       "trend": -0.017478715283894077,
-      "liquidity_factor": 0.4548810453241935,
-      "stability_factor": 0.319307092762377
+      "liquidity_factor": 0.45651374438801434,
+      "stability_factor": 0.3192447497764866
     },
     {
       "id": 8843,
@@ -192,13 +192,13 @@
       "sell_price": 652,
       "profit_per_unit": 179,
       "roi": 0.47733333333333333,
-      "demand": 6787,
+      "demand": 6778,
       "supply": 67499,
-      "daily_volume": 87,
-      "price_cv": 0.06294446378469269,
+      "daily_volume": 88,
+      "price_cv": 0.06300508271619566,
       "trend": -0.01485345095892763,
-      "liquidity_factor": 0.48611539037063095,
-      "stability_factor": 0.3460144322007774
+      "liquidity_factor": 0.48734221067495076,
+      "stability_factor": 0.3457422256054458
     },
     {
       "id": 8866,
@@ -212,11 +212,11 @@
       "roi": 0.4796747967479675,
       "demand": 10908,
       "supply": 17440,
-      "daily_volume": 53,
-      "price_cv": 0.012531282538486727,
+      "daily_volume": 54,
+      "price_cv": 0.012522417197442636,
       "trend": 0.0005950193381284892,
-      "liquidity_factor": 0.43309373793532596,
-      "stability_factor": 0.9104908390108091
+      "liquidity_factor": 0.4350859487240724,
+      "stability_factor": 0.9105541628754097
     },
     {
       "id": 8871,
@@ -225,16 +225,16 @@
       "chat_link": "[&AgGnIgAA]",
       "rarity": "Fine",
       "buy_price": 117,
-      "sell_price": 171,
-      "profit_per_unit": 28,
-      "roi": 0.23931623931623933,
+      "sell_price": 168,
+      "profit_per_unit": 26,
+      "roi": 0.2222222222222222,
       "demand": 51774,
-      "supply": 242448,
-      "daily_volume": 1605,
-      "price_cv": 0.04853679426501146,
+      "supply": 248355,
+      "daily_volume": 1606,
+      "price_cv": 0.048594288371479256,
       "trend": -0.006316812439261419,
-      "liquidity_factor": 0.8014276842801829,
-      "stability_factor": 0.5501379131567928
+      "liquidity_factor": 0.8014952675016146,
+      "stability_factor": 0.5497920944475443
     },
     {
       "id": 8875,
@@ -248,11 +248,11 @@
       "roi": 0.6859504132231405,
       "demand": 12954,
       "supply": 130475,
-      "daily_volume": 206,
-      "price_cv": 0.06045092204763236,
+      "daily_volume": 207,
+      "price_cv": 0.06053729894181881,
       "trend": 0.004515146742269124,
-      "liquidity_factor": 0.5789863004146375,
-      "stability_factor": 0.5682076996597689
+      "liquidity_factor": 0.579509542110358,
+      "stability_factor": 0.5675907218441514
     },
     {
       "id": 8877,
@@ -261,16 +261,16 @@
       "chat_link": "[&AgGtIgAA]",
       "rarity": "Fine",
       "buy_price": 125,
-      "sell_price": 173,
-      "profit_per_unit": 22,
-      "roi": 0.176,
+      "sell_price": 172,
+      "profit_per_unit": 21,
+      "roi": 0.168,
       "demand": 17394,
-      "supply": 196962,
-      "daily_volume": 789,
-      "price_cv": 0.047215684353733224,
+      "supply": 197212,
+      "daily_volume": 791,
+      "price_cv": 0.04727969624098151,
       "trend": 0.012338707990881903,
-      "liquidity_factor": 0.7243989081546245,
-      "stability_factor": 0.6627451117590484
+      "liquidity_factor": 0.7246734277489779,
+      "stability_factor": 0.6622878839929893
     },
     {
       "id": 8889,
@@ -285,10 +285,10 @@
       "demand": 14702,
       "supply": 12047,
       "daily_volume": 137,
-      "price_cv": 0.06664861596395846,
+      "price_cv": 0.06671911839329463,
       "trend": -0.0016245578691246616,
       "liquidity_factor": 0.5349639635932695,
-      "stability_factor": 0.5026592488026296
+      "stability_factor": 0.5021761127495803
     },
     {
       "id": 9440,
@@ -302,11 +302,11 @@
       "roi": 0.4090909090909091,
       "demand": 20215,
       "supply": 36999,
-      "daily_volume": 382,
-      "price_cv": 0.042606455159107284,
+      "daily_volume": 383,
+      "price_cv": 0.04266556623955826,
       "trend": 0.0011495243842860015,
-      "liquidity_factor": 0.6457926822377539,
-      "stability_factor": 0.695668177434948
+      "liquidity_factor": 0.6460757917638119,
+      "stability_factor": 0.6952459554317267
     },
     {
       "id": 9458,
@@ -321,10 +321,10 @@
       "demand": 13213,
       "supply": 9857,
       "daily_volume": 120,
-      "price_cv": 0.05177075321480876,
+      "price_cv": 0.05101202982878408,
       "trend": 0.008355342136854743,
       "liquidity_factor": 0.5206906895344289,
-      "stability_factor": 0.630208905608509
+      "stability_factor": 0.635628358365828
     },
     {
       "id": 9461,
@@ -333,16 +333,16 @@
       "chat_link": "[&AgH1JAAA]",
       "rarity": "Fine",
       "buy_price": 644,
-      "sell_price": 963,
-      "profit_per_unit": 175,
-      "roi": 0.2717391304347826,
-      "demand": 6399,
-      "supply": 32277,
-      "daily_volume": 234,
-      "price_cv": 0.049096937689488494,
+      "sell_price": 967,
+      "profit_per_unit": 178,
+      "roi": 0.27639751552795033,
+      "demand": 6374,
+      "supply": 32181,
+      "daily_volume": 235,
+      "price_cv": 0.04914409071452463,
       "trend": 0.006451051793702473,
-      "liquidity_factor": 0.5927605300740209,
-      "stability_factor": 0.6493075879322251
+      "liquidity_factor": 0.5932215602432923,
+      "stability_factor": 0.6489707806105385
     },
     {
       "id": 9476,
@@ -351,16 +351,16 @@
       "chat_link": "[&AgEEJQAA]",
       "rarity": "Fine",
       "buy_price": 1022,
-      "sell_price": 1364,
-      "profit_per_unit": 138,
-      "roi": 0.1350293542074364,
+      "sell_price": 1363,
+      "profit_per_unit": 137,
+      "roi": 0.13405088062622308,
       "demand": 12403,
-      "supply": 41355,
-      "daily_volume": 171,
-      "price_cv": 0.031891063532568105,
+      "supply": 41366,
+      "daily_volume": 172,
+      "price_cv": 0.031906291610315926,
       "trend": 0.0014461536119589292,
-      "liquidity_factor": 0.5588760441107123,
-      "stability_factor": 0.772206689053085
+      "liquidity_factor": 0.5595054513326636,
+      "stability_factor": 0.772097917069172
     },
     {
       "id": 12166,
@@ -374,11 +374,11 @@
       "roi": 0.12111801242236025,
       "demand": 22882,
       "supply": 25191,
-      "daily_volume": 139,
-      "price_cv": 0.020889776536622804,
+      "daily_volume": 140,
+      "price_cv": 0.020742655263306427,
       "trend": -0.005127112962130355,
-      "liquidity_factor": 0.5365261839517759,
-      "stability_factor": 0.7417352442667435
+      "liquidity_factor": 0.5372989448063364,
+      "stability_factor": 0.7426514127569631
     },
     {
       "id": 12167,
@@ -393,10 +393,10 @@
       "demand": 7439,
       "supply": 31416,
       "daily_volume": 55,
-      "price_cv": 0.0034489804587737654,
+      "price_cv": 0.003437271619484831,
       "trend": -0.0010524783626123856,
       "liquidity_factor": 0.4370422618627235,
-      "stability_factor": 0.9497006764623657
+      "stability_factor": 0.949782110439429
     },
     {
       "id": 12176,
@@ -411,10 +411,10 @@
       "demand": 29011,
       "supply": 63957,
       "daily_volume": 140,
-      "price_cv": 0.0525251465808703,
+      "price_cv": 0.0524944774623155,
       "trend": 0.003951054105852867,
       "liquidity_factor": 0.5372989448063364,
-      "stability_factor": 0.6248203815652122
+      "stability_factor": 0.6250394466977465
     },
     {
       "id": 12272,
@@ -427,30 +427,12 @@
       "profit_per_unit": 124,
       "roi": 0.2179261862917399,
       "demand": 19280,
-      "supply": 50083,
+      "supply": 50073,
       "daily_volume": 139,
-      "price_cv": 0.03992867745695113,
+      "price_cv": 0.039984603160330125,
       "trend": -0.001303119634447352,
       "liquidity_factor": 0.5365261839517759,
-      "stability_factor": 0.6915085707983918
-    },
-    {
-      "id": 12351,
-      "name": "Orange",
-      "icon": "https://render.guildwars2.com/file/DA6C66091D28B4DCDB16C267FB6FE4F0B2BF2D0F/63380.png",
-      "chat_link": "[&AgE/MAAA]",
-      "rarity": "Basic",
-      "buy_price": 836,
-      "sell_price": 1122,
-      "profit_per_unit": 118,
-      "roi": 0.14114832535885166,
-      "demand": 295507,
-      "supply": 8452,
-      "daily_volume": 1419,
-      "price_cv": 0.05607453606716901,
-      "trend": 0.003331840573219884,
-      "liquidity_factor": 0.788063530232486,
-      "stability_factor": 0.5994675995202214
+      "stability_factor": 0.6911221153960674
     },
     {
       "id": 12357,
@@ -463,12 +445,12 @@
       "profit_per_unit": 55,
       "roi": 0.35714285714285715,
       "demand": 37725,
-      "supply": 29174,
+      "supply": 29286,
       "daily_volume": 101,
-      "price_cv": 0.04164437430159747,
+      "price_cv": 0.04169262085238046,
       "trend": -0.005819769027916704,
       "liquidity_factor": 0.502144591247432,
-      "stability_factor": 0.6003246435312803
+      "stability_factor": 0.6000301652724644
     },
     {
       "id": 12358,
@@ -482,11 +464,11 @@
       "roi": 0.5669291338582677,
       "demand": 42830,
       "supply": 23456,
-      "daily_volume": 79,
-      "price_cv": 0.0037748950963099647,
+      "daily_volume": 80,
+      "price_cv": 0.0037095174413052786,
       "trend": 0.0007224958949096881,
-      "liquidity_factor": 0.47576733142807986,
-      "stability_factor": 0.973036463597786
+      "liquidity_factor": 0.47711607475669393,
+      "stability_factor": 0.9735034468478194
     },
     {
       "id": 12373,
@@ -500,11 +482,11 @@
       "roi": 0.10909090909090909,
       "demand": 85108,
       "supply": 37415,
-      "daily_volume": 409,
-      "price_cv": 0.0632875524953015,
+      "daily_volume": 410,
+      "price_cv": 0.06340088472311106,
       "trend": 0.004032115445831712,
-      "liquidity_factor": 0.6531888726264301,
-      "stability_factor": 0.5479460536049893
+      "liquidity_factor": 0.6534533610440106,
+      "stability_factor": 0.5471365376920638
     },
     {
       "id": 12416,
@@ -519,10 +501,10 @@
       "demand": 28353,
       "supply": 17603,
       "daily_volume": 57,
-      "price_cv": 0.0613758414377321,
+      "price_cv": 0.06141971176249377,
       "trend": -0.0009317690906780737,
       "liquidity_factor": 0.4408522121379663,
-      "stability_factor": 0.5485190681717541
+      "stability_factor": 0.5482130081757084
     },
     {
       "id": 12427,
@@ -536,11 +518,11 @@
       "roi": 0.9300699300699301,
       "demand": 23825,
       "supply": 21675,
-      "daily_volume": 144,
-      "price_cv": 0.0344002558587975,
+      "daily_volume": 145,
+      "price_cv": 0.03443958757834177,
       "trend": -0.0001539408866995074,
-      "liquidity_factor": 0.5403361342270188,
-      "stability_factor": 0.7513810084642432
+      "liquidity_factor": 0.5410823395129685,
+      "stability_factor": 0.7511011488174596
     },
     {
       "id": 12453,
@@ -554,11 +536,11 @@
       "roi": 0.19693654266958424,
       "demand": 11640,
       "supply": 69785,
-      "daily_volume": 250,
-      "price_cv": 0.017902385317262917,
+      "daily_volume": 251,
+      "price_cv": 0.010093786329361342,
       "trend": 0.001560214529497806,
-      "liquidity_factor": 0.5999119172350288,
-      "stability_factor": 0.8721258191624077
+      "liquidity_factor": 0.6003436173732649,
+      "stability_factor": 0.9279015262188476
     },
     {
       "id": 12464,
@@ -566,17 +548,17 @@
       "icon": "https://render.guildwars2.com/file/E9D55361679172330E9F08706820A180DD1D145A/433653.png",
       "chat_link": "[&AgGwMAAA]",
       "rarity": "Fine",
-      "buy_price": 311,
+      "buy_price": 309,
       "sell_price": 461,
-      "profit_per_unit": 81,
-      "roi": 0.2604501607717042,
-      "demand": 6986,
-      "supply": 56902,
-      "daily_volume": 367,
-      "price_cv": 0.05485320079132192,
-      "trend": 0.0026904308239740268,
-      "liquidity_factor": 0.6414549905075125,
-      "stability_factor": 0.6081914229191292
+      "profit_per_unit": 83,
+      "roi": 0.2686084142394822,
+      "demand": 6975,
+      "supply": 56904,
+      "daily_volume": 368,
+      "price_cv": 0.05488870345640271,
+      "trend": 0.002634983748303828,
+      "liquidity_factor": 0.6417496241801136,
+      "stability_factor": 0.6079378324542664
     },
     {
       "id": 12468,
@@ -584,17 +566,17 @@
       "icon": "https://render.guildwars2.com/file/21F999BF071F37596A920AC31EBB094665345122/433657.png",
       "chat_link": "[&AgG0MAAA]",
       "rarity": "Fine",
-      "buy_price": 335,
-      "sell_price": 490,
-      "profit_per_unit": 81,
-      "roi": 0.2417910447761194,
-      "demand": 10334,
-      "supply": 78570,
-      "daily_volume": 419,
-      "price_cv": 0.0478246570392056,
-      "trend": -0.012584758513818696,
-      "liquidity_factor": 0.6558052026409493,
-      "stability_factor": 0.4512516582753144
+      "buy_price": 333,
+      "sell_price": 489,
+      "profit_per_unit": 83,
+      "roi": 0.24924924924924924,
+      "demand": 10319,
+      "supply": 78572,
+      "daily_volume": 420,
+      "price_cv": 0.04787711805054872,
+      "trend": -0.012519389601969967,
+      "liquidity_factor": 0.6560634011971763,
+      "stability_factor": 0.4520701834993901
     },
     {
       "id": 12472,
@@ -609,10 +591,10 @@
       "demand": 7175,
       "supply": 80361,
       "daily_volume": 71,
-      "price_cv": 0.04120696572231825,
+      "price_cv": 0.04096208739113004,
       "trend": 0.011101859561476548,
       "liquidity_factor": 0.4643280829817634,
-      "stability_factor": 0.7056645305548697
+      "stability_factor": 0.7074136614919283
     },
     {
       "id": 12490,
@@ -626,11 +608,11 @@
       "roi": 0.49911504424778763,
       "demand": 12067,
       "supply": 7022,
-      "daily_volume": 63,
-      "price_cv": 0.06067736294072519,
+      "daily_volume": 64,
+      "price_cv": 0.060764828455898715,
       "trend": 0.0058104531587773005,
-      "liquidity_factor": 0.4515400912068329,
-      "stability_factor": 0.5665902647091059
+      "liquidity_factor": 0.45322341859599385,
+      "stability_factor": 0.5659655110292949
     },
     {
       "id": 12496,
@@ -643,30 +625,12 @@
       "profit_per_unit": 55,
       "roi": 0.2099236641221374,
       "demand": 7237,
-      "supply": 46229,
+      "supply": 46230,
       "daily_volume": 83,
-      "price_cv": 0.0029745893174681136,
+      "price_cv": 0.002978776168960644,
       "trend": -0.0004095461484046316,
       "liquidity_factor": 0.48106459868409146,
-      "stability_factor": 0.968731821093336
-    },
-    {
-      "id": 12509,
-      "name": "Seaweed",
-      "icon": "https://render.guildwars2.com/file/35C6906CCA6A0541383D5AE31E656456DC3418E5/63385.png",
-      "chat_link": "[&AgHdMAAA]",
-      "rarity": "Basic",
-      "buy_price": 107,
-      "sell_price": 141,
-      "profit_per_unit": 13,
-      "roi": 0.12149532710280374,
-      "demand": 46851,
-      "supply": 105724,
-      "daily_volume": 1848,
-      "price_cv": 0.06805325586372143,
-      "trend": -0.008840563738995211,
-      "liquidity_factor": 0.8167253607502029,
-      "stability_factor": 0.40032499787521286
+      "stability_factor": 0.9687022212092649
     },
     {
       "id": 12519,
@@ -679,12 +643,12 @@
       "profit_per_unit": 264,
       "roi": 0.3682008368200837,
       "demand": 15831,
-      "supply": 29176,
+      "supply": 29177,
       "daily_volume": 73,
-      "price_cv": 0.008136298775900084,
+      "price_cv": 0.007923294615743886,
       "trend": 0.003141276829051973,
       "liquidity_factor": 0.467302856510112,
-      "stability_factor": 0.9418835801721422
+      "stability_factor": 0.9434050384589723
     },
     {
       "id": 12814,
@@ -698,11 +662,11 @@
       "roi": 0.39568345323741005,
       "demand": 13899,
       "supply": 15282,
-      "daily_volume": 350,
-      "price_cv": 0.014636107983243687,
+      "daily_volume": 351,
+      "price_cv": 0.01461198204938039,
       "trend": -0.0003870837881567844,
-      "liquidity_factor": 0.6363198707066564,
-      "stability_factor": 0.8867909554375587
+      "liquidity_factor": 0.636628754106242,
+      "stability_factor": 0.8869616159012478
     },
     {
       "id": 12816,
@@ -714,13 +678,13 @@
       "sell_price": 456,
       "profit_per_unit": 136,
       "roi": 0.5418326693227091,
-      "demand": 3191,
+      "demand": 3187,
       "supply": 3121,
       "daily_volume": 52,
-      "price_cv": 0.0340731122418405,
+      "price_cv": 0.03412015868237406,
       "trend": 0.001959492558995929,
       "liquidity_factor": 0.4310642874131585,
-      "stability_factor": 0.7566206268439964
+      "stability_factor": 0.7562845808401853
     },
     {
       "id": 12834,
@@ -734,11 +698,11 @@
       "roi": 0.34545454545454546,
       "demand": 3726,
       "supply": 30245,
-      "daily_volume": 265,
-      "price_cv": 0.0376840261346203,
+      "daily_volume": 266,
+      "price_cv": 0.03760072712635571,
       "trend": 0.003620038720135731,
-      "liquidity_factor": 0.6062138276038345,
-      "stability_factor": 0.7308283847527122
+      "liquidity_factor": 0.6066212293641243,
+      "stability_factor": 0.7314233776688879
     },
     {
       "id": 12839,
@@ -753,10 +717,10 @@
       "demand": 3676,
       "supply": 13269,
       "daily_volume": 71,
-      "price_cv": 0.03848981106655818,
+      "price_cv": 0.03853793251208617,
       "trend": -0.004483391073975953,
       "liquidity_factor": 0.4643280829817634,
-      "stability_factor": 0.6438031575635478
+      "stability_factor": 0.6434979592489455
     },
     {
       "id": 12993,
@@ -771,10 +735,10 @@
       "demand": 17275,
       "supply": 22998,
       "daily_volume": 146,
-      "price_cv": 0.042726581904773596,
+      "price_cv": 0.04278331960841497,
       "trend": -0.004460617443361897,
       "liquidity_factor": 0.5418234512077874,
-      "stability_factor": 0.6173280746925097
+      "stability_factor": 0.616967999164814
     },
     {
       "id": 13006,
@@ -787,12 +751,12 @@
       "profit_per_unit": 226,
       "roi": 0.1387354205033763,
       "demand": 4313,
-      "supply": 5024,
+      "supply": 5025,
       "daily_volume": 66,
-      "price_cv": 0.03375762577327974,
+      "price_cv": 0.03373578483399247,
       "trend": 0.004686339130931744,
       "liquidity_factor": 0.45651374438801434,
-      "stability_factor": 0.7588741016194305
+      "stability_factor": 0.7590301083286253
     },
     {
       "id": 13007,
@@ -807,10 +771,10 @@
       "demand": 2388,
       "supply": 4245,
       "daily_volume": 135,
-      "price_cv": 0.006400890127103188,
+      "price_cv": 0.005256479692813628,
       "trend": 0.00016202466015327534,
       "liquidity_factor": 0.5333789362938696,
-      "stability_factor": 0.9542793562349773
+      "stability_factor": 0.9624537164799026
     },
     {
       "id": 13154,
@@ -824,11 +788,11 @@
       "roi": 0.7636363636363637,
       "demand": 11433,
       "supply": 16993,
-      "daily_volume": 526,
-      "price_cv": 0.035402295524322454,
+      "daily_volume": 528,
+      "price_cv": 0.03540594487344363,
       "trend": -0.005258261537839259,
-      "liquidity_factor": 0.680445266331894,
-      "stability_factor": 0.6489118022564945
+      "liquidity_factor": 0.6808565260725811,
+      "stability_factor": 0.6488891621256507
     },
     {
       "id": 13164,
@@ -842,11 +806,11 @@
       "roi": 0.32231404958677684,
       "demand": 4834,
       "supply": 2271,
-      "daily_volume": 58,
-      "price_cv": 0.0036128167297686995,
+      "daily_volume": 59,
+      "price_cv": 0.0036009439878832965,
       "trend": 0.0019342359767891683,
-      "liquidity_factor": 0.4427081965076813,
-      "stability_factor": 0.9741941662159379
+      "liquidity_factor": 0.44453298638164235,
+      "stability_factor": 0.9742789715151193
     },
     {
       "id": 19711,
@@ -859,7 +823,7 @@
       "profit_per_unit": 21,
       "roi": 0.10144927536231885,
       "demand": 42020,
-      "supply": 385309,
+      "supply": 385356,
       "daily_volume": 2892,
       "price_cv": 0.05678753992753111,
       "trend": -0.0008982035928143711,
@@ -879,10 +843,10 @@
       "demand": 5136,
       "supply": 7408,
       "daily_volume": 124,
-      "price_cv": 0.06795199005365818,
+      "price_cv": 0.0678904880911989,
       "trend": 0.011118103629116846,
       "liquidity_factor": 0.5242218118705737,
-      "stability_factor": 0.5146286424738702
+      "stability_factor": 0.5150679422057223
     },
     {
       "id": 19814,
@@ -895,12 +859,12 @@
       "profit_per_unit": 284,
       "roi": 0.6876513317191283,
       "demand": 9932,
-      "supply": 11371,
+      "supply": 11370,
       "daily_volume": 99,
-      "price_cv": 0.06667602914935371,
+      "price_cv": 0.06654256705343772,
       "trend": -0.011872212176009644,
       "liquidity_factor": 0.4999945716493268,
-      "stability_factor": 0.3682930525891844
+      "stability_factor": 0.3689634085742683
     },
     {
       "id": 19830,
@@ -915,10 +879,10 @@
       "demand": 6289,
       "supply": 6160,
       "daily_volume": 66,
-      "price_cv": 0.05193181822436315,
+      "price_cv": 0.05198785380826308,
       "trend": -0.0035878014749850507,
       "liquidity_factor": 0.45651374438801434,
-      "stability_factor": 0.5726350211699273
+      "stability_factor": 0.5722706678118148
     },
     {
       "id": 19865,
@@ -931,12 +895,12 @@
       "profit_per_unit": 47,
       "roi": 0.2640449438202247,
       "demand": 6273,
-      "supply": 8824,
+      "supply": 8990,
       "daily_volume": 97,
-      "price_cv": 0.01567976509352966,
+      "price_cv": 0.015673618563341003,
       "trend": -0.007051803634391104,
       "liquidity_factor": 0.4978011143864195,
-      "stability_factor": 0.7314513414137519
+      "stability_factor": 0.7314875051786845
     },
     {
       "id": 19876,
@@ -950,11 +914,11 @@
       "roi": 0.5202558635394456,
       "demand": 7320,
       "supply": 8885,
-      "daily_volume": 114,
-      "price_cv": 0.05230527953656057,
-      "trend": -0.006986859784564233,
-      "liquidity_factor": 0.5151688669931485,
-      "stability_factor": 0.5169782326451732
+      "daily_volume": 106,
+      "price_cv": 0.05233779916904115,
+      "trend": -0.007018406807991237,
+      "liquidity_factor": 0.5073404363179045,
+      "stability_factor": 0.5162926868076531
     },
     {
       "id": 19932,
@@ -968,11 +932,11 @@
       "roi": 0.5604651162790698,
       "demand": 7689,
       "supply": 10759,
-      "daily_volume": 181,
-      "price_cv": 0.057252353985457555,
+      "daily_volume": 182,
+      "price_cv": 0.05730878610755683,
       "trend": 0.0008006523834235303,
-      "liquidity_factor": 0.5650117127662484,
-      "stability_factor": 0.591054614389589
+      "liquidity_factor": 0.5656066317436593,
+      "stability_factor": 0.5906515278031655
     },
     {
       "id": 24280,
@@ -981,16 +945,52 @@
       "chat_link": "[&AgHYXgAA]",
       "rarity": "Fine",
       "buy_price": 225,
-      "sell_price": 314,
-      "profit_per_unit": 42,
-      "roi": 0.18666666666666668,
-      "demand": 53534,
-      "supply": 219814,
-      "daily_volume": 4481,
-      "price_cv": 0.059386934158887364,
-      "trend": 0.016665248589012735,
-      "liquidity_factor": 0.912858052314917,
-      "stability_factor": 0.5758076131508045
+      "sell_price": 316,
+      "profit_per_unit": 43,
+      "roi": 0.19111111111111112,
+      "demand": 53694,
+      "supply": 219404,
+      "daily_volume": 4497,
+      "price_cv": 0.059486202350674984,
+      "trend": 0.01617721246336887,
+      "liquidity_factor": 0.913244947839605,
+      "stability_factor": 0.5750985546380358
+    },
+    {
+      "id": 24281,
+      "name": "Full Venom Sac",
+      "icon": "https://render.guildwars2.com/file/FE3D2BD0B88077ACE7E808504A3ACB0C4EDAD8D5/66937.png",
+      "chat_link": "[&AgHZXgAA]",
+      "rarity": "Fine",
+      "buy_price": 240,
+      "sell_price": 330,
+      "profit_per_unit": 40,
+      "roi": 0.16666666666666666,
+      "demand": 30581,
+      "supply": 242107,
+      "daily_volume": 3810,
+      "price_cv": 0.05878061958643078,
+      "trend": 0.005465659834591873,
+      "liquidity_factor": 0.8952500176254475,
+      "stability_factor": 0.5801384315254945
+    },
+    {
+      "id": 24293,
+      "name": "Vial of Thick Blood",
+      "icon": "https://render.guildwars2.com/file/5103E44DB05DE7A9579C98037332294DB209CB72/66948.png",
+      "chat_link": "[&AgHlXgAA]",
+      "rarity": "Fine",
+      "buy_price": 248,
+      "sell_price": 332,
+      "profit_per_unit": 34,
+      "roi": 0.13709677419354838,
+      "demand": 40467,
+      "supply": 218920,
+      "daily_volume": 4304,
+      "price_cv": 0.060254856674601114,
+      "trend": 0.001776025706175539,
+      "liquidity_factor": 0.9084834257071052,
+      "stability_factor": 0.5696081666099921
     },
     {
       "id": 24311,
@@ -1004,11 +1004,11 @@
       "roi": 0.21739130434782608,
       "demand": 13567,
       "supply": 26398,
-      "daily_volume": 157,
-      "price_cv": 0.05198348181507813,
+      "daily_volume": 158,
+      "price_cv": 0.051989564830783735,
       "trend": -0.012040557667934094,
-      "liquidity_factor": 0.5496583041977666,
-      "stability_factor": 0.439445136510813
+      "liquidity_factor": 0.550343306102332,
+      "stability_factor": 0.43941476548816555
     },
     {
       "id": 24313,
@@ -1023,10 +1023,10 @@
       "demand": 3806,
       "supply": 23281,
       "daily_volume": 231,
-      "price_cv": 0.046600234968232554,
-      "trend": -0.015432069945436833,
+      "price_cv": 0.046649015913962893,
+      "trend": -0.015304343494720065,
       "liquidity_factor": 0.5913655758735773,
-      "stability_factor": 0.4097569454309103
+      "stability_factor": 0.4116721138247546
     },
     {
       "id": 24317,
@@ -1038,13 +1038,13 @@
       "sell_price": 968,
       "profit_per_unit": 103,
       "roi": 0.14305555555555555,
-      "demand": 49106,
+      "demand": 49100,
       "supply": 18249,
-      "daily_volume": 305,
-      "price_cv": 0.061813718169761334,
-      "trend": 0.00537373344987213,
-      "liquidity_factor": 0.6214236099366056,
-      "stability_factor": 0.5584734416445619
+      "daily_volume": 306,
+      "price_cv": 0.061860345548263286,
+      "trend": 0.005424499456830625,
+      "liquidity_factor": 0.6217778433396592,
+      "stability_factor": 0.5581403889409766
     },
     {
       "id": 24322,
@@ -1057,12 +1057,30 @@
       "profit_per_unit": 58,
       "roi": 0.1895424836601307,
       "demand": 50971,
-      "supply": 13039,
+      "supply": 13040,
       "daily_volume": 240,
-      "price_cv": 0.046450878802863665,
+      "price_cv": 0.0464941756389301,
       "trend": -0.009648303765950826,
       "liquidity_factor": 0.5954977954318088,
-      "stability_factor": 0.5070311624174523
+      "stability_factor": 0.5067964959145623
+    },
+    {
+      "id": 24335,
+      "name": "Pile of Putrid Essence",
+      "icon": "https://render.guildwars2.com/file/CBC82EA8093AE4F60F0752B179F7CD02DDF5CB33/223781.png",
+      "chat_link": "[&AgEPXwAA]",
+      "rarity": "Exotic",
+      "buy_price": 227,
+      "sell_price": 363,
+      "profit_per_unit": 82,
+      "roi": 0.36123348017621143,
+      "demand": 102488,
+      "supply": 330953,
+      "daily_volume": 1096,
+      "price_cv": 0.06999653255920638,
+      "trend": -0.01908188505894825,
+      "liquidity_factor": 0.760043405239831,
+      "stability_factor": 0.2614893889640527
     },
     {
       "id": 24348,
@@ -1071,16 +1089,16 @@
       "chat_link": "[&AgEcXwAA]",
       "rarity": "Fine",
       "buy_price": 233,
-      "sell_price": 317,
-      "profit_per_unit": 36,
-      "roi": 0.15450643776824036,
-      "demand": 63191,
-      "supply": 199252,
-      "daily_volume": 4877,
-      "price_cv": 0.0663880744399103,
-      "trend": 0.013708513708513708,
-      "liquidity_factor": 0.9220504384595098,
-      "stability_factor": 0.5257994682863552
+      "sell_price": 316,
+      "profit_per_unit": 35,
+      "roi": 0.15021459227467812,
+      "demand": 63127,
+      "supply": 198749,
+      "daily_volume": 4893,
+      "price_cv": 0.06646262286297949,
+      "trend": 0.013869625520110956,
+      "liquidity_factor": 0.9224059768590084,
+      "stability_factor": 0.5252669795501466
     },
     {
       "id": 24354,
@@ -1092,13 +1110,13 @@
       "sell_price": 459,
       "profit_per_unit": 37,
       "roi": 0.1048158640226629,
-      "demand": 42608,
-      "supply": 195133,
-      "daily_volume": 3279,
-      "price_cv": 0.06813339404098519,
-      "trend": 0.01633549289997225,
-      "liquidity_factor": 0.8789589182298466,
-      "stability_factor": 0.5133328997072487
+      "demand": 42542,
+      "supply": 194650,
+      "daily_volume": 3291,
+      "price_cv": 0.06715293078821725,
+      "trend": 0.01627781664937551,
+      "liquidity_factor": 0.8793554096323494,
+      "stability_factor": 0.5203362086555912
     },
     {
       "id": 24366,
@@ -1107,16 +1125,16 @@
       "chat_link": "[&AgEuXwAA]",
       "rarity": "Rare",
       "buy_price": 2498,
-      "sell_price": 3307,
-      "profit_per_unit": 313,
-      "roi": 0.12530024019215372,
-      "demand": 19425,
-      "supply": 11253,
-      "daily_volume": 372,
-      "price_cv": 0.06807767523643812,
-      "trend": -0.01011732049798829,
-      "liquidity_factor": 0.6429202278834878,
-      "stability_factor": 0.3837913892766286
+      "sell_price": 3306,
+      "profit_per_unit": 312,
+      "roi": 0.12489991993594876,
+      "demand": 19395,
+      "supply": 11256,
+      "daily_volume": 374,
+      "price_cv": 0.0681267556554634,
+      "trend": -0.010145752394150108,
+      "liquidity_factor": 0.6435008305597472,
+      "stability_factor": 0.3831645773031333
     },
     {
       "id": 24467,
@@ -1125,16 +1143,16 @@
       "chat_link": "[&AgGTXwAA]",
       "rarity": "Fine",
       "buy_price": 448,
-      "sell_price": 632,
-      "profit_per_unit": 89,
-      "roi": 0.19866071428571427,
-      "demand": 36045,
-      "supply": 126337,
-      "daily_volume": 365,
-      "price_cv": 0.058330077383056206,
+      "sell_price": 629,
+      "profit_per_unit": 87,
+      "roi": 0.19419642857142858,
+      "demand": 36018,
+      "supply": 126355,
+      "daily_volume": 366,
+      "price_cv": 0.05842544266443161,
       "trend": 0.011768094473933259,
-      "liquidity_factor": 0.6408633136114649,
-      "stability_factor": 0.5833565901210271
+      "liquidity_factor": 0.6411595551096442,
+      "stability_factor": 0.5826754095397743
     },
     {
       "id": 24502,
@@ -1146,13 +1164,13 @@
       "sell_price": 1582,
       "profit_per_unit": 129,
       "roi": 0.10608552631578948,
-      "demand": 14376,
-      "supply": 47041,
-      "daily_volume": 241,
-      "price_cv": 0.04917291648505414,
+      "demand": 14373,
+      "supply": 47045,
+      "daily_volume": 243,
+      "price_cv": 0.04929686036834618,
       "trend": 0.006335498145458379,
-      "liquidity_factor": 0.5959473714022344,
-      "stability_factor": 0.6487648822496133
+      "liquidity_factor": 0.596840976790097,
+      "stability_factor": 0.6478795687975274
     },
     {
       "id": 24554,
@@ -1161,16 +1179,16 @@
       "chat_link": "[&AgHqXwAA]",
       "rarity": "Exotic",
       "buy_price": 576,
-      "sell_price": 920,
-      "profit_per_unit": 206,
-      "roi": 0.3576388888888889,
+      "sell_price": 921,
+      "profit_per_unit": 207,
+      "roi": 0.359375,
       "demand": 2698,
-      "supply": 26060,
-      "daily_volume": 129,
-      "price_cv": 0.05849839031243356,
+      "supply": 26057,
+      "daily_volume": 130,
+      "price_cv": 0.05858675417376343,
       "trend": -0.00022277917014759118,
-      "liquidity_factor": 0.5284801004637995,
-      "stability_factor": 0.5789120583090659
+      "liquidity_factor": 0.5293120772684096,
+      "stability_factor": 0.5782844031616557
     },
     {
       "id": 24572,
@@ -1182,13 +1200,13 @@
       "sell_price": 807,
       "profit_per_unit": 124,
       "roi": 0.2206405693950178,
-      "demand": 2829,
+      "demand": 2828,
       "supply": 18424,
       "daily_volume": 97,
-      "price_cv": 0.048430720186365246,
+      "price_cv": 0.048268740544195186,
       "trend": 0.008947305553865258,
       "liquidity_factor": 0.4978011143864195,
-      "stability_factor": 0.6540662843831054
+      "stability_factor": 0.6552232818271773
     },
     {
       "id": 24605,
@@ -1197,34 +1215,16 @@
       "chat_link": "[&AgEdYAAA]",
       "rarity": "Exotic",
       "buy_price": 282,
-      "sell_price": 396,
-      "profit_per_unit": 54,
-      "roi": 0.19148936170212766,
+      "sell_price": 389,
+      "profit_per_unit": 49,
+      "roi": 0.17375886524822695,
       "demand": 5635,
-      "supply": 26019,
+      "supply": 26022,
       "daily_volume": 51,
-      "price_cv": 0.056187966503569664,
+      "price_cv": 0.05472175366475003,
       "trend": -0.003284072249589491,
       "liquidity_factor": 0.428996178374747,
-      "stability_factor": 0.5495065297267717
-    },
-    {
-      "id": 24615,
-      "name": "Superior Sigil of Force",
-      "icon": "https://render.guildwars2.com/file/D7420E430D002E07382035EF0D0F77370C4EE6B8/220662.png",
-      "chat_link": "[&AgEnYAAA]",
-      "rarity": "Exotic",
-      "buy_price": 5351,
-      "sell_price": 7045,
-      "profit_per_unit": 637,
-      "roi": 0.11904316950102785,
-      "demand": 4433,
-      "supply": 27266,
-      "daily_volume": 290,
-      "price_cv": 0.03783734957206379,
-      "trend": null,
-      "liquidity_factor": 0.6159665598088941,
-      "stability_factor": 0.6567598956081615
+      "stability_factor": 0.5591196305583478
     },
     {
       "id": 24618,
@@ -1233,16 +1233,16 @@
       "chat_link": "[&AgEqYAAA]",
       "rarity": "Exotic",
       "buy_price": 1821,
-      "sell_price": 2479,
-      "profit_per_unit": 286,
-      "roi": 0.157056562328391,
-      "demand": 6270,
-      "supply": 26658,
+      "sell_price": 2478,
+      "profit_per_unit": 285,
+      "roi": 0.15650741350906094,
+      "demand": 6252,
+      "supply": 26660,
       "daily_volume": 327,
-      "price_cv": 0.04224311847104501,
+      "price_cv": 0.04224462962386731,
       "trend": 0.0024893708440482804,
       "liquidity_factor": 0.6289616324051832,
-      "stability_factor": 0.6982634394925357
+      "stability_factor": 0.698252645543805
     },
     {
       "id": 24624,
@@ -1255,12 +1255,12 @@
       "profit_per_unit": 133,
       "roi": 0.2078125,
       "demand": 10822,
-      "supply": 23666,
-      "daily_volume": 117,
-      "price_cv": 0.040421424644954136,
+      "supply": 23665,
+      "daily_volume": 118,
+      "price_cv": 0.0404642110782014,
       "trend": 0.0031901649548708375,
-      "liquidity_factor": 0.5179648783754868,
-      "stability_factor": 0.7112755382503276
+      "liquidity_factor": 0.5188811069497602,
+      "stability_factor": 0.71096992086999
     },
     {
       "id": 24691,
@@ -1272,7 +1272,7 @@
       "sell_price": 984,
       "profit_per_unit": 151,
       "roi": 0.22011661807580174,
-      "demand": 5637,
+      "demand": 5636,
       "supply": 22966,
       "daily_volume": 233,
       "price_cv": 0.06137973860489469,
@@ -1287,16 +1287,16 @@
       "chat_link": "[&AgF+YAAA]",
       "rarity": "Exotic",
       "buy_price": 585,
-      "sell_price": 761,
-      "profit_per_unit": 62,
-      "roi": 0.10598290598290598,
-      "demand": 2531,
-      "supply": 22452,
-      "daily_volume": 186,
-      "price_cv": 0.04225462578045525,
+      "sell_price": 764,
+      "profit_per_unit": 65,
+      "roi": 0.1111111111111111,
+      "demand": 2530,
+      "supply": 22447,
+      "daily_volume": 187,
+      "price_cv": 0.04229513753980307,
       "trend": -0.006434959237025487,
-      "liquidity_factor": 0.5679542354576677,
-      "stability_factor": 0.5858620482270032
+      "liquidity_factor": 0.568533289852774,
+      "stability_factor": 0.5856192305745229
     },
     {
       "id": 24726,
@@ -1309,12 +1309,12 @@
       "profit_per_unit": 195,
       "roi": 0.13771186440677965,
       "demand": 2787,
-      "supply": 13107,
+      "supply": 13108,
       "daily_volume": 136,
-      "price_cv": 0.06259392199037585,
-      "trend": -0.008790101878491626,
+      "price_cv": 0.062371542362803935,
+      "trend": -0.00877797959058324,
       "liquidity_factor": 0.5341743423548371,
-      "stability_factor": 0.4313992515474821
+      "stability_factor": 0.4328066586964428
     },
     {
       "id": 36080,
@@ -1327,12 +1327,12 @@
       "profit_per_unit": 73,
       "roi": 0.5447761194029851,
       "demand": 50237,
-      "supply": 502785,
+      "supply": 502725,
       "daily_volume": 115,
-      "price_cv": 0.06004089110419565,
+      "price_cv": 0.060127188241255417,
       "trend": 3.253778450225324e-05,
       "liquidity_factor": 0.5161088940057719,
-      "stability_factor": 0.5711364921128883
+      "stability_factor": 0.5705200839910327
     },
     {
       "id": 36081,
@@ -1346,11 +1346,11 @@
       "roi": 0.272108843537415,
       "demand": 83529,
       "supply": 107031,
-      "daily_volume": 182,
-      "price_cv": 0.05689157660175111,
+      "daily_volume": 183,
+      "price_cv": 0.056954256206191226,
       "trend": -0.007282821430520792,
-      "liquidity_factor": 0.5656066317436593,
-      "stability_factor": 0.48554877302649885
+      "liquidity_factor": 0.566198308639707,
+      "stability_factor": 0.4851825766316538
     },
     {
       "id": 36793,
@@ -1359,16 +1359,16 @@
       "chat_link": "[&AgG5jwAA]",
       "rarity": "Fine",
       "buy_price": 849,
-      "sell_price": 1289,
-      "profit_per_unit": 247,
-      "roi": 0.29093050647820967,
+      "sell_price": 1288,
+      "profit_per_unit": 246,
+      "roi": 0.28975265017667845,
       "demand": 24373,
-      "supply": 5280,
+      "supply": 5313,
       "daily_volume": 93,
-      "price_cv": 0.007665128681700082,
+      "price_cv": 0.00764862596475133,
       "trend": 0.0024105931239095436,
       "liquidity_factor": 0.4932766079849684,
-      "stability_factor": 0.9452490808449994
+      "stability_factor": 0.9453669573946334
     },
     {
       "id": 38131,
@@ -1380,13 +1380,13 @@
       "sell_price": 237,
       "profit_per_unit": 49,
       "roi": 0.3223684210526316,
-      "demand": 512434,
+      "demand": 512684,
       "supply": 137722,
       "daily_volume": 95,
-      "price_cv": 0.012198211094691882,
+      "price_cv": 0.012211240171531539,
       "trend": 0.0008624407072013798,
       "liquidity_factor": 0.49556242802820094,
-      "stability_factor": 0.9128699207522009
+      "stability_factor": 0.9127768559176319
     },
     {
       "id": 43320,
@@ -1401,10 +1401,10 @@
       "demand": 11991,
       "supply": 6980,
       "daily_volume": 75,
-      "price_cv": 0.02989106097657757,
+      "price_cv": 0.029933604510375904,
       "trend": 0.0006242888038330588,
       "liquidity_factor": 0.4701982932123329,
-      "stability_factor": 0.7864924215958745
+      "stability_factor": 0.7861885392116007
     },
     {
       "id": 43361,
@@ -1416,13 +1416,13 @@
       "sell_price": 187,
       "profit_per_unit": 44,
       "roi": 0.3826086956521739,
-      "demand": 99479,
-      "supply": 914326,
-      "daily_volume": 1240,
-      "price_cv": 0.06223715063765101,
-      "trend": -0.01091289474428204,
-      "liquidity_factor": 0.7734345483356161,
-      "stability_factor": 0.40391003292628314
+      "demand": 99475,
+      "supply": 913799,
+      "daily_volume": 1244,
+      "price_cv": 0.06227489530689114,
+      "trend": -0.010783093918485842,
+      "liquidity_factor": 0.7737839370256225,
+      "stability_factor": 0.40551555071328876
     },
     {
       "id": 43550,
@@ -1435,12 +1435,12 @@
       "profit_per_unit": 852,
       "roi": 0.18481561822125814,
       "demand": 24391,
-      "supply": 12972,
+      "supply": 12973,
       "daily_volume": 94,
-      "price_cv": 0.06687669412292398,
+      "price_cv": 0.06694818860555862,
       "trend": -0.007375852832983814,
       "liquidity_factor": 0.49442553343357987,
-      "stability_factor": 0.4259974093343693
+      "stability_factor": 0.4255809010266725
     },
     {
       "id": 66529,
@@ -1491,10 +1491,10 @@
       "demand": 4097,
       "supply": 9432,
       "daily_volume": 124,
-      "price_cv": 0.060795541877468544,
+      "price_cv": 0.0608191871104972,
       "trend": 0.013935553627158424,
       "liquidity_factor": 0.5242218118705737,
-      "stability_factor": 0.5657461294466533
+      "stability_factor": 0.5655772349250201
     },
     {
       "id": 67531,
@@ -1508,11 +1508,11 @@
       "roi": 0.3147612156295224,
       "demand": 5218,
       "supply": 8760,
-      "daily_volume": 120,
-      "price_cv": 0.021199390723508363,
+      "daily_volume": 121,
+      "price_cv": 0.02122107468369386,
       "trend": -0.003192208486756985,
-      "liquidity_factor": 0.5206906895344289,
-      "stability_factor": 0.7808550103384551
+      "liquidity_factor": 0.5215842949222914,
+      "stability_factor": 0.7807124855731534
     },
     {
       "id": 70426,
@@ -1521,16 +1521,16 @@
       "chat_link": "[&AgEaEwEA]",
       "rarity": "Fine",
       "buy_price": 427,
-      "sell_price": 576,
-      "profit_per_unit": 62,
-      "roi": 0.1451990632318501,
+      "sell_price": 578,
+      "profit_per_unit": 64,
+      "roi": 0.14988290398126464,
       "demand": 79427,
-      "supply": 122550,
-      "daily_volume": 430,
-      "price_cv": 0.0201909957775996,
+      "supply": 122450,
+      "daily_volume": 431,
+      "price_cv": 0.02020991896828056,
       "trend": 0.0043797284568356755,
-      "liquidity_factor": 0.6586121671069514,
-      "stability_factor": 0.8557786015885743
+      "liquidity_factor": 0.6588637835387424,
+      "stability_factor": 0.8556434359408531
     },
     {
       "id": 70714,
@@ -1545,10 +1545,10 @@
       "demand": 16104,
       "supply": 31035,
       "daily_volume": 230,
-      "price_cv": 0.014405630004596532,
+      "price_cv": 0.014343165664614601,
       "trend": 0.00044555834029518236,
       "liquidity_factor": 0.590896579715695,
-      "stability_factor": 0.8971026428243105
+      "stability_factor": 0.8975488166813242
     },
     {
       "id": 70842,
@@ -1562,11 +1562,11 @@
       "roi": 0.10222222222222223,
       "demand": 30352,
       "supply": 473494,
-      "daily_volume": 1169,
-      "price_cv": 0.06575244525483517,
-      "trend": -0.017762447413806996,
-      "liquidity_factor": 0.7670381378421464,
-      "stability_factor": 0.2948364112574727
+      "daily_volume": 1172,
+      "price_cv": 0.06559127502855126,
+      "trend": -0.017615984436885012,
+      "liquidity_factor": 0.7673161724159172,
+      "stability_factor": 0.29742251032008066
     },
     {
       "id": 71136,
@@ -1580,11 +1580,11 @@
       "roi": 0.6507936507936508,
       "demand": 15415,
       "supply": 30602,
-      "daily_volume": 150,
-      "price_cv": 0.01749254817756221,
+      "daily_volume": 151,
+      "price_cv": 0.017508821089383002,
       "trend": 0.0026781631719903325,
-      "liquidity_factor": 0.544738322697803,
-      "stability_factor": 0.8750532273031271
+      "liquidity_factor": 0.5454549750801384,
+      "stability_factor": 0.8749369922186929
     },
     {
       "id": 71580,
@@ -1597,12 +1597,12 @@
       "profit_per_unit": 480,
       "roi": 0.2250351617440225,
       "demand": 6292,
-      "supply": 21916,
+      "supply": 21906,
       "daily_volume": 68,
-      "price_cv": 0.06604758932522602,
+      "price_cv": 0.06613447195496948,
       "trend": 0.013251160400563239,
       "liquidity_factor": 0.459707281725464,
-      "stability_factor": 0.5282315048198143
+      "stability_factor": 0.5276109146073609
     },
     {
       "id": 72194,
@@ -1616,11 +1616,11 @@
       "roi": 0.31262939958592134,
       "demand": 8221,
       "supply": 36056,
-      "daily_volume": 700,
-      "price_cv": 0.06290034421992782,
-      "trend": 0.00211942678255459,
-      "liquidity_factor": 0.7114217807140054,
-      "stability_factor": 0.5507118270005156
+      "daily_volume": 702,
+      "price_cv": 0.0629923298366162,
+      "trend": 0.002153564197359818,
+      "liquidity_factor": 0.7117311041190284,
+      "stability_factor": 0.5500547868813128
     },
     {
       "id": 72339,
@@ -1633,12 +1633,12 @@
       "profit_per_unit": 161,
       "roi": 0.14743589743589744,
       "demand": 7243,
-      "supply": 51333,
-      "daily_volume": 100,
-      "price_cv": 0.028425282527271386,
-      "trend": 0.0001873536299765808,
-      "liquidity_factor": 0.5010749033660213,
-      "stability_factor": 0.7969622676623472
+      "supply": 51332,
+      "daily_volume": 101,
+      "price_cv": 0.028454030815356968,
+      "trend": 0.0001711584186812475,
+      "liquidity_factor": 0.502144591247432,
+      "stability_factor": 0.7967569227474502
     },
     {
       "id": 77567,
@@ -1646,17 +1646,17 @@
       "icon": "https://render.guildwars2.com/file/05A70B2FEFB3B4F31365309F464C3E2CC9D99427/1322537.png",
       "chat_link": "[&AgH/LgEA]",
       "rarity": "Fine",
-      "buy_price": 1116,
+      "buy_price": 1115,
       "sell_price": 1535,
-      "profit_per_unit": 188,
-      "roi": 0.16845878136200718,
-      "demand": 85928,
+      "profit_per_unit": 189,
+      "roi": 0.16950672645739912,
+      "demand": 85923,
       "supply": 43535,
-      "daily_volume": 486,
-      "price_cv": 0.05812436840448326,
-      "trend": -0.0014357049468811673,
-      "liquidity_factor": 0.6718749458788357,
-      "stability_factor": 0.5638350025910654
+      "daily_volume": 487,
+      "price_cv": 0.058155380405584545,
+      "trend": -0.000995300470403322,
+      "liquidity_factor": 0.6720976586579023,
+      "stability_factor": 0.5700579991775563
     },
     {
       "id": 79786,
@@ -1665,16 +1665,16 @@
       "chat_link": "[&AgGqNwEA]",
       "rarity": "Masterwork",
       "buy_price": 1014,
-      "sell_price": 1519,
-      "profit_per_unit": 277,
-      "roi": 0.27317554240631164,
-      "demand": 7500,
-      "supply": 19524,
+      "sell_price": 1508,
+      "profit_per_unit": 268,
+      "roi": 0.26429980276134124,
+      "demand": 7499,
+      "supply": 19525,
       "daily_volume": 168,
-      "price_cv": 0.06463389295666387,
+      "price_cv": 0.06368014234598428,
       "trend": 0.014899308411784419,
       "liquidity_factor": 0.556965629278272,
-      "stability_factor": 0.5383293360238295
+      "stability_factor": 0.5451418403858266
     },
     {
       "id": 80714,
@@ -1689,10 +1689,10 @@
       "demand": 3796,
       "supply": 3407,
       "daily_volume": 54,
-      "price_cv": 0.022426256607327083,
+      "price_cv": 0.02239990187590917,
       "trend": 0.0035126712422300656,
       "liquidity_factor": 0.4350859487240724,
-      "stability_factor": 0.8398124528048065
+      "stability_factor": 0.840000700886363
     },
     {
       "id": 82541,
@@ -1707,10 +1707,10 @@
       "demand": 6020,
       "supply": 226120,
       "daily_volume": 138,
-      "price_cv": 0.035449917777368375,
+      "price_cv": 0.035447256133279134,
       "trend": 0.008227755934177954,
       "liquidity_factor": 0.5357478835456069,
-      "stability_factor": 0.7467863015902259
+      "stability_factor": 0.7468053133337205
     },
     {
       "id": 82796,
@@ -1724,11 +1724,11 @@
       "roi": 0.14841753489286416,
       "demand": 5955,
       "supply": 9239,
-      "daily_volume": 53,
-      "price_cv": 0.012020702150396953,
+      "daily_volume": 54,
+      "price_cv": 0.012023230491552924,
       "trend": 0.0004874598705390319,
-      "liquidity_factor": 0.43309373793532596,
-      "stability_factor": 0.9141378417828789
+      "liquidity_factor": 0.4350859487240724,
+      "stability_factor": 0.9141197822031935
     },
     {
       "id": 83195,
@@ -1736,17 +1736,17 @@
       "icon": "https://render.guildwars2.com/file/F3C34FB64FA56F10D9E83F4140C5B31E62C8670E/1766611.png",
       "chat_link": "[&AgH7RAEA]",
       "rarity": "Exotic",
-      "buy_price": 467,
+      "buy_price": 469,
       "sell_price": 698,
-      "profit_per_unit": 126,
-      "roi": 0.2698072805139186,
-      "demand": 42242,
-      "supply": 10053,
-      "daily_volume": 90,
-      "price_cv": 0.05382720569668518,
+      "profit_per_unit": 124,
+      "roi": 0.26439232409381663,
+      "demand": 43486,
+      "supply": 10047,
+      "daily_volume": 91,
+      "price_cv": 0.0534166096247037,
       "trend": 0.009751234481362057,
-      "liquidity_factor": 0.489755030898443,
-      "stability_factor": 0.6155199593093916
+      "liquidity_factor": 0.49094162677190156,
+      "stability_factor": 0.6184527883949735
     },
     {
       "id": 83284,
@@ -1754,17 +1754,17 @@
       "icon": "https://render.guildwars2.com/file/DFA737F4360575AFCF7BDD470B9DF3140EF45530/1767170.png",
       "chat_link": "[&AgFURQEA]",
       "rarity": "Rare",
-      "buy_price": 213,
-      "sell_price": 287,
-      "profit_per_unit": 31,
-      "roi": 0.14553990610328638,
-      "demand": 3246099,
-      "supply": 183582,
-      "daily_volume": 4365,
-      "price_cv": 0.06079856249672846,
+      "buy_price": 212,
+      "sell_price": 285,
+      "profit_per_unit": 30,
+      "roi": 0.14150943396226415,
+      "demand": 3245755,
+      "supply": 183894,
+      "daily_volume": 4379,
+      "price_cv": 0.060887143526305414,
       "trend": 0.00595089915478265,
-      "liquidity_factor": 0.9100110530177933,
-      "stability_factor": 0.5657245535947968
+      "liquidity_factor": 0.9103586440268053,
+      "stability_factor": 0.5650918319549614
     },
     {
       "id": 83322,
@@ -1777,12 +1777,12 @@
       "profit_per_unit": 984,
       "roi": 0.1889400921658986,
       "demand": 6706,
-      "supply": 15046,
+      "supply": 15062,
       "daily_volume": 129,
-      "price_cv": 0.06704351048977161,
+      "price_cv": 0.06713627382575228,
       "trend": 0.005393223522508438,
       "liquidity_factor": 0.5284801004637995,
-      "stability_factor": 0.5211177822159171
+      "stability_factor": 0.5204551869589122
     },
     {
       "id": 87329,
@@ -1794,13 +1794,13 @@
       "sell_price": 416,
       "profit_per_unit": 81,
       "roi": 0.2977941176470588,
-      "demand": 21588,
+      "demand": 21580,
       "supply": 74268,
       "daily_volume": 95,
-      "price_cv": 0.0683868258686155,
+      "price_cv": 0.06848740431121254,
       "trend": -0.018095770846097158,
       "liquidity_factor": 0.49556242802820094,
-      "stability_factor": 0.28011274582360596
+      "stability_factor": 0.27971933631385804
     },
     {
       "id": 87358,
@@ -1812,13 +1812,13 @@
       "sell_price": 298,
       "profit_per_unit": 40,
       "roi": 0.18779342723004694,
-      "demand": 11467,
+      "demand": 11447,
       "supply": 38262,
       "daily_volume": 97,
-      "price_cv": 0.022202480727659058,
+      "price_cv": 0.022183915594960506,
       "trend": 0.0031635857119248294,
       "liquidity_factor": 0.4978011143864195,
-      "stability_factor": 0.8414108519452925
+      "stability_factor": 0.8415434600359963
     },
     {
       "id": 89105,
@@ -1832,11 +1832,11 @@
       "roi": 0.14307600079930727,
       "demand": 4783,
       "supply": 8579,
-      "daily_volume": 361,
-      "price_cv": 0.06366423528516486,
-      "trend": 0.011854755919309085,
-      "liquidity_factor": 0.6396701978495958,
-      "stability_factor": 0.5452554622488224
+      "daily_volume": 363,
+      "price_cv": 0.06190961885278694,
+      "trend": 0.011850479102520458,
+      "liquidity_factor": 0.6402683946340539,
+      "stability_factor": 0.5577884367658077
     },
     {
       "id": 91174,
@@ -1844,17 +1844,17 @@
       "icon": "https://render.guildwars2.com/file/D77E646CF20F072A15B8A4EB6AA1A56204369C5A/2155855.png",
       "chat_link": "[&AgEmZAEA]",
       "rarity": "Masterwork",
-      "buy_price": 6274,
+      "buy_price": 6275,
       "sell_price": 13330,
-      "profit_per_unit": 5056,
-      "roi": 0.8058654765699713,
-      "demand": 5987,
+      "profit_per_unit": 5055,
+      "roi": 0.8055776892430279,
+      "demand": 5919,
       "supply": 3876,
       "daily_volume": 69,
-      "price_cv": 0.055906321351264145,
+      "price_cv": 0.05595433261308933,
       "trend": 0.01335830309448537,
       "liquidity_factor": 0.46126950208397044,
-      "stability_factor": 0.6006691332052562
+      "stability_factor": 0.6003261956207906
     },
     {
       "id": 91692,
@@ -1863,16 +1863,16 @@
       "chat_link": "[&AgEsZgEA]",
       "rarity": "Rare",
       "buy_price": 111,
-      "sell_price": 144,
+      "sell_price": 145,
       "profit_per_unit": 12,
       "roi": 0.10810810810810811,
-      "demand": 6079,
-      "supply": 81260,
-      "daily_volume": 836,
-      "price_cv": 0.06779703715717156,
+      "demand": 6068,
+      "supply": 81248,
+      "daily_volume": 838,
+      "price_cv": 0.06786681813566108,
       "trend": 0.0024350649350649354,
-      "liquidity_factor": 0.7306734317089613,
-      "stability_factor": 0.515735448877346
+      "liquidity_factor": 0.730932554604571,
+      "stability_factor": 0.5152370133167066
     },
     {
       "id": 91917,
@@ -1887,10 +1887,10 @@
       "demand": 4356,
       "supply": 3559,
       "daily_volume": 80,
-      "price_cv": 0.02278285473523838,
+      "price_cv": 0.02277792945557279,
       "trend": -0.008295467785156706,
       "liquidity_factor": 0.47711607475669393,
-      "stability_factor": 0.6636276353890359
+      "stability_factor": 0.6636555199761474
     },
     {
       "id": 94026,
@@ -1905,10 +1905,10 @@
       "demand": 20611,
       "supply": 30744,
       "daily_volume": 139,
-      "price_cv": 0.03496006804921118,
+      "price_cv": 0.03486963777667089,
       "trend": 0.0040134377497917815,
       "liquidity_factor": 0.5365261839517759,
-      "stability_factor": 0.7502852282199202
+      "stability_factor": 0.7509311587380652
     },
     {
       "id": 95421,
@@ -1922,11 +1922,11 @@
       "roi": 0.3772357723577236,
       "demand": 26951,
       "supply": 9512,
-      "daily_volume": 63,
-      "price_cv": 0.05823242184005305,
+      "daily_volume": 64,
+      "price_cv": 0.05829273316864345,
       "trend": -0.011365807067812797,
-      "liquidity_factor": 0.4515400912068329,
-      "stability_factor": 0.41809796582671743
+      "liquidity_factor": 0.45322341859599385,
+      "stability_factor": 0.41778957900192215
     },
     {
       "id": 95847,
@@ -1939,12 +1939,12 @@
       "profit_per_unit": 32,
       "roi": 0.19753086419753085,
       "demand": 14853,
-      "supply": 215603,
-      "daily_volume": 690,
-      "price_cv": 0.06116964146451311,
-      "trend": 0.007299779146809252,
-      "liquidity_factor": 0.7098618050022646,
-      "stability_factor": 0.5630739895391921
+      "supply": 214784,
+      "daily_volume": 692,
+      "price_cv": 0.0612297136737707,
+      "trend": 0.006970908076958824,
+      "liquidity_factor": 0.7101755984048684,
+      "stability_factor": 0.5626449023302094
     },
     {
       "id": 95942,
@@ -1953,16 +1953,16 @@
       "chat_link": "[&AgHGdgEA]",
       "rarity": "Fine",
       "buy_price": 322,
-      "sell_price": 453,
-      "profit_per_unit": 63,
-      "roi": 0.1956521739130435,
+      "sell_price": 452,
+      "profit_per_unit": 62,
+      "roi": 0.19254658385093168,
       "demand": 17324,
-      "supply": 86290,
+      "supply": 86325,
       "daily_volume": 260,
-      "price_cv": 0.04510516003224923,
+      "price_cv": 0.04517103665052943,
       "trend": -0.005685856432125089,
       "liquidity_factor": 0.6041535676485078,
-      "stability_factor": 0.5814705647328419
+      "stability_factor": 0.5810669040654431
     },
     {
       "id": 96151,
@@ -1971,16 +1971,16 @@
       "chat_link": "[&AgGXdwEA]",
       "rarity": "Exotic",
       "buy_price": 1314,
-      "sell_price": 1864,
-      "profit_per_unit": 271,
-      "roi": 0.20624048706240486,
-      "demand": 45649,
-      "supply": 46317,
-      "daily_volume": 545,
-      "price_cv": 0.056947858568391616,
-      "trend": 0.007065208572554882,
-      "liquidity_factor": 0.684290731455422,
-      "stability_factor": 0.5932295816543456
+      "sell_price": 1868,
+      "profit_per_unit": 274,
+      "roi": 0.2085235920852359,
+      "demand": 45629,
+      "supply": 46277,
+      "daily_volume": 547,
+      "price_cv": 0.05701831529935157,
+      "trend": 0.007078713461009805,
+      "liquidity_factor": 0.684687706090448,
+      "stability_factor": 0.592726319290346
     },
     {
       "id": 96285,
@@ -1995,10 +1995,10 @@
       "demand": 4639,
       "supply": 18602,
       "daily_volume": 57,
-      "price_cv": 0.05941553553033928,
+      "price_cv": 0.059484069435273505,
       "trend": 0.003869297789163298,
       "liquidity_factor": 0.4408522121379663,
-      "stability_factor": 0.5756033176404338
+      "stability_factor": 0.5751137897480465
     },
     {
       "id": 97767,
@@ -2012,11 +2012,11 @@
       "roi": 0.18407310704960836,
       "demand": 6996,
       "supply": 20517,
-      "daily_volume": 65,
-      "price_cv": 0.005343192218387724,
+      "daily_volume": 66,
+      "price_cv": 0.005350666841422138,
       "trend": -0.0007282875253369942,
-      "liquidity_factor": 0.4548810453241935,
-      "stability_factor": 0.9443220424920431
+      "liquidity_factor": 0.45651374438801434,
+      "stability_factor": 0.9442696244122817
     },
     {
       "id": 97771,
@@ -2031,10 +2031,10 @@
       "demand": 8062,
       "supply": 17461,
       "daily_volume": 87,
-      "price_cv": 0.031068636284791635,
+      "price_cv": 0.031092503316449895,
       "trend": -0.0029922144009242764,
       "liquidity_factor": 0.48611539037063095,
-      "stability_factor": 0.7198765273906015
+      "stability_factor": 0.7197188013208702
     },
     {
       "id": 97933,
@@ -2048,11 +2048,11 @@
       "roi": 0.15143369175627241,
       "demand": 4688,
       "supply": 11157,
-      "daily_volume": 136,
-      "price_cv": 0.045995814726222044,
-      "trend": -0.0018866921768707482,
-      "liquidity_factor": 0.5341743423548371,
-      "stability_factor": 0.6397875803574952
+      "daily_volume": 137,
+      "price_cv": 0.045965341746988124,
+      "trend": -0.003398046454697501,
+      "liquidity_factor": 0.5349639635932695,
+      "stability_factor": 0.614616463040203
     },
     {
       "id": 98586,
@@ -2061,16 +2061,16 @@
       "chat_link": "[&AgEagQEA]",
       "rarity": "Rare",
       "buy_price": 4864,
-      "sell_price": 6499,
-      "profit_per_unit": 660,
-      "roi": 0.1356907894736842,
+      "sell_price": 6498,
+      "profit_per_unit": 659,
+      "roi": 0.13548519736842105,
       "demand": 27653,
-      "supply": 84114,
-      "daily_volume": 187,
-      "price_cv": 0.027338018155235934,
+      "supply": 84117,
+      "daily_volume": 188,
+      "price_cv": 0.027377685895441768,
       "trend": -0.00219551235648781,
-      "liquidity_factor": 0.568533289852774,
-      "stability_factor": 0.7605586608114246
+      "liquidity_factor": 0.5691092723268275,
+      "stability_factor": 0.7602908717767001
     },
     {
       "id": 109863,
@@ -2079,30 +2079,30 @@
       "chat_link": "[&AgEnrQEA]",
       "rarity": "Exotic",
       "buy_price": 4123,
-      "sell_price": 5696,
-      "profit_per_unit": 718,
-      "roi": 0.17414504001940334,
+      "sell_price": 5689,
+      "profit_per_unit": 713,
+      "roi": 0.17293233082706766,
       "demand": 4144,
-      "supply": 3736,
+      "supply": 3861,
       "daily_volume": 52,
-      "price_cv": 0.02929425491386597,
+      "price_cv": 0.029268506157887845,
       "trend": 0.00570482978874101,
       "liquidity_factor": 0.4310642874131585,
-      "stability_factor": 0.7907553220438145
+      "stability_factor": 0.7909392417293726
     }
   ],
   "funnel": {
-    "roi_low": 2385,
-    "min_buy_price": 6093,
-    "demand": 5941,
-    "no_history": 1431,
-    "roi_high": 6154,
-    "supply": 1691,
-    "no_quotes": 3321,
-    "no_spread": 343,
-    "volume": 415,
+    "roi_low": 2380,
+    "min_buy_price": 6096,
+    "demand": 5943,
+    "no_history": 1432,
+    "roi_high": 6153,
+    "supply": 1693,
+    "no_quotes": 3320,
+    "no_spread": 342,
+    "volume": 414,
     "passed": 107,
-    "volatility": 126,
+    "volatility": 127,
     "downtrend": 2
   },
   "review": {
