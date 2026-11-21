@@ -1,31 +1,31 @@
 # Einkaufsliste – 2026-11-21
 
-Erstellt: 2026-11-21 02:35 UTC · Budget: 200g 0s 0c
+Erstellt: 2026-11-21 08:05 UTC · Budget: 200g 0s 0c
 
-> Volumen, Volatilität und Trend stammen aus den stündlichen Snapshots der letzten 7 Tage (346 Snapshots, 923 Items mit Historie). Das Volumen ist eine Schätzung aus Mengenänderungen. Preise vor dem Kauf im Spiel kontrollieren. Es wird nichts automatisch gekauft.
+> Volumen, Volatilität und Trend stammen aus den stündlichen Snapshots der letzten 7 Tage (347 Snapshots, 922 Items mit Historie). Das Volumen ist eine Schätzung aus Mengenänderungen. Preise vor dem Kauf im Spiel kontrollieren. Es wird nichts automatisch gekauft.
 
 | # | Risiko | Item | Chatcode | Kaufgebot | Stück | Verkaufspreis | Netto/Stück | ROI | Einsatz | Erw. Gewinn | Vol./Tag | Trend |
 |---:|:---:|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1 | 🟡 mittel | Cured Thick Leather Square | `[&AgEXTQAA]` | 3s 4c | 250 | 4s 9c | 44c | 14.5 % | 7g 60s 0c | 1g 10s 0c | 27161 | ↗ +0.7 %/Tag |
-| 2 | 🟡 mittel | Memory of Battle | `[&AgGdFwEA]` | 2s 84c | 250 | 3s 88c | 46c | 16.2 % | 7g 10s 0c | 1g 15s 0c | 25632 | → -0.2 %/Tag |
-| 3 | 🟡 mittel | Elonian Leather Square | `[&AgGTtgAA]` | 1g 4s 64c | 12 | 1g 40s 60c | 14s 87c | 14.2 % | 12g 55s 68c | 1g 78s 44c | 301 | ↘ -0.8 %/Tag |
-| 4 | 🟢 gering | Djinn Energy Cluster | `[&AgEmZAEA]` | 66s 60c | 3 | 1g 33s 29c | 46s 70c | 70.1 % | 1g 99s 80c | 1g 40s 10c | 78 | ↗ +1.0 %/Tag |
-| 5 | 🟡 mittel | Gossamer Patch | `[&AgFGKwEA]` | 20s 52c | 31 | 28s 5c | 3s 32c | 16.2 % | 6g 36s 12c | 1g 2s 92c | 788 | ↘ -0.7 %/Tag |
-| 6 | 🟢 gering | Superior Rune of Snowfall | `[&AgFVCwEA]` | 1g 95s 94c | 2 | 2g 78s 97c | 41s 18c | 21.0 % | 3g 91s 88c | 82s 36c | 50 | → +0.1 %/Tag |
-| 7 | 🟡 mittel | Rare Rift Motivation | `[&AgFNigEA]` | 2g 25s 80c | 5 | 2g 95s 94c | 25s 75c | 11.4 % | 11g 29s 0c | 1g 28s 75c | 128 | ↘ -0.9 %/Tag |
-| 8 | 🟡 mittel | Writ of Masterful Strength | `[&AgHnHQEA]` | 1g 10s 17c | 7 | 1g 45s 65c | 13s 63c | 12.4 % | 7g 71s 19c | 95s 41c | 188 | ↗ +0.5 %/Tag |
-| 9 | 🟡 mittel | Plate of Spicy Moa Wings | `[&AgENZwEA]` | 51s 42c | 3 | 81s 87c | 18s 17c | 35.3 % | 1g 54s 26c | 54s 51c | 76 | ↘ -1.0 %/Tag |
-| 10 | 🟢 gering | Super Loot Bag | `[&AgG+fgEA]` | 95s 18c | 2 | 1g 31s 82c | 16s 87c | 17.7 % | 1g 90s 36c | 33s 74c | 55 | → +0.0 %/Tag |
+| 1 | 🟡 mittel | \+10 Agony Infusion | `[&AgEZwQAA]` | 6g 25s 39c | 3 | 8g 92s 97c | 1g 33s 63c | 21.4 % | 18g 76s 17c | 4g 0s 89c | 87 | ↘ -0.5 %/Tag |
+| 2 | 🟡 mittel | Memory of Battle | `[&AgGdFwEA]` | 2s 81c | 250 | 3s 98c | 57c | 20.3 % | 7g 2s 50c | 1g 42s 50c | 25585 | → -0.2 %/Tag |
+| 3 | 🟡 mittel | Elonian Leather Square | `[&AgGTtgAA]` | 1g 4s 59c | 12 | 1g 43s 50c | 17s 38c | 16.6 % | 12g 55s 8c | 2g 8s 56c | 302 | ↘ -0.7 %/Tag |
+| 4 | 🟢 gering | Djinn Energy Cluster | `[&AgEmZAEA]` | 66s 61c | 3 | 1g 33s 29c | 46s 69c | 70.1 % | 1g 99s 83c | 1g 40s 7c | 78 | ↗ +0.9 %/Tag |
+| 5 | 🟡 mittel | Gossamer Patch | `[&AgFGKwEA]` | 20s 52c | 31 | 28s 1c | 3s 29c | 16.0 % | 6g 36s 12c | 1g 1s 99c | 784 | ↘ -0.7 %/Tag |
+| 6 | 🟡 mittel | Writ of Masterful Strength | `[&AgHnHQEA]` | 1g 10s 8c | 7 | 1g 44s 62c | 12s 85c | 11.7 % | 7g 70s 56c | 89s 95c | 187 | ↗ +0.8 %/Tag |
+| 7 | 🟢 gering | Superior Rune of Snowfall | `[&AgFVCwEA]` | 2g 5s 94c | 2 | 2g 78s 99c | 31s 20c | 15.2 % | 4g 11s 88c | 62s 40c | 50 | ↗ +0.2 %/Tag |
+| 8 | 🟡 mittel | Plate of Spicy Moa Wings | `[&AgENZwEA]` | 51s 42c | 3 | 81s 87c | 18s 17c | 35.3 % | 1g 54s 26c | 54s 51c | 76 | ↘ -1.0 %/Tag |
+| 9 | 🟢 gering | Super Loot Bag | `[&AgG+fgEA]` | 95s 19c | 2 | 1g 31s 82c | 16s 86c | 17.7 % | 1g 90s 38c | 33s 72c | 60 | → +0.0 %/Tag |
+| 10 | 🔴 erhöht | Tyria\'s Best Nougat Center | `[&AgGmvgAA]` | 49s 95c | 2 | 75s 87c | 14s 54c | 29.1 % | 99s 90c | 29s 8c | 53 | ↘ -1.6 %/Tag |
 
-**Summe:** Einsatz 61g 98s 29c · erwarteter Gewinn 10g 41s 23c (nach 15 % Gebühren)
+**Summe:** Einsatz 62g 96s 68c · erwarteter Gewinn 12g 63s 67c (nach 15 % Gebühren)
 
 <details><summary>Lauf-Statistik</summary>
 
 - Modus: Historie
-- Universum (stündlich gespeichert): 811 Items
-- Snapshots im Fenster: 346, Items mit Historie: 923
+- Universum (stündlich gespeichert): 810 Items
+- Snapshots im Fenster: 347, Items mit Historie: 922
 - Preise geladen: 28009 (verworfen: 0)
-- Kandidaten im Pool (nach Markt- und Historienfiltern): 109
+- Kandidaten im Pool (nach Markt- und Historienfiltern): 108
 - Item-Datensätze verworfen: 0
 - Fehlgeschlagene API-Blöcke: 0
 
