@@ -1,30 +1,30 @@
-# Einkaufsliste – 2026-11-25
+# Einkaufsliste – 2026-11-26
 
-Erstellt: 2026-11-25 22:12 UTC · Budget: 200g 0s 0c
+Erstellt: 2026-11-26 03:42 UTC · Budget: 200g 0s 0c
 
 > Volumen, Volatilität und Trend stammen aus den stündlichen Snapshots der letzten 7 Tage (347 Snapshots, 920 Items mit Historie). Das Volumen ist eine Schätzung aus Mengenänderungen. Preise vor dem Kauf im Spiel kontrollieren. Es wird nichts automatisch gekauft.
 
 | # | Risiko | Item | Chatcode | Kaufgebot | Stück | Verkaufspreis | Netto/Stück | ROI | Einsatz | Erw. Gewinn | Vol./Tag | Trend |
 |---:|:---:|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1 | 🟡 mittel | Bowl of Sweet and Spicy Butternut Squash Soup | `[&AgFhogAA]` | 30s 2c | 37 | 39s 8c | 3s 20c | 10.7 % | 11g 10s 74c | 1g 18s 40c | 943 | ↘ -0.9 %/Tag |
-| 2 | 🟡 mittel | Jorbreaker | `[&AgE4qQAA]` | 4g 32s 55c | 2 | 5g 99s 86c | 77s 33c | 17.9 % | 8g 65s 10c | 1g 54s 66c | 72 | → +0.2 %/Tag |
-| 3 | 🟡 mittel | Masterwork Rift Motivation | `[&AgEMiAEA]` | 1g 31s 15c | 6 | 1g 79s 99c | 21s 84c | 16.7 % | 7g 86s 90c | 1g 31s 4c | 174 | ↗ +1.6 %/Tag |
-| 4 | 🟡 mittel | Shaman\'s Intricate Gossamer Insignia | `[&AgF0tgAA]` | 39s 56c | 22 | 53s 53c | 5s 94c | 15.0 % | 8g 70s 32c | 1g 30s 68c | 557 | ↘ -0.9 %/Tag |
-| 5 | 🟡 mittel | Superior Sigil of Mischief | `[&AgFUCwEA]` | 2g 91s 40c | 2 | 4g 2s 89c | 51s 6c | 17.5 % | 5g 82s 80c | 1g 2s 12c | 56 | ↗ +0.4 %/Tag |
-| 6 | 🟡 mittel | Superior Rune of Snowfall | `[&AgFVCwEA]` | 2g 7s 65c | 2 | 2g 78s 91c | 29s 42c | 14.2 % | 4g 15s 30c | 58s 84c | 64 | ↗ +0.3 %/Tag |
-| 7 | 🟡 mittel | Super Loot Bag | `[&AgG+fgEA]` | 95s 26c | 4 | 1g 27s 80c | 13s 37c | 14.0 % | 3g 81s 4c | 53s 48c | 117 | → -0.1 %/Tag |
-| 8 | 🟢 gering | Empty Keg | `[&AgEgGgEA]` | 1g 22s 2c | 2 | 1g 75s 83c | 27s 44c | 22.5 % | 2g 44s 4c | 54s 88c | 69 | ↗ +0.8 %/Tag |
-| 9 | 🟡 mittel | Tyria\'s Best Nougat Center | `[&AgGmvgAA]` | 49s 92c | 2 | 75s 68c | 14s 41c | 28.9 % | 99s 84c | 28s 82c | 63 | ↘ -0.7 %/Tag |
+| 1 | 🟡 mittel | Karka Shell | `[&AgEJlAAA]` | 7s 94c | 106 | 10s 60c | 1s 7c | 13.5 % | 8g 41s 64c | 1g 13s 42c | 2665 | ↘ -0.3 %/Tag |
+| 2 | 🔴 erhöht | Bowl of Sweet and Spicy Butternut Squash Soup | `[&AgFhogAA]` | 30s 3c | 36 | 39s 17c | 3s 26c | 10.9 % | 10g 81s 8c | 1g 17s 36c | 914 | ↘ -1.2 %/Tag |
+| 3 | 🟡 mittel | Writ of Masterful Strength | `[&AgHnHQEA]` | 1g 7s 26c | 7 | 1g 47s 79c | 18s 36c | 17.1 % | 7g 50s 82c | 1g 28s 52c | 180 | ↗ +0.3 %/Tag |
+| 4 | 🟡 mittel | Masterwork Rift Motivation | `[&AgEMiAEA]` | 1g 31s 21c | 6 | 1g 79s 98c | 21s 77c | 16.6 % | 7g 87s 26c | 1g 30s 62c | 168 | ↗ +0.8 %/Tag |
+| 5 | 🟡 mittel | Superior Sigil of Mischief | `[&AgFUCwEA]` | 2g 91s 41c | 2 | 3g 99s 98c | 48s 57c | 16.7 % | 5g 82s 82c | 97s 14c | 56 | ↗ +0.6 %/Tag |
+| 6 | 🟡 mittel | Superior Rune of Snowfall | `[&AgFVCwEA]` | 2g 7s 73c | 2 | 2g 78s 92c | 29s 35c | 14.1 % | 4g 15s 46c | 58s 70c | 64 | ↗ +0.3 %/Tag |
+| 7 | 🟡 mittel | \+8 Agony Infusion | `[&AgEXwQAA]` | 2g 15s 12c | 2 | 2g 86s 5c | 28s 2c | 13.0 % | 4g 30s 24c | 56s 4c | 51 | ↘ -0.4 %/Tag |
+| 8 | 🟢 gering | Empty Keg | `[&AgEgGgEA]` | 1g 22s 3c | 2 | 1g 75s 84c | 27s 44c | 22.5 % | 2g 44s 6c | 54s 88c | 66 | ↗ +0.7 %/Tag |
+| 9 | 🟡 mittel | Tyria\'s Best Nougat Center | `[&AgGmvgAA]` | 49s 91c | 2 | 75s 64c | 14s 39c | 28.8 % | 99s 82c | 28s 78c | 54 | ↘ -0.5 %/Tag |
 
-**Summe:** Einsatz 53g 56s 8c · erwarteter Gewinn 8g 32s 92c (nach 15 % Gebühren)
+**Summe:** Einsatz 52g 33s 20c · erwarteter Gewinn 7g 85s 46c (nach 15 % Gebühren)
 
 <details><summary>Lauf-Statistik</summary>
 
 - Modus: Historie
-- Universum (stündlich gespeichert): 810 Items
+- Universum (stündlich gespeichert): 811 Items
 - Snapshots im Fenster: 347, Items mit Historie: 920
 - Preise geladen: 28009 (verworfen: 0)
-- Kandidaten im Pool (nach Markt- und Historienfiltern): 104
+- Kandidaten im Pool (nach Markt- und Historienfiltern): 93
 - Item-Datensätze verworfen: 0
 - Fehlgeschlagene API-Blöcke: 0
 
