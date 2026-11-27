@@ -1,23 +1,23 @@
 # Einkaufsliste – 2026-11-27
 
-Erstellt: 2026-11-27 18:14 UTC · Budget: 200g 0s 0c
+Erstellt: 2026-11-27 23:45 UTC · Budget: 200g 0s 0c
 
 > Volumen, Volatilität und Trend stammen aus den stündlichen Snapshots der letzten 7 Tage (346 Snapshots, 913 Items mit Historie). Das Volumen ist eine Schätzung aus Mengenänderungen. Preise vor dem Kauf im Spiel kontrollieren. Es wird nichts automatisch gekauft.
 
 | # | Risiko | Item | Chatcode | Kaufgebot | Stück | Verkaufspreis | Netto/Stück | ROI | Einsatz | Erw. Gewinn | Vol./Tag | Trend |
 |---:|:---:|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1 | 🟢 gering | Masterwork Rift Motivation | `[&AgEMiAEA]` | 1g 31s 34c | 6 | 1g 98s 60c | 37s 47c | 28.5 % | 7g 88s 4c | 2g 24s 82c | 168 | ↗ +0.5 %/Tag |
-| 2 | 🟡 mittel | Karka Shell | `[&AgEJlAAA]` | 7s 53c | 100 | 10s 44c | 1s 35c | 17.9 % | 7g 53s 0c | 1g 35s 0c | 2501 | ↘ -0.6 %/Tag |
-| 3 | 🟢 gering | Potion of Sons of Svanir Slaying | `[&AgGGIgAA]` | 3s 63c | 15 | 12s 56c | 7s 4c | 193.9 % | 54s 45c | 1g 5s 60c | 386 | ↗ +1.2 %/Tag |
-| 4 | 🟡 mittel | Bolt of Damask | `[&AgGVtgAA]` | 42s 8c | 15 | 58s 61c | 7s 74c | 18.4 % | 6g 31s 20c | 1g 16s 10c | 377 | ↗ +0.9 %/Tag |
-| 5 | 🟢 gering | Writ of Masterful Strength | `[&AgHnHQEA]` | 1g 9s 70c | 7 | 1g 49s 97c | 17s 77c | 16.2 % | 7g 67s 90c | 1g 24s 39c | 180 | ↗ +0.6 %/Tag |
-| 6 | 🟢 gering | Superior Sigil of Mischief | `[&AgFUCwEA]` | 2g 95s 53c | 2 | 4g 3s 99c | 47s 86c | 16.2 % | 5g 91s 6c | 95s 72c | 65 | → +0.2 %/Tag |
-| 7 | 🔴 erhöht | Bowl of Sweet and Spicy Butternut Squash Soup | `[&AgFhogAA]` | 31s 1c | 35 | 40s 14c | 3s 11c | 10.0 % | 10g 85s 35c | 1g 8s 85c | 883 | ↘ -1.1 %/Tag |
-| 8 | 🔴 erhöht | Elonian Leather Square | `[&AgGTtgAA]` | 1g 1s 66c | 10 | 1g 33s 73c | 12s 1c | 11.8 % | 10g 16s 60c | 1g 20s 10c | 269 | ↘ -1.0 %/Tag |
-| 9 | 🔴 erhöht | Piece of Mother\-of\-Pearl | `[&AgGdFQEA]` | 25s 5c | 16 | 36s 85c | 6s 27c | 25.0 % | 4g 0s 80c | 1g 0s 32c | 419 | ↘ -1.1 %/Tag |
-| 10 | 🟡 mittel | Super Loot Bag | `[&AgG+fgEA]` | 95s 28c | 5 | 1g 28s 98c | 14s 35c | 15.1 % | 4g 76s 40c | 71s 75c | 144 | ↘ -0.2 %/Tag |
+| 1 | 🟢 gering | Masterwork Rift Motivation | `[&AgEMiAEA]` | 1g 31s 35c | 7 | 1g 98s 55c | 37s 41c | 28.5 % | 9g 19s 45c | 2g 61s 87c | 185 | → +0.0 %/Tag |
+| 2 | 🟢 gering | Potion of Sons of Svanir Slaying | `[&AgGGIgAA]` | 3s 63c | 19 | 12s 56c | 7s 4c | 193.9 % | 68s 97c | 1g 33s 76c | 494 | ↗ +1.4 %/Tag |
+| 3 | 🟡 mittel | Cut of Quality Red Meat | `[&AgFnZgEA]` | 13s 85c | 80 | 17s 93c | 1s 39c | 10.0 % | 11g 8s 0c | 1g 11s 20c | 2004 | ↗ +0.3 %/Tag |
+| 4 | 🟡 mittel | Karka Shell | `[&AgEJlAAA]` | 7s 44c | 99 | 10s 45c | 1s 44c | 19.4 % | 7g 36s 56c | 1g 42s 56c | 2498 | ↘ -0.6 %/Tag |
+| 5 | 🟡 mittel | Jorbreaker | `[&AgE4qQAA]` | 4g 41s 34c | 3 | 5g 99s 90c | 68s 57c | 15.5 % | 13g 24s 2c | 2g 5s 71c | 95 | → -0.1 %/Tag |
+| 6 | 🟡 mittel | Bolt of Damask | `[&AgGVtgAA]` | 42s 23c | 14 | 58s 64c | 7s 62c | 18.0 % | 5g 91s 22c | 1g 6s 68c | 372 | ↗ +1.0 %/Tag |
+| 7 | 🟡 mittel | Writ of Masterful Strength | `[&AgHnHQEA]` | 1g 10s 74c | 7 | 1g 48s 99c | 15s 90c | 14.4 % | 7g 75s 18c | 1g 11s 30c | 177 | → +0.2 %/Tag |
+| 8 | 🔴 erhöht | Bowl of Sweet and Spicy Butternut Squash Soup | `[&AgFhogAA]` | 29s 89c | 31 | 40s 18c | 4s 26c | 14.3 % | 9g 26s 59c | 1g 32s 6c | 778 | ↘ -1.3 %/Tag |
+| 9 | 🔴 erhöht | Elonian Leather Square | `[&AgGTtgAA]` | 1g 1s 85c | 11 | 1g 34s 80c | 12s 73c | 12.5 % | 11g 20s 35c | 1g 40s 3c | 282 | ↘ -1.2 %/Tag |
+| 10 | 🔴 erhöht | Piece of Mother\-of\-Pearl | `[&AgGdFQEA]` | 22s 77c | 16 | 36s 74c | 8s 46c | 37.2 % | 3g 64s 32c | 1g 35s 36c | 400 | ↘ -1.3 %/Tag |
 
-**Summe:** Einsatz 65g 64s 80c · erwarteter Gewinn 12g 2s 65c (nach 15 % Gebühren)
+**Summe:** Einsatz 79g 34s 66c · erwarteter Gewinn 14g 80s 53c (nach 15 % Gebühren)
 
 <details><summary>Lauf-Statistik</summary>
 
@@ -25,7 +25,7 @@ Erstellt: 2026-11-27 18:14 UTC · Budget: 200g 0s 0c
 - Universum (stündlich gespeichert): 810 Items
 - Snapshots im Fenster: 346, Items mit Historie: 913
 - Preise geladen: 28009 (verworfen: 0)
-- Kandidaten im Pool (nach Markt- und Historienfiltern): 106
+- Kandidaten im Pool (nach Markt- und Historienfiltern): 108
 - Item-Datensätze verworfen: 0
 - Fehlgeschlagene API-Blöcke: 0
 
